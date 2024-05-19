@@ -1,0 +1,7 @@
+{
+  "name": "school-management-ERP-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
