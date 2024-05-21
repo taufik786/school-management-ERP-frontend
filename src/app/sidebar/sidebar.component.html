@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>School Management ERP</span>
+  </mat-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false">
+  <!-- <mat-drawer-container autosize> -->
+  <mat-drawer-container style="height: 92.4vh">
+    <mat-drawer #drawer opened="false" mode="over" position="start">
+      <mat-nav-list>
+        <mat-list-item>
+          <button routerLink="card" mat-button routerLink="/">
+            <mat-icon>dashboard</mat-icon> Dashboard
+          </button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="card" mat-button>
+            <mat-icon>Admission Managemet</mat-icon> Admission Management
+          </button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button>
+            <mat-icon>home</mat-icon> Home
+          </button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="slider" mat-button>
+            <mat-icon>explore</mat-icon> Slider
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ion-content>
