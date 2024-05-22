@@ -1,0 +1,66 @@
+<div class="main-div" style="padding: 22px; overflow: hidden;">
+  
+  <br><br>
+  <!-- <app-test></app-test> -->
+  
+      <span mat-button style="font-size: 20px; cursor: pointer;" (click)="oepnForm(true)">add
+        <i class="fa-solid fa-plus"></i>
+      </span>
+  
+  <div class="row" style="overflow: auto;">
+  
+  
+  <table mat-table [dataSource]="dataSource" matSort matSortDirection="asc" class="mat-elevation-z8" >
+  
+    
+  
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+        Action
+      </th>
+      <td mat-cell *matCellDef="let rowData"> <span class="edit" (click)="editRecord(rowData)"><i class="fa-solid fa-pen-to-square"></i></span><span class="delete" (click)="delete(rowData)"><i class="fa-solid fa-trash"></i></span> </td>
+    </ng-container>
+    <ng-container matColumnDef="_id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+        No.
+      </th>
+      <td mat-cell *matCellDef="let rowData"> {{rowData._id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="schoolName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by School Name">
+        School Name
+      </th>
+      <td mat-cell *matCellDef="let rowData"> {{rowData.schoolName}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
+        Email
+      </th>
+      <td mat-cell *matCellDef="let rowData"> {{rowData.email}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+  </table>
+  <!-- <mat-paginator #paginator
+                 class="demo-paginator"
+                 (page)="handlePageEvent($event)"
+                 [length]="length"
+                 [pageSize]="pageSize"
+                 [disabled]="disabled"
+                 [showFirstLastButtons]="showFirstLastButtons"
+                 [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+                 [hidePageSize]="hidePageSize"
+                 [pageIndex]="pageIndex"
+                 aria-label="Select page">
+  </mat-paginator> -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements">
+  </mat-paginator>
+  
+  </div>
+  </div> 

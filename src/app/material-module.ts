@@ -19,6 +19,10 @@ import {MatNativeDateModule} from "@angular/material/core"
 import {MatRadioModule} from "@angular/material/radio"
 import {MatCheckboxModule} from "@angular/material/checkbox"
 import {MatDialogModule} from "@angular/material/dialog"
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
+import {FlatTreeControl, CdkTreeModule} from '@angular/cdk/tree';
 
 @NgModule({
 exports:[
@@ -41,7 +45,10 @@ exports:[
     MatNativeDateModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule,
+    CdkTreeModule
+
 ]
 })
 export class MaterialModule{}
