@@ -11,6 +11,7 @@
   <!-- <mat-drawer-container autosize> -->
   <mat-drawer-container style="height: 92.4vh">
     <mat-drawer #drawer opened="false" mode="over" position="start">
+    <!-- <mat-drawer #drawer opened="true" mode="side" position="start"> -->
       <mat-nav-list>
         <mat-list-item>
           <button routerLink="card" mat-button routerLink="/">
@@ -23,15 +24,32 @@
           </button>
         </mat-list-item>
         <mat-list-item>
-          <button routerLink="" mat-button>
-            <mat-icon>home</mat-icon> Home
+          <button routerLink="school-management" mat-button>
+            <mat-icon>school</mat-icon> School Management
           </button>
         </mat-list-item>
-        <mat-list-item>
-          <button routerLink="slider" mat-button>
-            <mat-icon>explore</mat-icon> Slider
-          </button>
-        </mat-list-item>
+
+        <!-- <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> School Management </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list-item>
+              <button routerLink="card" mat-button routerLink="/">
+                <mat-icon>dashboard</mat-icon> Dashboard
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+              <button routerLink="card" mat-button routerLink="/">
+                <mat-icon>dashboard</mat-icon> Dashboard
+              </button>
+            </mat-list-item>
+          </mat-expansion-panel>
+        </mat-accordion> -->
+
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content>
