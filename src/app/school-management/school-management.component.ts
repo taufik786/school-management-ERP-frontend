@@ -1,12 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SchoolServices } from '../services/school.service';
 import { Subscription } from 'rxjs';
-import { AlertInput } from '@ionic/angular';
 
 @Component({
   selector: 'app-school-management',
@@ -28,6 +25,11 @@ export class SchoolManagementComponent implements OnInit {
   pageEvent: any = PageEvent;
   schoolListSubscription: Subscription | any;
   deleteSchoolSubscription: Subscription | any;
+  selectedRecord: any;
+  selectedDeletedRecord: any;
+  isDeleteOpen: boolean = false;
+  message: string = '';
+  formAction = 'Add';
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -45,27 +47,29 @@ export class SchoolManagementComponent implements OnInit {
   displayedColumns: string[] = [
     'Action',
     'schoolName',
+    'phone',
     'email',
-
+    'schoolType',
+    'directorName',
+    'established',
+    'createdAt',
+    'updatedAt'
   ];
   dataSource: any = new MatTableDataSource([]);
 
   formOpen = false;
-  schoolLists: any = [];
-
-  exitFormData = null;
   alertButtons: any = [];
 
-  @ViewChild(MatSort) sort: any = MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) sort: MatSort | undefined;
 
   constructor(
-    private schoolServices: SchoolServices,
-    private _liveAnnouncer: LiveAnnouncer) {
+    private schoolServices: SchoolServices) {
 
   }
 
   ngOnInit() {
-    this.dataSource = []; 
+    this.dataSource = new MatTableDataSource([]);
     this.schoolList();
     this.alertButtons = [
       {
@@ -79,80 +83,98 @@ export class SchoolManagementComponent implements OnInit {
     ];
   }
 
-  @ViewChild(MatPaginator) paginator: any = MatPaginator;
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  onItemSelect(item: any) {
-  }
-  onDeSelect(items: any) {
-    // console.log(items,"onDeSelectAll");
-  }
-  onSelectAll(items: any) {
-    // console.log(items,"all");
-  }
-
-
-  oepnForm(formStatus: any) {
+  openForm(formStatus: any) {
     this.formOpen = formStatus;
+    this.formAction = 'Add';
+    this.selectedRecord = {
+      formOpen: formStatus,
+      formData: null,
+      formAction: 'Add'
+    };
   }
 
-  schoolList() {
-    this.schoolListSubscription = this.schoolServices.allSchoolLists().subscribe((res: any) => {
+  schoolList = async () => {
+    this.schoolListSubscription = await this.schoolServices.allSchoolLists().subscribe((res: any) => {
       console.log(res, "ttttttttt")
-      this.schoolLists = res.data;
-      this.dataSource = res.data;
+      this.dataSource.data = res.data;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }, err => {
-      console.log(err, "eeeeeeeeee")
+      console.log(err, "eeeeeeeeee");
     });
   }
 
   editRecord(rowData: any) {
     this.formOpen = true;
-    this.exitFormData = rowData
-    // console.log(rowData,"edit")
-  }
-  setResult(ev: any, rowData: any) {
-    console.log(`Dismissed with role: ${ev.detail.role}`, ev, rowData);
+    this.formAction = 'Update';
+    this.selectedRecord = {
+      formOpen: true,
+      formData: rowData,
+      formAction: 'Update'
+    };
   }
 
-  async deleteRecord(buttonEvent: any, data: any) {
-    console.log(data);
+  openDeleteDialog(rowData: any) {
+    this.isDeleteOpen = true;
+    this.selectedDeletedRecord = rowData;
+    this.message = `Are you sure to delete record ${rowData.schoolName} ? `;
+  }
+
+  deleteRecord(buttonEvent: any) {
     if (buttonEvent.detail.role === 'confirm') {
-
-      this.deleteSchoolSubscription = await this.schoolServices.deleteSchool(data._id).subscribe((res: any) => {
-        console.log(res);
-        this.schoolLists = this.schoolLists.map((scl: any) => {
-          if (scl._id !== res.data._id) {
-            return scl;
-          }
-        });
-        console.log('record after delete::', this.schoolList, this.dataSource)
-        this.dataSource = this.dataSource.map((scl: any) => {
-          if (scl._id !== res.data._id) {
-            return scl;
-          }
-        });
+      this.deleteSchoolSubscription = this.schoolServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
+        let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
+        this.dataSource.data = newData;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }, err => {
-        console.log(err, "eeeeeeeeee")
+        this.isDeleteOpen = false;
       });
     } else {
-      
-    console.log(`Dismissed with role: ${buttonEvent.detail.role}`, buttonEvent, data);
+      this.isDeleteOpen = false;
     }
   }
 
   receiveData(data: any) {
-    console.log('Data received in parent:', data);
-    this.dataSource.push(data);
-    this.schoolLists.push(data);
+    if (data !== null) {
+      if (this.formAction === 'Add') {
+        this.dataSource.data.push(data.formData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.formOpen = false;
+      } else {
+        let newData = this.dataSource.data.map((element: any) => {
+          if (element._id === data.formData._id) {
+            element = data.formData;
+            return element;
+          }
+          return element;
+        });
+        this.dataSource.data = newData;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.formOpen = false;
+      }
+    } else {
+      this.formOpen = false;
+    }
   }
 
+  capitalize(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
 
   ngOnDestroy(): void {
-    this.schoolListSubscription.unsubscribe();
-    this.deleteSchoolSubscription.unsubscribe();
+    if (this.schoolListSubscription) {
+      this.schoolListSubscription.unsubscribe();
+    }
+    if (this.deleteSchoolSubscription) {
+      this.deleteSchoolSubscription.unsubscribe();
+    }
   }
 }

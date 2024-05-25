@@ -1,80 +1,43 @@
 <div class="main-div" style="padding: 22px; overflow: hidden;">
-
-  <br><br>
-  <!-- <app-test></app-test> -->
-
-  <!-- <span mat-button style="font-size: 20px; cursor: pointer;" (click)="oepnForm(true)">add
-    <i class="fa-solid fa-plus"></i>
-  </span> -->
-  <!-- <button routerLink="card" mat-button> -->
-  <ion-button id="open-modal"><mat-icon>add</mat-icon> <app-school-management-form
-      (dataEvent)="receiveData($event)"></app-school-management-form> </ion-button>
-  <!-- </button> -->
+  <ion-button (click)="openForm(true)" size="round">
+    <ion-icon name="add" size="large"></ion-icon> <span>Add School</span>
+  </ion-button>
+  <!-- <ion-icon class="ion-padding" (click)="openForm(true)" name="add" size="large" color="primary"></ion-icon> -->
   <div class="row" style="overflow: auto;">
-
-
     <table mat-table [dataSource]="dataSource" matSort matSortDirection="asc" class="mat-elevation-z8">
-      <ng-container matColumnDef="Action">
+      <!-- Define columns -->
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          Action
-        </th>
-        <td mat-cell *matCellDef="let rowData">
-          <!-- <span class="edit">
-          <i
-              class="fa-solid fa-pen-to-square"></i></span><span class="delete" (click)="delete(rowData)"><i
-              class="fa-solid fa-trash"></i></span> -->
-          <!-- <mat-icon class="ion-margin-end" (click)="editRecord(rowData)">edit <app-school-management-form
-                (dataEvent)="receiveData($event)"></app-school-management-form></mat-icon> -->
-          <!-- <ion-button>
-                  <mat-icon id="open-modal">edit</mat-icon> 
-                  <app-school-management-form (dataEvent)="receiveData($event)"></app-school-management-form>
-                </ion-button> -->
-          <mat-icon id="present-alert">delete</mat-icon>
-          <ion-alert trigger="present-alert" header="Delete School Entry"
-            message="Are you sure to delete record ?" [buttons]="alertButtons"
-            (didDismiss)="deleteRecord($event, rowData)"  >  
-          </ion-alert>
+          {{ capitalize(column) }}</th>
+        <td mat-cell *matCellDef="let element; let i of index">
+          <span
+            *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'established')">{{
+            element[column] }} </span>
+
+          <span *ngIf="column === 'Action'">
+            <ion-icon name="create-outline" size="large" (click)="editRecord(element)"></ion-icon>
+            <ion-icon name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
+          </span>
+
+          <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'established'">
+            {{ element[column] | date }}
+          </span>
+
         </td>
-      </ng-container>
-      <ng-container matColumnDef="_id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          No.
-        </th>
-        <td mat-cell *matCellDef="let rowData"> {{rowData._id}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="schoolName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by School Name">
-          School Name
-        </th>
-        <td mat-cell *matCellDef="let rowData"> {{rowData.schoolName}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
-          Email
-        </th>
-        <td mat-cell *matCellDef="let rowData"> {{rowData.email}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
     </table>
-    <!-- <mat-paginator #paginator
-                 class="demo-paginator"
-                 (page)="handlePageEvent($event)"
-                 [length]="length"
-                 [pageSize]="pageSize"
-                 [disabled]="disabled"
-                 [showFirstLastButtons]="showFirstLastButtons"
-                 [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-                 [hidePageSize]="hidePageSize"
-                 [pageIndex]="pageIndex"
-                 aria-label="Select page">
-  </mat-paginator> -->
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 
   </div>
 </div>
+
+<ion-alert [isOpen]="isDeleteOpen" header="Delete School Entry" [message]="message" [buttons]="alertButtons"
+  (didDismiss)="deleteRecord($event)">
+</ion-alert>
+
+<app-school-management-form *ngIf="formOpen" (dataEvent)="receiveData($event)" [formData]="selectedRecord"
+  [isOpen]="formOpen"></app-school-management-form>

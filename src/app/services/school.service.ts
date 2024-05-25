@@ -15,6 +15,10 @@ export class SchoolServices {
         return this.http.post(apiUrl, schoolData);
     }
 
+    editSchool(schoolData: any) {
+        return this.http.put(apiUrl, schoolData);
+    }
+
     deleteSchool(id: any) {
         let url = apiUrl + `/${id}`;
         return this.http.delete(url);

@@ -1,12 +1,12 @@
 <ion-content class="ion-padding">
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ion-modal [isOpen]="isOpen">
     <ng-template>
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
             <ion-button (click)="cancel()">Cancel</ion-button>
           </ion-buttons>
-          <ion-title>Welcome</ion-title>
+          <ion-title> Add/Update School Form</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="save()" [strong]="true">Save</ion-button>
           </ion-buttons>
@@ -14,25 +14,32 @@
       </ion-header>
       <ion-content class="ion-padding" [formGroup]="schoolForm">
         <ion-item>
-          <ion-input label="School name" labelPlacement="floating" type="text" placeholder="School name" formControlName="schoolName"></ion-input>
+          <ion-input label="School name" labelPlacement="floating" type="text" placeholder="School name"
+            formControlName="schoolName"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Director name" labelPlacement="floating" type="text" placeholder="Director name" formControlName="directorName"></ion-input>
+          <ion-input label="Director name" labelPlacement="floating" type="text" placeholder="Director name"
+            formControlName="directorName"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="School Type" labelPlacement="floating" type="text" placeholder="School type" formControlName="schoolType"></ion-input>
+          <ion-input label="School Type" labelPlacement="floating" type="text" placeholder="School type"
+            formControlName="schoolType"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-textarea label="School Address" labelPlacement="floating" type="text" placeholder="School addres" formControlName="address"></ion-textarea>
+          <ion-textarea label="School Address" labelPlacement="floating" type="text" placeholder="School addres"
+            formControlName="address"></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-input label="School phone" labelPlacement="floating" type="text" placeholder="School phone" formControlName="phone"></ion-input>
+          <ion-input label="School phone" labelPlacement="floating" type="text" placeholder="School phone"
+            formControlName="phone"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="School email" labelPlacement="floating" type="text" placeholder="School email" formControlName="email"></ion-input>
+          <ion-input label="School email" labelPlacement="floating" type="text" placeholder="School email"
+            formControlName="email"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Remark" labelPlacement="floating" type="text" placeholder="remarks" formControlName="remarks"></ion-input>
+          <ion-input label="Remark" labelPlacement="floating" type="text" placeholder="remarks"
+            formControlName="remarks"></ion-input>
         </ion-item>
       </ion-content>
     </ng-template>
