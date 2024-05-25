@@ -102,10 +102,17 @@ export class SchoolManagementFormComponent implements OnInit {
     }
   }
 
+  onWillDismiss(event: Event) {
+    this.modal.dismiss(null, 'cancel');
+    this.dataEvent.emit(null);
+  }
   ngOnDestroy(): void {
+    console.log('ondestroy')
     if (this.addSchoolSubscription) {
       this.addSchoolSubscription.unsubscribe();
     }
+    this.modal.dismiss(null, 'cancel');
+    this.dataEvent.emit(null);
   }
 
 }

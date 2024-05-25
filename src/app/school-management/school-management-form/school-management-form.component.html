@@ -1,5 +1,5 @@
 <ion-content class="ion-padding">
-  <ion-modal [isOpen]="isOpen">
+  <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)" keyboardClose="true" backdropDismiss="true">
     <ng-template>
       <ion-header>
         <ion-toolbar>
