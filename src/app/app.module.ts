@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material-module';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { CommonServices } from './services/common.service';
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent],
@@ -21,7 +22,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     HttpClientModule,
     MaterialModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), CommonServices],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

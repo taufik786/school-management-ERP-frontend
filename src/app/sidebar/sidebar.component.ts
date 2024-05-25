@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonServices } from '../services/common.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent{
 
   panelOpenState = false;
-  constructor() { }
+  isLoader = false;
+  constructor(private commonService: CommonServices) {
+    this.commonService.isloader.subscribe((flag: boolean) =>{
+      this.isLoader = flag;
+    });
+   }
 
   // ngOnInit() {}
 

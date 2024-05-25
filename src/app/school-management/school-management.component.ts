@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SchoolServices } from '../services/school.service';
 import { Subscription } from 'rxjs';
+import { CommonServices } from '../services/common.service';
 
 @Component({
   selector: 'app-school-management',
@@ -64,7 +65,7 @@ export class SchoolManagementComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
 
   constructor(
-    private schoolServices: SchoolServices) {
+    private schoolServices: SchoolServices, private commonServices: CommonServices) {
 
   }
 
@@ -99,11 +100,13 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   schoolList = async () => {
+    this.commonServices.updateLoader();
     this.schoolListSubscription = await this.schoolServices.allSchoolLists().subscribe((res: any) => {
       console.log(res, "ttttttttt")
       this.dataSource.data = res.data;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.commonServices.updateLoader();
     }, err => {
       console.log(err, "eeeeeeeeee");
     });
@@ -127,16 +130,21 @@ export class SchoolManagementComponent implements OnInit {
 
   deleteRecord(buttonEvent: any) {
     if (buttonEvent.detail.role === 'confirm') {
+      this.commonServices.updateLoader();
       this.deleteSchoolSubscription = this.schoolServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
+        this.isDeleteOpen = false;
         let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
         this.dataSource.data = newData;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.commonServices.updateLoader();
       }, err => {
         this.isDeleteOpen = false;
+        this.commonServices.updateLoader();
       });
     } else {
       this.isDeleteOpen = false;
+      this.commonServices.updateLoader();
     }
   }
 

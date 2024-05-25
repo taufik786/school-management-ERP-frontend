@@ -4,6 +4,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SchoolServices } from '../../services/school.service';
 import { Subscription } from 'rxjs';
+import { CommonServices } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-school-management-form',
@@ -21,8 +22,7 @@ export class SchoolManagementFormComponent implements OnInit {
   // @Input() selectedRecord: any;
 
 
-  constructor(private schoolServices: SchoolServices) {
-    console.log("--------------", this)
+  constructor(private schoolServices: SchoolServices, private commonServices: CommonServices) {
   }
 
   ngOnInit() {
@@ -78,25 +78,33 @@ export class SchoolManagementFormComponent implements OnInit {
   }
 
   async save() {
+    this.commonServices.updateLoader();
     if (!this.schoolForm.valid) {
+      this.commonServices.updateLoader();
       console.log(this.schoolForm);
       return;
     }
     console.log(this.schoolForm.value, this.formData);
     if (this.formData.formAction === 'Add') {
-      this.addSchoolSubscription = await this.schoolServices.addSchool(this.schoolForm.value).subscribe((res: any) => {
+      let addData = this.schoolForm.value;
+      delete addData._id;
+      this.addSchoolSubscription = await this.schoolServices.addSchool(addData).subscribe((res: any) => {
         this.formData.formData = res.data;
         this.dataEvent.emit(this.formData);
+        this.commonServices.updateLoader();
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
+        this.commonServices.updateLoader();
         console.log(err, "eeeeeeeeee")
       });
     } else {
       this.addSchoolSubscription = await this.schoolServices.editSchool(this.schoolForm.value).subscribe((res: any) => {
         this.formData.formData = res.data;  
         this.dataEvent.emit(this.formData);
+        this.commonServices.updateLoader();
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
+        this.commonServices.updateLoader();
         console.log(err, "eeeeeeeeee")
       });
     }
