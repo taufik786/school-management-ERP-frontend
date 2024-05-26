@@ -6,16 +6,40 @@ import { CommonServices } from '../services/common.service';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent{
+export class SidebarComponent implements OnInit {
 
   panelOpenState = false;
   isLoader = false;
+  isToaster = false;
+  toastMessage: any;
+  toastColor: string = 'primary';
+
   constructor(private commonService: CommonServices) {
-    this.commonService.isloader.subscribe((flag: boolean) =>{
+  }
+
+  ngOnInit(): void {
+    this.initializeLoader();
+    this.initializeToaster();
+  }
+
+  initializeLoader(): void {
+    this.commonService.isloader.subscribe((flag: boolean) => {
       this.isLoader = flag;
     });
-   }
+  }
 
-  // ngOnInit() {}
+  async initializeToaster() {
+    this.commonService.toastMessage.subscribe(async (obj: any) => {
+      this.isToaster = obj.isOpen;
+      this.toastColor = obj.color;
+      this.toastMessage = obj.message;
+
+      await setTimeout(async () => {
+        this.isToaster = false;
+        this.toastColor = 'primary';
+        this.toastMessage = '';
+      }, 2000)
+    });
+  }
 
 }

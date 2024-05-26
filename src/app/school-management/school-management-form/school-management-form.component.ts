@@ -19,7 +19,8 @@ export class SchoolManagementFormComponent implements OnInit {
   @Output() dataEvent = new EventEmitter<any>();
   @Input() formData: any;
   @Input() isOpen: any = false;
-  // @Input() selectedRecord: any;
+
+  toastObj: any;
 
 
   constructor(private schoolServices: SchoolServices, private commonServices: CommonServices) {
@@ -44,12 +45,13 @@ export class SchoolManagementFormComponent implements OnInit {
         Validators.maxLength(250),
       ]),
       address: new FormControl(this.setFormData('address'), [
-        Validators.required,
-        Validators.maxLength(10),
+        Validators.required
       ]),
       phone: new FormControl(this.setFormData('phone'), [
         Validators.required,
-        Validators.maxLength(12),
+        Validators.pattern(/^\+?[1-9]\d{1,14}$/),
+        Validators.minLength(10),
+        Validators.maxLength(12)
       ]),
       email: new FormControl(this.setFormData('email'), [
         Validators.required,
@@ -77,50 +79,94 @@ export class SchoolManagementFormComponent implements OnInit {
     this.dataEvent.emit(null);
   }
 
+  isErrorMessage(control: string): boolean {
+    return this.schoolForm.controls[control].invalid && (this.schoolForm.controls[control].dirty || this.schoolForm.controls[control].touched)
+  }
+
   async save() {
-    this.commonServices.updateLoader();
-    if (!this.schoolForm.valid) {
-      this.commonServices.updateLoader();
-      console.log(this.schoolForm);
+    this.toastObj = {
+      isOpen: false,
+      message: "",
+      color: 'primary'
+    };
+    this.commonServices.updateLoader(true);
+    if (this.schoolForm.invalid) {
+      this.toastObj.isOpen = true;
+      this.toastObj.color = 'danger';
+      this.toastObj.message = "Please fix higlighted issue.";
+      this.commonServices.updateToastMessage(this.toastObj);
+      this.commonServices.updateLoader(false);
+      // this.schoolForm.controls.schoolName.markAsTouched({ onlySelf: false});
+      this.markFormTouched(this.schoolForm);
       return;
     }
-    console.log(this.schoolForm.value, this.formData);
+
     if (this.formData.formAction === 'Add') {
       let addData = this.schoolForm.value;
       delete addData._id;
       this.addSchoolSubscription = await this.schoolServices.addSchool(addData).subscribe((res: any) => {
         this.formData.formData = res.data;
         this.dataEvent.emit(this.formData);
-        this.commonServices.updateLoader();
+        this.commonServices.updateLoader(false);
+
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'success';
+        this.toastObj.message = res.message;
+        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.updateLoader(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
-        this.commonServices.updateLoader();
-        console.log(err, "eeeeeeeeee")
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'danger';
+        this.toastObj.message = 'unable to save at this moment try after sometimes.';
+        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.updateLoader(false);
       });
     } else {
       this.addSchoolSubscription = await this.schoolServices.editSchool(this.schoolForm.value).subscribe((res: any) => {
-        this.formData.formData = res.data;  
+        this.formData.formData = res.data;
         this.dataEvent.emit(this.formData);
-        this.commonServices.updateLoader();
+
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'success';
+        this.toastObj.message = res.message;
+        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.updateLoader(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
-        this.commonServices.updateLoader();
-        console.log(err, "eeeeeeeeee")
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'danger';
+        this.toastObj.message = 'unable to save at this moment try after sometimes.';
+        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.updateLoader(false);
       });
     }
+  }
+
+  private markFormTouched(group: FormGroup) {
+    Object.keys(group.controls).forEach((key: string) => {
+      const control = group.controls[key];
+      if (control instanceof FormGroup) {
+        control.markAsTouched();
+        this.markFormTouched(control);
+      } else {
+        control.markAsTouched();
+      }
+    });
   }
 
   onWillDismiss(event: Event) {
     this.modal.dismiss(null, 'cancel');
     this.dataEvent.emit(null);
   }
+
   ngOnDestroy(): void {
-    console.log('ondestroy')
     if (this.addSchoolSubscription) {
       this.addSchoolSubscription.unsubscribe();
     }
     this.modal.dismiss(null, 'cancel');
     this.dataEvent.emit(null);
+    this.commonServices.updateLoader(false);
   }
 
 }

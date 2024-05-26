@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-loading [isOpen]="isLoader"></ion-loading>
+<ion-toast [isOpen]="isToaster" [message]="toastMessage" duration="2000" [color]="toastColor"></ion-toast>
 
 <ion-content [fullscreen]="false">
   <!-- <mat-drawer-container autosize> -->
@@ -26,10 +27,7 @@
           </button>
         </mat-list-item> -->
         <mat-accordion>
-          <mat-expansion-panel
-            (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false"
-          >
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header>
               <mat-panel-title><mat-icon class="title-icon">group</mat-icon> Admission Management </mat-panel-title>
             </mat-expansion-panel-header>

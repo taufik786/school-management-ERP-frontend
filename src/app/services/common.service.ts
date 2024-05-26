@@ -5,8 +5,13 @@ import { BehaviorSubject } from "rxjs";
 
 export class CommonServices {
     isloader = new BehaviorSubject<boolean>(false);
+    toastMessage = new BehaviorSubject<any>({});
 
-    updateLoader() {
-        this.isloader.next(!this.isloader.value);
+    updateLoader(flag: boolean) {
+        this.isloader.next(flag);
+    }
+
+    updateToastMessage(messageObj: any) {
+        this.toastMessage.next(messageObj);
     }
 }
