@@ -26,13 +26,13 @@
             *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'established')">{{
             element[column] }} </span>
 
-          <span *ngIf="column === 'Action'">
-            <ion-icon name="create-outline" size="large" (click)="editRecord(element)"></ion-icon>
-            <ion-icon name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
+          <span *ngIf="column === 'Action'" style="display: flex;">
+            <ion-icon class="edit" name="create-outline" size="large" (click)="editRecord(element)"></ion-icon>
+            <ion-icon class="delete" name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
           </span>
 
           <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'established'">
-            {{ element[column] | date }}
+            {{ element[column] | localDateTime:"dateTime" }}
           </span>
 
         </td>
@@ -48,10 +48,10 @@
         </div>
       </div>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
-    </mat-paginator>
-
+    
   </div>
+  <mat-paginator style="border-top:1px solid #80808045;" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+  </mat-paginator>
 </div>
 
 <ion-alert [isOpen]="isDeleteOpen" header="Delete School Entry" [message]="message" [buttons]="alertButtons"

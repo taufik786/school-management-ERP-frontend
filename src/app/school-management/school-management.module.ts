@@ -9,10 +9,11 @@ import { MaterialModule } from '../material-module';
 import { IonicModule } from '@ionic/angular';
 import { SchoolManagementFormComponent } from './school-management-form/school-management-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonPipe } from '../pipes/common.pipe';
 
 
 @NgModule({
-  declarations: [SchoolManagementComponent, SchoolManagementFormComponent],
+  declarations: [SchoolManagementComponent, SchoolManagementFormComponent, CommonPipe],
   imports: [
     CommonModule,
     SchoolManagementRoutingModule,
