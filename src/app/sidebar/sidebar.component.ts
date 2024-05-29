@@ -13,6 +13,11 @@ export class SidebarComponent implements OnInit {
   isToaster = false;
   toastMessage: any;
   toastColor: string = 'primary';
+  dismiss = [
+    {
+      text: 'Dismiss',
+    },
+  ];
 
   constructor(private commonService: CommonServices) {
   }
@@ -38,7 +43,7 @@ export class SidebarComponent implements OnInit {
         this.isToaster = false;
         this.toastColor = 'primary';
         this.toastMessage = '';
-      }, 2000)
+      }, 5000);
     });
   }
 

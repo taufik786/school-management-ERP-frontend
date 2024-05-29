@@ -1,13 +1,18 @@
 <ion-content class="ion-padding">
-  <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)" keyboardClose="true" backdropDismiss="true">
+  <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)" keyboardClose="true" backdropDismiss="true"
+    style="z-index: 1 !important">
     <ng-template>
       <ion-header class="ion-padding" style="background-color: lightgray;">
         <ion-row class="ion-justify-content-between">
-          <div><ion-button slot="start" (click)="cancel()">Cancel</ion-button></div>
-          <div class="ion-padding">
-            <ion-title size="large">School Form</ion-title>
+          <div style="margin-top: 6px;">
+            <ion-icon name="close" size="large" (click)="cancel()"></ion-icon>
           </div>
-          <div><ion-button slot="end" color="success" (click)="save()">Save</ion-button></div>
+          <div style="margin-top: 10px;">
+            <ion-title size="large">{{formData.formAction === 'Add' ? 'Add' : 'Edit'}} School Form</ion-title>
+          </div>
+          <div>
+            <ion-button slot="end" color="medium" (click)="save()">Save</ion-button>
+          </div>
         </ion-row>
       </ion-header>
       <ion-content class="ion-padding" [formGroup]="schoolForm">
@@ -15,21 +20,21 @@
           <ion-row>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
-                <ion-input label="School name" labelPlacement="floating" type="text" placeholder="School name"
-                  formControlName="schoolName"></ion-input>
+                <ion-input label="School Name *" labelPlacement="floating" type="text" formControlName="schoolName"
+                  required="true"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('schoolName')">
-                <mat-error *ngIf="schoolForm.controls.schoolName.errors.required"><sub>School Name is
+                <mat-error *ngIf="schoolForm.controls.schoolName.errors.required"><sub>School name is
                     required.</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
-                <ion-input label="Director name" labelPlacement="floating" type="text" placeholder="Director name"
+                <ion-input label="Director Name *" labelPlacement="floating" type="text"
                   formControlName="directorName"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('directorName')">
-                <mat-error *ngIf="schoolForm.controls.directorName.errors.required"><sub>Director Name is
+                <mat-error *ngIf="schoolForm.controls.directorName.errors.required"><sub>Director name is
                     required.</sub></mat-error>
               </div>
             </ion-col>
@@ -39,17 +44,17 @@
           <ion-row>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
-                <ion-input label="School Type" labelPlacement="floating" type="text" placeholder="School type"
+                <ion-input label="School Type *" labelPlacement="floating" type="text"
                   formControlName="schoolType"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('schoolType')">
-                <mat-error *ngIf="schoolForm.controls.schoolType.errors.required"><sub>School Type is
+                <mat-error *ngIf="schoolForm.controls.schoolType.errors.required"><sub>School type is
                     required.</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
-                <ion-input label="School phone" labelPlacement="floating" type="text" placeholder="School phone"
+                <ion-input label="School Phone Number *" labelPlacement="floating" type="text"
                   formControlName="phone"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('phone')">
@@ -59,8 +64,8 @@
                     invalid.</sub></mat-error>
                 <mat-error *ngIf="schoolForm.controls.phone.errors.minlength"><sub>Phone number atleast of 10
                     digit.</sub></mat-error>
-                <mat-error *ngIf="schoolForm.controls.phone.errors.maxlength"><sub>Phone number should be less than 12.</sub></mat-error>
-
+                <mat-error *ngIf="schoolForm.controls.phone.errors.maxlength"><sub>Phone number should be less than
+                    12.</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -69,7 +74,7 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <ion-textarea label="School Address" labelPlacement="floating" type="text" placeholder="School addres"
+                <ion-textarea label="School Address *" labelPlacement="floating" type="text"
                   formControlName="address"></ion-textarea>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('address')">
@@ -84,7 +89,7 @@
           <ion-row>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
-                <ion-input label="School email" labelPlacement="floating" type="text" placeholder="School email"
+                <ion-input label="School Email *" labelPlacement="floating" type="text"
                   formControlName="email"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('email')">
@@ -94,14 +99,32 @@
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+              <mat-form-field outline="none" style="width: 100%;">
+                <mat-label style="font-weight: 500;">Established </mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="established">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error
+                  *ngIf="isErrorMessage('established') && schoolForm.controls.established.errors.required"><sub>Established
+                    is
+                    required.</sub></mat-error>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
               <ion-item>
-                <ion-input label="Remark" labelPlacement="floating" type="text" placeholder="remarks"
-                  formControlName="remarks"></ion-input>
+                <ion-input label="Remark" labelPlacement="floating" type="text" formControlName="remarks"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-content>
     </ng-template>
+
   </ion-modal>
 </ion-content>

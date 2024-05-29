@@ -32,6 +32,7 @@ export class SchoolManagementComponent implements OnInit {
   message: string = '';
   formAction = 'Add';
   toastObj: any;
+  alertHeader: string = '';
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -107,15 +108,16 @@ export class SchoolManagementComponent implements OnInit {
       message: "",
       color: 'primary'
     };
-    this.schoolListSubscription = await this.schoolServices.allSchoolLists().subscribe((res: any) => {
-      this.dataSource.data = res.data;
+    this.schoolListSubscription = await this.schoolServices.allSchoolLists().subscribe(async (res: any) => {
+      this.dataSource.data = res.data.reverse();
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      
       this.toastObj.isOpen = true;
       this.toastObj.color = 'success';
       this.toastObj.message = res.message;
-      this.commonServices.updateToastMessage(this.toastObj);
-      this.commonServices.updateLoader(false);
+      await this.commonServices.updateToastMessage(this.toastObj);
+      await this.commonServices.updateLoader(false);
     }, err => {
       this.dataSource.data = [];
       this.dataSource.paginator = this.paginator;
@@ -142,7 +144,8 @@ export class SchoolManagementComponent implements OnInit {
   openDeleteDialog(rowData: any) {
     this.isDeleteOpen = true;
     this.selectedDeletedRecord = rowData;
-    this.message = `Are you sure to delete record ${rowData.schoolName} ? `;
+    this.alertHeader = `${rowData.schoolName} Data`;
+    this.message = `Are you sure to delete record ? `;
   }
 
   deleteRecord(buttonEvent: any) {
@@ -183,7 +186,7 @@ export class SchoolManagementComponent implements OnInit {
     if (data !== null) {
       this.commonServices.updateLoader(true);
       if (this.formAction === 'Add') {
-        this.dataSource.data.push(data.formData);
+        this.dataSource.data.unshift(data.formData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.formOpen = false;

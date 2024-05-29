@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { IonDatetime, IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SchoolServices } from '../../services/school.service';
 import { Subscription } from 'rxjs';
 import { CommonServices } from 'src/app/services/common.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-school-management-form',
@@ -21,7 +22,6 @@ export class SchoolManagementFormComponent implements OnInit {
   @Input() isOpen: any = false;
 
   toastObj: any;
-
 
   constructor(private schoolServices: SchoolServices, private commonServices: CommonServices) {
   }
@@ -62,6 +62,9 @@ export class SchoolManagementFormComponent implements OnInit {
       remarks: new FormControl(this.setFormData('remarks'), [
         Validators.maxLength(12),
       ]),
+      established: new FormControl(new Date(this.setFormData('established')), [
+        Validators.required,
+      ]),
       _id: new FormControl(this.setFormData('_id')),
     });
   }
@@ -96,7 +99,6 @@ export class SchoolManagementFormComponent implements OnInit {
       this.toastObj.message = "Please fix higlighted issue.";
       this.commonServices.updateToastMessage(this.toastObj);
       this.commonServices.updateLoader(false);
-      // this.schoolForm.controls.schoolName.markAsTouched({ onlySelf: false});
       this.markFormTouched(this.schoolForm);
       return;
     }

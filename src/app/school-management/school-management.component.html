@@ -1,22 +1,24 @@
-<div class="main-div" style="padding: 22px; overflow: hidden;">
-  <ion-grid>
-    <ion-row>
-      <ion-col size-xs="12" size-sm="12" size-md="10" align-self-stretch>
-        <ion-button (click)="openForm(true)" size="round">
-          <ion-icon name="add" size="large"></ion-icon> <span>Add School</span>
-        </ion-button>
-      </ion-col>
-      <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
-        <ion-item>
-          <ion-input (keyup)="applyFilter($event)" label="Search record" labelPlacement="floating" type="text"
-            placeholder="filter"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<div>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="12" size-md="10" align-self-stretch>
+          <ion-button (click)="openForm(true)" size="round">
+            <ion-icon name="add" size="large"></ion-icon> <span>Add School</span>
+          </ion-button>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
+          <ion-item>
+            <ion-input (keyup)="applyFilter($event)" label="Search record" labelPlacement="floating"
+              type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
 
-  <div class="row" style="overflow: auto;">
-    <table mat-table [dataSource]="dataSource" matSort matSortDirection="asc" class="mat-elevation-z8">
+  <ion-card-content>
+    <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" class="mat-elevation-z8">
       <!-- Define columns -->
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
@@ -39,8 +41,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row
-        *matRowDef="let row; columns: displayedColumns;">
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
       </tr>
       <div class="mat-row" *matNoDataRow>
         <div class="mat-cell ion-padding">
@@ -51,12 +52,12 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 
-  </div>
+  </ion-card-content>
+
+  <ion-alert [isOpen]="isDeleteOpen" [header]="alertHeader" [message]="message" [buttons]="alertButtons"
+    (didDismiss)="deleteRecord($event)">
+  </ion-alert>
+
+  <app-school-management-form *ngIf="formOpen" (dataEvent)="receiveData($event)" [formData]="selectedRecord"
+    [isOpen]="formOpen"></app-school-management-form>
 </div>
-
-<ion-alert [isOpen]="isDeleteOpen" header="Delete School Entry" [message]="message" [buttons]="alertButtons"
-  (didDismiss)="deleteRecord($event)">
-</ion-alert>
-
-<app-school-management-form *ngIf="formOpen" (dataEvent)="receiveData($event)" [formData]="selectedRecord"
-  [isOpen]="formOpen"></app-school-management-form>
