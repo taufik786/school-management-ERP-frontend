@@ -24,8 +24,8 @@
                   required="true"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('schoolName')">
-                <mat-error *ngIf="schoolForm.controls.schoolName.errors.required"><sub>School name is
-                    required.</sub></mat-error>
+                <mat-error
+                  *ngFor="let message of schoolForm.controls['schoolName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
@@ -34,8 +34,8 @@
                   formControlName="directorName"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('directorName')">
-                <mat-error *ngIf="schoolForm.controls.directorName.errors.required"><sub>Director name is
-                    required.</sub></mat-error>
+                <mat-error
+                  *ngFor="let message of schoolForm.controls['directorName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -48,8 +48,8 @@
                   formControlName="schoolType"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('schoolType')">
-                <mat-error *ngIf="schoolForm.controls.schoolType.errors.required"><sub>School type is
-                    required.</sub></mat-error>
+                <mat-error
+                  *ngFor="let message of schoolForm.controls['schoolType'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
@@ -58,14 +58,8 @@
                   formControlName="phone"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('phone')">
-                <mat-error *ngIf="schoolForm.controls.phone.errors.required"><sub>Phone number is
-                    required.</sub></mat-error>
-                <mat-error *ngIf="schoolForm.controls.phone.errors.pattern"><sub>Phone number is
-                    invalid.</sub></mat-error>
-                <mat-error *ngIf="schoolForm.controls.phone.errors.minlength"><sub>Phone number atleast of 10
-                    digit.</sub></mat-error>
-                <mat-error *ngIf="schoolForm.controls.phone.errors.maxlength"><sub>Phone number should be less than
-                    12.</sub></mat-error>
+                <mat-error
+                  *ngFor="let message of schoolForm.controls['phone'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -78,8 +72,8 @@
                   formControlName="address"></ion-textarea>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('address')">
-                <mat-error *ngIf="schoolForm.controls.address.errors.required"><sub>Address is
-                    required.</sub></mat-error>
+                <mat-error
+                  *ngFor="let message of schoolForm.controls['address'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -93,9 +87,8 @@
                   formControlName="email"></ion-input>
               </ion-item>
               <div class="ion-padding-horizontal" *ngIf="isErrorMessage('email')">
-                <mat-error *ngIf="schoolForm.controls.email.errors.required"><sub>Email is
-                    required.</sub></mat-error>
-                <mat-error *ngIf="schoolForm.controls.email.errors.email"><sub>Provide valid email .</sub></mat-error>
+                <mat-error
+                  *ngFor="let message of schoolForm.controls['email'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
@@ -104,10 +97,14 @@
                 <input matInput [matDatepicker]="picker" formControlName="established">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error
+                <!-- <mat-error
                   *ngIf="isErrorMessage('established') && schoolForm.controls.established.errors.required"><sub>Established
                     is
-                    required.</sub></mat-error>
+                    required.</sub></mat-error> -->
+                <mat-error *ngIf="isErrorMessage('established')">
+                  <mat-error
+                    *ngFor="let message of schoolForm.controls['established'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                </mat-error>
               </mat-form-field>
             </ion-col>
           </ion-row>

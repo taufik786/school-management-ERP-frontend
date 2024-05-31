@@ -31,7 +31,7 @@ export class SchoolManagementFormComponent implements OnInit {
     this.schoolForm = new FormGroup({
       schoolName: new FormControl(this.setFormData('schoolName'), [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(2),
         Validators.maxLength(250),
       ]),
       directorName: new FormControl(this.setFormData('directorName'), [
