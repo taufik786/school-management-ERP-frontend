@@ -17,7 +17,7 @@
     </ion-grid>
   </ion-card-content>
 
-  <ion-card-content>
+  <ion-card-content style="overflow: auto;">
     <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" class="mat-elevation-z8">
       <!-- Define columns -->
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">

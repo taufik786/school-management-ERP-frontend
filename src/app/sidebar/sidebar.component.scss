@@ -1,19 +1,19 @@
 .example-tree-node {
-    display: flex;
-    align-items: center;
-  }
-  .title-icon{
-    margin-right: 5px;
-  }
-  .custom-toast {
-    --width: 32rem;
-    --border-radius: 0.5rem;
-    // --padding: 15px;
-    position: fixed;
-    // bottom: 50px; /* Adjust this value to set the distance from the bottom */
-    // right: 100px; /* Adjust this value to set the distance from the right */
-    // z-index: 9999; /* Ensure the toast is displayed above other content */
-    left: 25rem;
+  display: flex;
+  align-items: center;
+}
+.title-icon {
+  margin-right: 5px;
+}
+.custom-toast {
+  --width: 32rem;
+  --border-radius: 0.5rem;
+  // --padding: 15px;
+  position: fixed;
+  // bottom: 50px; /* Adjust this value to set the distance from the bottom */
+  // right: 100px; /* Adjust this value to set the distance from the right */
+  // z-index: 9999; /* Ensure the toast is displayed above other content */
+  left: 25rem;
 
   /* Media query for small screens (e.g., smartphones) */
   @media (max-width: 576px) {

@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   toastColor: string = 'primary';
   dismiss = [
     {
-      text: 'Dismiss',
+      text: 'X',
     },
   ];
 

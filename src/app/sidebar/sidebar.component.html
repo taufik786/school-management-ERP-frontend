@@ -1,85 +1,88 @@
-<ion-header [translucent]="true">
-  <mat-toolbar color="primary" class="mat-elevation-z8">
-    <button (click)="drawer.toggle()" mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>School Management ERP</span>
-  </mat-toolbar>
-</ion-header>
+<ion-app>
 
-<ion-loading [isOpen]="isLoader"></ion-loading>
-<ion-toast [isOpen]="isToaster" [message]="toastMessage" [color]="toastColor" cssClass="custom-toast"
-  [buttons]="dismiss" [position]="'top'" duration="5000"></ion-toast> 
-
-<ion-content [fullscreen]="false">
-  <!-- <mat-drawer-container autosize> -->
-  <mat-drawer-container style="height: 92.4vh">
-    <!-- <mat-drawer #drawer opened="false" mode="over" position="start"> -->
-    <mat-drawer #drawer opened="false" mode="side" position="start">
-      <mat-nav-list>
-        <mat-list-item routerLink="/">
-          <button mat-button>
-            <mat-icon>dashboard</mat-icon> Dashboard
-          </button>
-        </mat-list-item>
-        <!-- <mat-list-item>
-          <button routerLink="card" mat-button>
-            <mat-icon>Admission Managemet</mat-icon> Admission Management
-          </button>
-        </mat-list-item> -->
-        <mat-accordion>
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title><mat-icon class="title-icon">group</mat-icon> Admission Management </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-list-item routerLink="admission-management/student-registration">
-              <button mat-button>
-                <mat-icon>person_add</mat-icon>Student registration
-              </button>
-            </mat-list-item>
-            <mat-list-item routerLink="admission-management/students-details">
-              <button mat-button>
-                <mat-icon>group</mat-icon> Students Details
-              </button>
-            </mat-list-item>
-            <mat-list-item routerLink="admission-management/admission-forms">
-              <button mat-button>
-                <mat-icon>picture_as_pdf</mat-icon> Admission Forms
-              </button>
-            </mat-list-item>
-          </mat-expansion-panel>
-        </mat-accordion>
-        <mat-list-item routerLink="school-management">
-          <button mat-button>
-            <mat-icon>school</mat-icon> School Management
-          </button>
-        </mat-list-item>
-
-        <!-- <mat-accordion>
-          <mat-expansion-panel
-            (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title> School Management </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-list-item>
-              <button routerLink="card" mat-button routerLink="/">
-                <mat-icon>dashboard</mat-icon> Dashboard
-              </button>
-            </mat-list-item>
-            <mat-list-item>
-              <button routerLink="card" mat-button routerLink="/">
-                <mat-icon>dashboard</mat-icon> Dashboard
-              </button>
-            </mat-list-item>
-          </mat-expansion-panel>
-        </mat-accordion> -->
-
-      </mat-nav-list>
-    </mat-drawer>
-    <mat-drawer-content>
-      <router-outlet></router-outlet>
-    </mat-drawer-content>
-  </mat-drawer-container>
-</ion-content>
+  <ion-header [translucent]="true">
+    <mat-toolbar color="primary" class="mat-elevation-z8">
+      <button (click)="drawer.toggle()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>School Management ERP</span>
+    </mat-toolbar>
+  </ion-header>
+  
+  <ion-loading [isOpen]="isLoader"></ion-loading>
+  <ion-toast [isOpen]="isToaster" [message]="toastMessage" [color]="toastColor" cssClass="custom-toast"
+    [buttons]="dismiss" [position]="'bottom'" duration="5000"></ion-toast> 
+  
+  <ion-content [fullscreen]="false">
+    <!-- <mat-drawer-container autosize> -->
+    <mat-drawer-container style="height: 92.4vh">
+      <!-- <mat-drawer #drawer opened="false" mode="over" position="start"> -->
+      <mat-drawer #drawer opened="false" mode="side" position="start">
+        <mat-nav-list>
+          <mat-list-item routerLink="/">
+            <button mat-button>
+              <mat-icon>dashboard</mat-icon> Dashboard
+            </button>
+          </mat-list-item>
+          <!-- <mat-list-item>
+            <button routerLink="card" mat-button>
+              <mat-icon>Admission Managemet</mat-icon> Admission Management
+            </button>
+          </mat-list-item> -->
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">group</mat-icon> Admission Management </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="admission-management/student-registration">
+                <button mat-button>
+                  <mat-icon>person_add</mat-icon>Student registration
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/students-details">
+                <button mat-button>
+                  <mat-icon>group</mat-icon> Students Details
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>picture_as_pdf</mat-icon> Admission Forms
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-list-item routerLink="school-management">
+            <button mat-button>
+              <mat-icon>school</mat-icon> School Management
+            </button>
+          </mat-list-item>
+  
+          <!-- <mat-accordion>
+            <mat-expansion-panel
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title> School Management </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item>
+                <button routerLink="card" mat-button routerLink="/">
+                  <mat-icon>dashboard</mat-icon> Dashboard
+                </button>
+              </mat-list-item>
+              <mat-list-item>
+                <button routerLink="card" mat-button routerLink="/">
+                  <mat-icon>dashboard</mat-icon> Dashboard
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion> -->
+  
+        </mat-nav-list>
+      </mat-drawer>
+      <mat-drawer-content>
+        <router-outlet></router-outlet>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </ion-content>
+</ion-app>
