@@ -9,11 +9,11 @@
       <button (click)="onLogout()" style="color: red;" *ngIf="logedInStatus" color="success" mat-icon-button> | Logout</button>
     </mat-toolbar>
   </ion-header>
-  
+
   <ion-loading [isOpen]="isLoader"></ion-loading>
   <ion-toast [isOpen]="isToaster" [message]="toastMessage" [color]="toastColor" cssClass="custom-toast"
-    [buttons]="dismiss" [position]="'bottom'" duration="5000"></ion-toast> 
-  
+    [buttons]="dismiss" [position]="'bottom'" duration="5000"></ion-toast>
+
   <ion-content [fullscreen]="false">
     <!-- <mat-drawer-container autosize> -->
     <mat-drawer-container style="height: 92.4vh">
@@ -35,16 +35,16 @@
               <mat-expansion-panel-header>
                 <mat-panel-title><mat-icon class="title-icon">group</mat-icon> Admission Management </mat-panel-title>
               </mat-expansion-panel-header>
-              <mat-list-item routerLink="admission-management/student-registration">
+              <mat-list-item routerLink="admission-management/student">
                 <button mat-button>
-                  <mat-icon>person_add</mat-icon>Student registration
+                  <mat-icon>person_add</mat-icon>Student
                 </button>
               </mat-list-item>
-              <mat-list-item routerLink="admission-management/students-details">
+              <!-- <mat-list-item routerLink="admission-management/students-details">
                 <button mat-button>
                   <mat-icon>group</mat-icon> Students Details
                 </button>
-              </mat-list-item>
+              </mat-list-item> -->
               <mat-list-item routerLink="admission-management/admission-forms">
                 <button mat-button>
                   <mat-icon>picture_as_pdf</mat-icon> Admission Forms
@@ -57,7 +57,7 @@
               <mat-icon>school</mat-icon> School Management
             </button>
           </mat-list-item>
-  
+
           <!-- <mat-accordion>
             <mat-expansion-panel
               (opened)="panelOpenState = true"
@@ -78,7 +78,7 @@
               </mat-list-item>
             </mat-expansion-panel>
           </mat-accordion> -->
-  
+
         </mat-nav-list>
       </mat-drawer>
       <mat-drawer-content>

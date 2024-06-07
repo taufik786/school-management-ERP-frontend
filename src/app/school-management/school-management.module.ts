@@ -9,12 +9,11 @@ import { MaterialModule } from '../material-module';
 import { IonicModule } from '@ionic/angular';
 import { SchoolManagementFormComponent } from './school-management-form/school-management-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonPipe } from '../pipes/common.pipe';
-import { FormValidationPipe } from '../pipes/formValidation.pipe';
+import { SharedModule } from '../pipes/shared.module';
 
 
 @NgModule({
-  declarations: [SchoolManagementComponent, SchoolManagementFormComponent, CommonPipe, FormValidationPipe],
+  declarations: [SchoolManagementComponent, SchoolManagementFormComponent], // , CommonPipe, FormValidationPipe
   imports: [
     CommonModule,
     SchoolManagementRoutingModule,
@@ -22,8 +21,11 @@ import { FormValidationPipe } from '../pipes/formValidation.pipe';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
+    SharedModule,
     IonicModule.forRoot()
   ],
-  providers: [SchoolServices]
+  providers: [SchoolServices],
+  // exports: [ CommonPipe, FormValidationPipe]
 })
 export class SchoolManagementModule { }
