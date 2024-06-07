@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServices } from '../services/common.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,11 +19,12 @@ export class SidebarComponent implements OnInit {
       text: 'X',
     },
   ];
-
-  constructor(private commonService: CommonServices) {
+logedInStatus = false;
+  constructor(private commonService: CommonServices, private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.logedInStatus = this.authService.getIsAuth();
     this.initializeLoader();
     this.initializeToaster();
   }
@@ -45,6 +47,10 @@ export class SidebarComponent implements OnInit {
         this.toastMessage = '';
       }, 5000);
     });
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
 }

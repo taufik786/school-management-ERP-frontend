@@ -1,26 +1,31 @@
-import { Component, EnvironmentInjector, Optional, inject } from '@angular/core';
+import { Component, EnvironmentInjector, OnInit, Optional, inject } from '@angular/core';
 import { AlertController, IonRouterOutlet, IonicModule, Platform, ToastController } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   tap = 0;
 
   constructor(
     private platform: Platform,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    @Optional() private routerOutlet?: IonRouterOutlet
+    private AuthServices: AuthService,
+    @Optional() private routerOutlet?: IonRouterOutlet,
   ) {
     this.platform.ready().then(() => {
       // this.exitAppOnDoubleTap();
       this.exitAppOnAlert();
     });
+  }
+  ngOnInit(): void {
+    this.AuthServices.autoAuthUser();
   }
 
   exitAppOnAlert() {

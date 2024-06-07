@@ -6,6 +6,7 @@
         <mat-icon>menu</mat-icon>
       </button>
       <span>School Management ERP</span>
+      <button (click)="onLogout()" style="color: red;" *ngIf="logedInStatus" color="success" mat-icon-button> | Logout</button>
     </mat-toolbar>
   </ion-header>
   
