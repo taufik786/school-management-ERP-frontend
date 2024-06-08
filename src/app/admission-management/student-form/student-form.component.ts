@@ -21,6 +21,9 @@ export class StudentFormComponent implements OnInit {
 
   toastObj: any;
 
+  fileToUpload: any;
+  imageUrl: any;
+
   constructor(private studentServices: StudentServices, private commonServices: CommonServices) {
   }
 
@@ -92,13 +95,13 @@ export class StudentFormComponent implements OnInit {
         Validators.required
       ]),
       Photo: new FormControl(this.setFormData('Photo'), [
-        Validators.required
+        // Validators.required
       ]),
       AdmissionDate: new FormControl(new Date(this.setFormData('AdmissionDate')) || new Date('2/1/20224'), [
         Validators.required,
       ]),
       Session: new FormControl(new Date(this.setFormData('Session')) || new Date('6/5/2024'), [
-        Validators.required,
+        // Validators.required,
       ]),
       PreviousSchool: new FormControl(this.setFormData('PreviousSchool'), [
         // Validators.required
@@ -132,12 +135,24 @@ export class StudentFormComponent implements OnInit {
         // Validators.required
       ]),
       username: new FormControl(this.setFormData('username'), [
-        Validators.required
+        // Validators.required
       ]),
       _id: new FormControl(this.setFormData('_id')),
     });
   }
 
+  handleFileInput(file: any) {
+    console.log(file);
+    this.fileToUpload = file.target.files.item(0);
+    this.studentForm.controls.Photo.setValue(file.target.files[0], { onlySelf: true});
+
+    //Show image preview
+    let reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    }
+    reader.readAsDataURL(this.fileToUpload);
+  }
   setFormData(controlName: string) {
     if (!(this.formData.formData === undefined || this.formData.formData === null)) {
       return this.formData.formData[controlName];

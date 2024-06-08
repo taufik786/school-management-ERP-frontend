@@ -127,3 +127,56 @@
   .card-color {
     color: black
 }
+
+// ion-alert
+.example-tree-node {
+    display: flex;
+    align-items: center;
+  }
+  .title-icon {
+    margin-right: 5px;
+  }
+  .custom-toast {
+    --width: 32rem;
+    --border-radius: 0.5rem;
+    // --padding: 15px;
+    position: fixed;
+    // bottom: 50px; /* Adjust this value to set the distance from the bottom */
+    // right: 100px; /* Adjust this value to set the distance from the right */
+    // z-index: 9999; /* Ensure the toast is displayed above other content */
+    left: 25rem;
+  
+    /* Media query for small screens (e.g., smartphones) */
+    @media (max-width: 576px) {
+      --width: auto;
+      left: 0;
+    }
+  
+    /* Media query for medium screens (e.g., tablets) */
+    @media (min-width: 577px) and (max-width: 992px) {
+      --width: 50%;
+      left: 22%;
+    }
+  
+    /* Media query for large screens (e.g., desktops) */
+    @media (min-width: 993px) and (max-wdith: 1023px) {
+      --width: auto;
+      left: 29rem;
+    }
+    /* Media query for large screens (e.g., desktops) */
+    @media (min-width: 1024px) {
+      --width: 35%;
+      left: 28%;
+    }
+  
+    // @media (min-width: 1025px) and (max-wdith: 1440px) {
+    //   --width: auto;
+    //   left: 9rem;
+    // }
+  }
+  
+  // .custom-toast:hover {
+  //   cursor: pointer; /* Change cursor to pointer when hovered */
+  //   /* Add any additional styling changes for the hovered state */
+  // }
+  

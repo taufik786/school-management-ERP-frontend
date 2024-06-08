@@ -47,7 +47,41 @@ export class AdmissionManagementComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['Action'];
+  displayedColumns: string[] = [
+    "Action",
+    "FirstName",
+    "MiddleName",
+    "LastName",
+    "Email",
+    "PhoneNumber",
+    "Gender",
+    "Date_of_birth",
+    "Religion",
+    "Category",
+    "Caste",
+    "BloodGroup",
+    "CurrentAddress",
+    "PermanentAddress",
+    "AdmissionDate",
+    "Session",
+    "Class",
+    "Section",
+    "AdmissionNumber",
+    "RollNumber",
+    "Photo",
+    "FatherName",
+    "FatherPhoneNumber",
+    "FatherOccupation",
+    "MotherName",
+    "MotherOccupation",
+    "MotherPhoneNumber",
+    "username",
+    "PreviousSchool",
+    "Remarks",
+    "IsActive",
+    "createdAt",
+    "updatedAt"
+  ];
   dataSource: any = new MatTableDataSource([]);
 
   formOpen = false;
@@ -98,32 +132,29 @@ export class AdmissionManagementComponent implements OnInit {
       message: "",
       color: 'primary'
     };
-    this.getSchoolListSubscription = await this.studentServices.allSchoolLists().subscribe(async (res: any) => {
-      await Object.keys(res.data[0]).forEach((value: any) => {
-        if (!(value == '_id' || value == 'Deleted' || value == '__v')) {
-          this.displayedColumns.push(value);
-        }
+    if (this.toastObj) {
+      this.getSchoolListSubscription = await this.studentServices.allSchoolLists().subscribe(async (res: any) => {
+        this.dataSource.data = res.data.reverse();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'success';
+        this.toastObj.message = res.message;
+        await this.commonServices.updateToastMessage(this.toastObj);
+        await this.commonServices.updateLoader(false);
+      }, err => {
+        this.dataSource.data = [];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'danger';
+        this.toastObj.message = 'Unable to process at this moment try after sometime.';
+        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.updateLoader(false);
       });
-      this.dataSource.data = res.data.reverse();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
-      this.toastObj.isOpen = true;
-      this.toastObj.color = 'success';
-      this.toastObj.message = res.message;
-      await this.commonServices.updateToastMessage(this.toastObj);
-      await this.commonServices.updateLoader(false);
-    }, err => {
-      this.dataSource.data = [];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
-      this.toastObj.isOpen = true;
-      this.toastObj.color = 'danger';
-      this.toastObj.message = 'Unable to process at this moment try after sometime.';
-      this.commonServices.updateToastMessage(this.toastObj);
-      this.commonServices.updateLoader(false);
-    });
+    }
   }
 
   editRecord(rowData: any) {
@@ -181,13 +212,13 @@ export class AdmissionManagementComponent implements OnInit {
     if (data !== null) {
       this.commonServices.updateLoader(true);
       if (this.formAction === 'Add') {
-        if (this.dataSource.data.length === 0) {
-          Object.keys(data.formData).forEach((value: any) => {
-            if (!(value == '_id' || value == 'Deleted' || value == '__v')) {
-              this.displayedColumns.push(value);
-            }
-          });
-        }
+        // if (this.dataSource.data.length === 0) {
+        //   Object.keys(data.formData).forEach((value: any) => {
+        //     if (!(value == '_id' || value == 'Deleted' || value == '__v')) {
+        //       this.displayedColumns.push(value);
+        //     }
+        //   });
+        // }
         this.dataSource.data.unshift(data.formData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

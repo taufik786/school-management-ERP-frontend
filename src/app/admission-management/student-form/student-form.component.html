@@ -92,26 +92,49 @@
               </ion-col>
             </ion-row>
           </ion-grid>
-          
+
           <ion-grid>
             <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6">
-                <div class="ion-padding">
-                  <ion-label>Gender *</ion-label>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6">
-                <ion-list class="ion-padding-vertical">
-                  <ion-radio-group formControlName="Gender">
-                    <ion-radio value="Male"><span class="ion-padding-horizontal">Male</span></ion-radio>
-                    <ion-radio value="Female"><span class="ion-padding-horizontal">Female</span></ion-radio>
-                    <ion-radio value="Others"><span class="ion-padding-horizontal">Others</span></ion-radio>
-                  </ion-radio-group>
-                </ion-list>
+              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                <ion-row>
+                  <ion-col size-xs="12" size-sm="12" size-md="4">
+                    <div class="ion-padding">
+                      <ion-label>Gender *</ion-label>
+                    </div>
+                  </ion-col>
+                  <ion-col size-xs="12" size-sm="12" size-md="8">
+                    <ion-list class="ion-padding-vertical">
+                      <ion-radio-group formControlName="Gender">
+                        <ion-radio value="Male"><span class="ion-padding-horizontal">Male</span></ion-radio>
+                        <ion-radio value="Female"><span class="ion-padding-horizontal">Female</span></ion-radio>
+                        <ion-radio value="Others"><span class="ion-padding-horizontal">Others</span></ion-radio>
+                      </ion-radio-group>
+                    </ion-list>
 
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Gender')">
+                    <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Gender')">
+                      <mat-error
+                        *ngFor="let message of studentForm.controls['Gender'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                <ion-item>
+                  <ion-select label="Blood Group *" label-placement="floating" formControlName="BloodGroup">
+                    <ion-select-option value="">Select</ion-select-option>
+                    <ion-select-option value="A+">A+</ion-select-option>
+                    <ion-select-option value="A-">A-</ion-select-option>
+                    <ion-select-option value="B+">B+</ion-select-option>
+                    <ion-select-option value="B-">B-</ion-select-option>
+                    <ion-select-option value="AB+">AB+</ion-select-option>
+                    <ion-select-option value="AB-">AB-</ion-select-option>
+                    <ion-select-option value="O+">O+</ion-select-option>
+                    <ion-select-option value="O-">O-</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('BloodGroup')">
                   <mat-error
-                    *ngFor="let message of studentForm.controls['Gender'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                    *ngFor="let message of studentForm.controls['BloodGroup'].errors | formValidation"><sub>{{message}}</sub></mat-error>
                 </div>
               </ion-col>
             </ion-row>
@@ -168,25 +191,7 @@
 
           <ion-grid>
             <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-select label="Blood Group *" label-placement="floating" formControlName="BloodGroup">
-                    <ion-select-option value="">Select</ion-select-option>
-                    <ion-select-option value="A+">A+</ion-select-option>
-                    <ion-select-option value="A-">A-</ion-select-option>
-                    <ion-select-option value="B+">B+</ion-select-option>
-                    <ion-select-option value="B-">B-</ion-select-option>
-                    <ion-select-option value="AB+">AB+</ion-select-option>
-                    <ion-select-option value="AB-">AB-</ion-select-option>
-                    <ion-select-option value="O+">O+</ion-select-option>
-                    <ion-select-option value="O-">O-</ion-select-option>
-                  </ion-select>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('BloodGroup')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['BloodGroup'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
+
               <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
                 <div style="margin-left:15px">
                   <mat-form-field outline="none" style="width: 100%;">
@@ -299,13 +304,13 @@
               </div>
             </ion-row>
           </ion-card-header>
-          
+
           <ion-grid>
             <ion-row>
               <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
                 <ion-item>
                   <ion-input label="User name *" labelPlacement="floating" type="text" formControlName="username"
-                    required="true"></ion-input>
+                    readonly="true"></ion-input>
                 </ion-item>
                 <div class="ion-padding-horizontal" *ngIf="isErrorMessage('username')">
                   <mat-error
@@ -379,13 +384,14 @@
                 <div style="margin-left:15px">
                   <mat-form-field outline="none" style="width: 100%;">
                     <mat-label style="font-weight: 500;">Session </mat-label>
-                    <input matInput [matDatepicker]="Session" formControlName="Session">
-                    <mat-datepicker-toggle matSuffix [for]="Session"></mat-datepicker-toggle>
+                    <input matInput [matDatepicker]="Session" formControlName="Session" readonly="true">
+                    <mat-datepicker-toggle matSuffix [for]="Session" disabled="true"
+                      readonly="true"></mat-datepicker-toggle>
                     <mat-datepicker #Session></mat-datepicker>
-                    <mat-error *ngIf="isErrorMessage('Session')" style="margin-left: -15px;">
+                    <!-- <mat-error *ngIf="isErrorMessage('Session')" style="margin-left: -15px;">
                       <mat-error
                         *ngFor="let message of studentForm.controls['Session'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                    </mat-error>
+                    </mat-error> -->
                   </mat-form-field>
                 </div>
               </ion-col>
@@ -396,8 +402,8 @@
             <ion-row>
               <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
                 <ion-item>
-                  <ion-input label="Previous School *" labelPlacement="floating" type="text" formControlName="PreviousSchool"
-                    required="true"></ion-input>
+                  <ion-input label="Previous School *" labelPlacement="floating" type="text"
+                    formControlName="PreviousSchool" required="true"></ion-input>
                 </ion-item>
                 <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PreviousSchool')">
                   <mat-error
@@ -406,9 +412,12 @@
               </ion-col>
               <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
                 <ion-item>
-                  <ion-input label="Photo *" labelPlacement="floating" type="file" accept="image/*"
-                    formControlName="Photo"></ion-input>
+                  <ion-input #Image label="Photo *" labelPlacement="floating" type="file" accept="image/*"
+                    (change)="handleFileInput($event)"></ion-input>
+                  <!-- <ion-input #Image type="file" (change)="handleFileInput($event.target.files)" /> -->
                 </ion-item>
+
+                <img width="100%" *ngIf="imageUrl" [src]="imageUrl" class="image">
                 <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Photo')">
                   <mat-error
                     *ngFor="let message of studentForm.controls['Photo'].errors | formValidation"><sub>{{message}}</sub></mat-error>

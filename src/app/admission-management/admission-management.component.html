@@ -25,7 +25,7 @@
           {{ capitalize(column) }}</th>
         <td mat-cell *matCellDef="let element;">
           <span
-            *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'established')">{{
+            *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'Date_of_birth' || column === 'AdmissionDate' || column === 'Session')">{{
             element[column] }} </span>
 
           <span *ngIf="column === 'Action'" style="display: flex;">
@@ -33,7 +33,8 @@
             <ion-icon class="delete" name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
           </span>
 
-          <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'Date_of_birth' || column === 'AdmissionDate'">
+          <span
+            *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'Date_of_birth' || column === 'AdmissionDate' || column === 'Session'">
             {{ element[column] | localDateTime:"dateTime" }}
           </span>
 
