@@ -17,12 +17,12 @@
       </ion-header>
       <ion-content class="ion-padding" [formGroup]="studentForm">
         <ion-card class="card-color">
-          <ion-card-header class="ion-padding" style="background-color: lightgray;">
-            <ion-row class="ion-justify-content-center">
-              <div style="margin-top: 10px;">
+          <ion-card-header class="ion-padding" color="primary">
+            <!-- <ion-row class="ion-justify-content-center">
+              <div style="margin-top: 10px;"> -->
                 <ion-card-title size="large">Personal Detail</ion-card-title>
-              </div>
-            </ion-row>
+              <!-- </div>
+            </ion-row> -->
           </ion-card-header>
           <ion-grid>
             <ion-row>
@@ -212,12 +212,12 @@
         </ion-card>
 
         <ion-card class="card-color">
-          <ion-card-header class="ion-padding" style="background-color: lightgray;">
-            <ion-row class="ion-justify-content-center">
-              <div style="margin-top: 10px;">
+          <ion-card-header class="ion-padding" color="primary">
+            <!-- <ion-row class="ion-justify-content-center">
+              <div style="margin-top: 10px;"> -->
                 <ion-card-title size="large">Parent Detail</ion-card-title>
-              </div>
-            </ion-row>
+              <!-- </div>
+            </ion-row> -->
           </ion-card-header>
           <ion-grid>
             <ion-row>
@@ -297,12 +297,12 @@
         </ion-card>
 
         <ion-card class="card-color">
-          <ion-card-header class="ion-padding" style="background-color: lightgray;">
-            <ion-row class="ion-justify-content-center">
-              <div style="margin-top: 10px;">
+          <ion-card-header class="ion-padding" color="primary">
+            <!-- <ion-row class="ion-justify-content-center">
+              <div style="margin-top: 10px;"> -->
                 <ion-card-title size="large">Admission Detail</ion-card-title>
-              </div>
-            </ion-row>
+              <!-- </div>
+            </ion-row> -->
           </ion-card-header>
 
           <ion-grid>
@@ -371,7 +371,7 @@
                 <div style="margin-left:15px">
                   <mat-form-field outline="none" style="width: 100%;">
                     <mat-label style="font-weight: 500;">Admission Date </mat-label>
-                    <input matInput [matDatepicker]="AdmissionDate" formControlName="AdmissionDate">
+                    <input matInput [matDatepicker]="AdmissionDate" formControlName="AdmissionDate" readonly="true">
                     <mat-datepicker-toggle matSuffix [for]="AdmissionDate"></mat-datepicker-toggle>
                     <mat-datepicker #AdmissionDate></mat-datepicker>
                     <mat-error *ngIf="isErrorMessage('AdmissionDate')" style="margin-left: -15px;">
@@ -385,7 +385,7 @@
                   <mat-form-field outline="none" style="width: 100%;">
                     <mat-label style="font-weight: 500;">Session </mat-label>
                     <input matInput [matDatepicker]="Session" formControlName="Session" readonly="true">
-                    <mat-datepicker-toggle matSuffix [for]="Session" disabled="true"
+                    <mat-datepicker-toggle matSuffix [for]="Session"
                       readonly="true"></mat-datepicker-toggle>
                     <mat-datepicker #Session></mat-datepicker>
                     <!-- <mat-error *ngIf="isErrorMessage('Session')" style="margin-left: -15px;">
@@ -402,8 +402,8 @@
             <ion-row>
               <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
                 <ion-item>
-                  <ion-input label="Previous School *" labelPlacement="floating" type="text"
-                    formControlName="PreviousSchool" required="true"></ion-input>
+                  <ion-input label="Previous School" labelPlacement="floating" type="text"
+                    formControlName="PreviousSchool"></ion-input>
                 </ion-item>
                 <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PreviousSchool')">
                   <mat-error
@@ -412,7 +412,7 @@
               </ion-col>
               <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
                 <ion-item>
-                  <ion-input #Image label="Photo *" labelPlacement="floating" type="file" accept="image/*"
+                  <ion-input #Image label="Photo " labelPlacement="floating" type="file" accept="image/*"
                     (change)="handleFileInput($event)"></ion-input>
                   <!-- <ion-input #Image type="file" (change)="handleFileInput($event.target.files)" /> -->
                 </ion-item>

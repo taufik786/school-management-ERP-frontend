@@ -102,7 +102,7 @@ export class StudentFormComponent implements OnInit {
       AdmissionDate: new FormControl(new Date(this.setFormData('AdmissionDate')) || new Date('2/1/20224'), [
         Validators.required,
       ]),
-      Session: new FormControl(new Date(this.setFormData('Session')) || new Date('6/5/2024'), [
+      Session: new FormControl(new Date(this.setFormData('Session')) || new Date(), [
         // Validators.required,
       ]),
       PreviousSchool: new FormControl(this.setFormData('PreviousSchool'), [
