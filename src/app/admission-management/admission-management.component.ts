@@ -75,7 +75,7 @@ export class AdmissionManagementComponent implements OnInit {
     "MotherName",
     "MotherOccupation",
     "MotherPhoneNumber",
-    "username",
+    "Username",
     "PreviousSchool",
     "Remarks",
     "IsActive",
@@ -170,7 +170,7 @@ export class AdmissionManagementComponent implements OnInit {
   openDeleteDialog(rowData: any) {
     this.isDeleteOpen = true;
     this.selectedDeletedRecord = rowData;
-    this.alertHeader = `${rowData.schoolName} Data`;
+    this.alertHeader = `${rowData.FirstName}'s Data`;
     this.message = `Are you sure to delete record ? `;
   }
 

@@ -22,10 +22,10 @@
       <!-- Define columns -->
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          {{ capitalize(column) }}</th>
+          {{ column }}</th>
         <td mat-cell *matCellDef="let element;">
           <span
-            *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'established')">{{
+            *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'Established')">{{
             element[column] }} </span>
 
           <span *ngIf="column === 'Action'" style="display: flex;">
@@ -33,7 +33,7 @@
             <ion-icon class="delete" name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
           </span>
 
-          <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'established'">
+          <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'Established'">
             {{ element[column] | localDateTime:"dateTime" }}
           </span>
 

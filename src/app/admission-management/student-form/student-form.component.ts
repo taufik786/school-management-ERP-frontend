@@ -23,6 +23,8 @@ export class StudentFormComponent implements OnInit {
 
   fileToUpload: any;
   imageUrl: any;
+  alertButtons: any = [];
+  isDeleteOpen: boolean = false;
 
   constructor(private studentServices: StudentServices, private commonServices: CommonServices) {
   }
@@ -134,11 +136,22 @@ export class StudentFormComponent implements OnInit {
       Remarks: new FormControl(this.setFormData('Remarks'), [
         // Validators.required
       ]),
-      username: new FormControl(this.setFormData('username'), [
+      Username: new FormControl(this.setFormData('Username'), [
         // Validators.required
       ]),
       _id: new FormControl(this.setFormData('_id')),
     });
+    
+    this.alertButtons = [
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      },
+      {
+        text: 'OK',
+        role: 'confirm'
+      },
+    ];
   }
 
   handleFileInput(file: any) {
@@ -244,6 +257,19 @@ export class StudentFormComponent implements OnInit {
   onWillDismiss(event: Event) {
     this.modal.dismiss(null, 'cancel');
     this.dataEvent.emit(null);
+  }
+
+  closeForm(buttonEvent: any) {
+    if (buttonEvent.detail.role === 'confirm') {
+      this.cancel();
+      this.isDeleteOpen = false;
+    } else {
+      this.isDeleteOpen = false;
+    }
+  }
+  openAlertModal() {
+    this.isDeleteOpen = true;
+    console.log('5454')
   }
 
   ngOnDestroy(): void {

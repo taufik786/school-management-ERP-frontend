@@ -5,13 +5,13 @@
       <ion-header class="ion-padding" style="background-color: lightgray;">
         <ion-row class="ion-justify-content-between">
           <div style="margin-top: 6px;">
-            <ion-icon name="close" size="large" (click)="cancel()"></ion-icon>
+            <ion-icon name="close" size="large" (click)="openAlertModal()"></ion-icon>
           </div>
           <div style="margin-top: 10px;">
             <ion-title size="large">{{formData.formAction === 'Add' ? 'Add' : 'Edit'}} School Form</ion-title>
           </div>
           <div>
-            <ion-button slot="end" color="medium" (click)="save()">Save</ion-button>
+            <ion-button slot="end" color="success" (click)="save()">Save</ion-button>
           </div>
         </ion-row>
       </ion-header>
@@ -309,12 +309,12 @@
             <ion-row>
               <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
                 <ion-item>
-                  <ion-input label="User name *" labelPlacement="floating" type="text" formControlName="username"
+                  <ion-input label="User name *" labelPlacement="floating" type="text" formControlName="Username"
                     readonly="true"></ion-input>
                 </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('username')">
+                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Username')">
                   <mat-error
-                    *ngFor="let message of studentForm.controls['username'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                    *ngFor="let message of studentForm.controls['Username'].errors | formValidation"><sub>{{message}}</sub></mat-error>
                 </div>
               </ion-col>
             </ion-row>
@@ -434,7 +434,9 @@
 
         </ion-card>
       </ion-content>
+      <ion-alert [isOpen]="isDeleteOpen" [header]="'Close Form'" [message]="'Are you sure, you want close this form ?'"
+        [buttons]="alertButtons" (didDismiss)="closeForm($event)">
+      </ion-alert>
     </ng-template>
-
   </ion-modal>
 </ion-content>

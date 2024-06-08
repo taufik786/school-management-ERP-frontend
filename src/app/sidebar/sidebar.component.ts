@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
       text: 'X',
     },
   ];
-logedInStatus = false;
+  logedInStatus = false;
   constructor(private commonService: CommonServices, private authService: AuthService) {
   }
 
@@ -35,7 +35,7 @@ logedInStatus = false;
     });
   }
 
-  async initializeToaster() {
+  async initializeToaster(): Promise<void> {
     this.commonService.toastMessage.subscribe(async (obj: any) => {
       this.isToaster = obj.isOpen;
       this.toastColor = obj.color;
@@ -49,8 +49,12 @@ logedInStatus = false;
     });
   }
 
-  onLogout() {
-    this.authService.logout();
+  onLogout(): void {
+    this.commonService.updateLoader(true);
+    setTimeout(() => {
+      this.commonService.updateLoader(false);
+      this.authService.logout();
+    }, 3000);
   }
 
 }

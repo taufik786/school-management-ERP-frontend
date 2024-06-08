@@ -29,40 +29,40 @@ export class SchoolManagementFormComponent implements OnInit {
   ngOnInit() {
     this.isOpen = this.formData.formOpen;
     this.schoolForm = new FormGroup({
-      schoolName: new FormControl(this.setFormData('schoolName'), [
+      SchoolName: new FormControl(this.setFormData('SchoolName'), [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(250),
       ]),
-      directorName: new FormControl(this.setFormData('directorName'), [
+      DirectorName: new FormControl(this.setFormData('DirectorName'), [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
       ]),
-      schoolType: new FormControl(this.setFormData('schoolType'), [
+      SchoolType: new FormControl(this.setFormData('SchoolType'), [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
       ]),
-      address: new FormControl(this.setFormData('address'), [
+      Address: new FormControl(this.setFormData('Address'), [
         Validators.required
       ]),
-      phone: new FormControl(this.setFormData('phone'), [
+      PhoneNumber: new FormControl(this.setFormData('PhoneNumber'), [
         Validators.required,
         Validators.pattern(/^\+?[1-9]\d{1,14}$/),
         Validators.minLength(10),
         Validators.maxLength(12)
       ]),
-      email: new FormControl(this.setFormData('email'), [
+      Email: new FormControl(this.setFormData('Email'), [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
         Validators.email
       ]),
-      remarks: new FormControl(this.setFormData('remarks'), [
+      Remarks: new FormControl(this.setFormData('Remarks'), [
         Validators.maxLength(12),
       ]),
-      established: new FormControl(new Date(this.setFormData('established')), [
+      Established: new FormControl(new Date(this.setFormData('Established')), [
         Validators.required,
       ]),
       _id: new FormControl(this.setFormData('_id')),

@@ -12,7 +12,7 @@ export class FormValidationPipe implements PipeTransform {
 
     // const errors = control.errors;
     const errList = Object.keys(errors);
-    console.log(errList);
+    // console.log(errList);
 
     if (errList.length === 0) {
       return [];
@@ -48,9 +48,6 @@ export class FormValidationPipe implements PipeTransform {
           errorMessages.push('Invalid.');
       }
     });
-
-    console.log(errorMessages)
-
     return errorMessages;
   }
 }

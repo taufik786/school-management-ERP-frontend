@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
   <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)" keyboardClose="true" backdropDismiss="true"
-    style="z-index: 1 !important">
+  class="form-modal">
     <ng-template>
       <ion-header class="ion-padding" style="background-color: lightgray;">
         <ion-row class="ion-justify-content-between">
@@ -20,22 +20,22 @@
           <ion-row>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
-                <ion-input label="School Name *" labelPlacement="floating" type="text" formControlName="schoolName"
+                <ion-input label="School Name *" labelPlacement="floating" type="text" formControlName="SchoolName"
                   required="true"></ion-input>
               </ion-item>
-              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('schoolName')">
+              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('SchoolName')">
                 <mat-error
-                  *ngFor="let message of schoolForm.controls['schoolName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                  *ngFor="let message of schoolForm.controls['SchoolName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
                 <ion-input label="Director Name *" labelPlacement="floating" type="text"
-                  formControlName="directorName"></ion-input>
+                  formControlName="DirectorName"></ion-input>
               </ion-item>
-              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('directorName')">
+              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('DirectorName')">
                 <mat-error
-                  *ngFor="let message of schoolForm.controls['directorName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                  *ngFor="let message of schoolForm.controls['DirectorName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -45,21 +45,21 @@
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
                 <ion-input label="School Type *" labelPlacement="floating" type="text"
-                  formControlName="schoolType"></ion-input>
+                  formControlName="SchoolType"></ion-input>
               </ion-item>
-              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('schoolType')">
+              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('SchoolType')">
                 <mat-error
-                  *ngFor="let message of schoolForm.controls['schoolType'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                  *ngFor="let message of schoolForm.controls['SchoolType'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
                 <ion-input label="School Phone Number *" labelPlacement="floating" type="text"
-                  formControlName="phone"></ion-input>
+                  formControlName="PhoneNumber"></ion-input>
               </ion-item>
-              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('phone')">
+              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PhoneNumber')">
                 <mat-error
-                  *ngFor="let message of schoolForm.controls['phone'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                  *ngFor="let message of schoolForm.controls['PhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -69,11 +69,11 @@
             <ion-col>
               <ion-item>
                 <ion-textarea label="School Address *" labelPlacement="floating" type="text"
-                  formControlName="address"></ion-textarea>
+                  formControlName="Address"></ion-textarea>
               </ion-item>
-              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('address')">
+              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Address')">
                 <mat-error
-                  *ngFor="let message of schoolForm.controls['address'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                  *ngFor="let message of schoolForm.controls['Address'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
           </ion-row>
@@ -84,26 +84,26 @@
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <ion-item>
                 <ion-input label="School Email *" labelPlacement="floating" type="text"
-                  formControlName="email"></ion-input>
+                  formControlName="Email"></ion-input>
               </ion-item>
-              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('email')">
+              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Email')">
                 <mat-error
-                  *ngFor="let message of schoolForm.controls['email'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                  *ngFor="let message of schoolForm.controls['Email'].errors | formValidation"><sub>{{message}}</sub></mat-error>
               </div>
             </ion-col>
             <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
               <mat-form-field outline="none" style="width: 100%;">
                 <mat-label style="font-weight: 500;">Established </mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="established">
+                <input matInput [matDatepicker]="picker" formControlName="Established">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <!-- <mat-error
                   *ngIf="isErrorMessage('established') && schoolForm.controls.established.errors.required"><sub>Established
                     is
                     required.</sub></mat-error> -->
-                <mat-error *ngIf="isErrorMessage('established')">
+                <mat-error *ngIf="isErrorMessage('Established')">
                   <mat-error
-                    *ngFor="let message of schoolForm.controls['established'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                    *ngFor="let message of schoolForm.controls['Established'].errors | formValidation"><sub>{{message}}</sub></mat-error>
                 </mat-error>
               </mat-form-field>
             </ion-col>
@@ -115,7 +115,7 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <ion-input label="Remark" labelPlacement="floating" type="text" formControlName="remarks"></ion-input>
+                <ion-input label="Remark" labelPlacement="floating" type="text" formControlName="Remarks"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>

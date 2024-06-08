@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
   {
@@ -10,11 +11,13 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: SidebarComponent,
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: '',
+    component: SidebarComponent,
     loadChildren: () =>
       import('./school-management/school-management.module').then(
         (m) => m.SchoolManagementModule
@@ -23,6 +26,7 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: SidebarComponent,
     loadChildren: () =>
       import('./admission-management/admission-management.module').then(
         (m) => m.AdmissionManagementModule

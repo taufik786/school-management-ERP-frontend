@@ -22,7 +22,7 @@
       <!-- Define columns -->
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          {{ capitalize(column) }}</th>
+          {{ column }}</th>
         <td mat-cell *matCellDef="let element;">
           <span
             *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'Date_of_birth' || column === 'AdmissionDate' || column === 'Session')">{{

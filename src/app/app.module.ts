@@ -12,10 +12,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material-module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonServices } from './services/common.service';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+  imports: [BrowserModule, IonicModule.forRoot(), AuthModule, AppRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,

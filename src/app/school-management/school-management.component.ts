@@ -49,12 +49,13 @@ export class SchoolManagementComponent implements OnInit {
 
   displayedColumns: string[] = [
     'Action',
-    'schoolName',
-    'phone',
-    'email',
-    'schoolType',
-    'directorName',
-    'established',
+    'SchoolName',
+    'PhoneNumber',
+    'Email',
+    'Address',
+    'SchoolType',
+    'DirectorName',
+    'Established',
     'createdAt',
     'updatedAt'
   ];
@@ -108,27 +109,29 @@ export class SchoolManagementComponent implements OnInit {
       message: "",
       color: 'primary'
     };
-    this.schoolListSubscription = await this.schoolServices.allSchoolLists().subscribe(async (res: any) => {
-      this.dataSource.data = res.data.reverse();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      
-      this.toastObj.isOpen = true;
-      this.toastObj.color = 'success';
-      this.toastObj.message = res.message;
-      await this.commonServices.updateToastMessage(this.toastObj);
-      await this.commonServices.updateLoader(false);
-    }, err => {
-      this.dataSource.data = [];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    if (this.toastObj) {
+      this.schoolListSubscription = await this.schoolServices.allSchoolLists().subscribe(async (res: any) => {
+        this.dataSource.data = res.data.reverse();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
 
-      this.toastObj.isOpen = true;
-      this.toastObj.color = 'danger';
-      this.toastObj.message = 'Unable to process at this moment try after sometime.';
-      this.commonServices.updateToastMessage(this.toastObj);
-      this.commonServices.updateLoader(false);
-    });
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'success';
+        this.toastObj.message = res.message;
+        await this.commonServices.updateToastMessage(this.toastObj);
+        await this.commonServices.updateLoader(false);
+      }, err => {
+        this.dataSource.data = [];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'danger';
+        this.toastObj.message = 'Unable to process at this moment try after sometime.';
+        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.updateLoader(false);
+      });
+    }
   }
 
   editRecord(rowData: any) {

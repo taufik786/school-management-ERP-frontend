@@ -2,17 +2,24 @@
 
   <ion-header [translucent]="true">
     <mat-toolbar color="primary" class="mat-elevation-z8">
-      <button (click)="drawer.toggle()" mat-icon-button>
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>School Management ERP</span>
-      <button (click)="onLogout()" style="color: red;" *ngIf="logedInStatus" color="success" mat-icon-button> | Logout</button>
+      <mat-toolbar-row>
+        <button (click)="drawer.toggle()" mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>School Management ERP</span>
+        <span class="example-spacer"></span>
+        <!-- <button (click)="onLogout()" style="color: red;" *ngIf="logedInStatus" color="success" mat-icon-button> | Logout</button> -->
+        <ion-button (click)="onLogout()" color="light" *ngIf="logedInStatus">
+          <span class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">Logout</span>
+          <ion-icon name="log-out-outline" *ngIf="logedInStatus" size="large"></ion-icon>
+        </ion-button>
+      </mat-toolbar-row>
     </mat-toolbar>
   </ion-header>
 
   <ion-loading [isOpen]="isLoader"></ion-loading>
   <ion-toast [isOpen]="isToaster" [message]="toastMessage" [color]="toastColor" cssClass="custom-toast"
-    [buttons]="dismiss" [position]="'bottom'" duration="5000" ></ion-toast>
+    [buttons]="dismiss" [position]="'bottom'" duration="5000"></ion-toast>
 
   <ion-content [fullscreen]="false">
     <!-- <mat-drawer-container autosize> -->
