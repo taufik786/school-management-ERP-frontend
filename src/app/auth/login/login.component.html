@@ -1,3 +1,24 @@
-<p>
-  login works!
-</p>
+<div class="loginpage">
+  <h2>Login Page</h2>
+  <form class="form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
+    <mat-form-field>
+      <mat-label>Enter your username</mat-label>
+      <input matInput name="Username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required required="">
+      <mat-error *ngIf="usernameInput.invalid">Please enter a valid Username.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Enter your password</mat-label>
+      <input [type]="hide ? 'password' : 'text'" name="Password" ngModel matInput placeholder="Password" #passwordInput="ngModel" autocomplete="off" required>
+      <button type="button" mat-icon-button matSuffix (click)="togglePass()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+    </mat-form-field>
+    <div style="position: relative; min-height: 32px;">
+      <a routerLink="/forget-password" class="forgetpass">Forget Password?</a>
+    </div>
+    <div class="mat-field">
+      <button class="mat-field" mat-flat-button color="primary">Login</button>
+    </div>
+  </form>
+</div>
