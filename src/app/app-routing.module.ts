@@ -2,22 +2,19 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
-  {
-    path: 'login',
-    loadChildren: () =>
-      import('./auth/auth.module').then((m) => m.AuthModule),
-  },
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
+
   {
     path: '',
-    component: SidebarComponent,
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    canActivate: [AuthGuard],
   },
   {
     path: '',
-    component: SidebarComponent,
     loadChildren: () =>
       import('./school-management/school-management.module').then(
         (m) => m.SchoolManagementModule
@@ -26,11 +23,11 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: SidebarComponent,
     loadChildren: () =>
       import('./admission-management/admission-management.module').then(
         (m) => m.AdmissionManagementModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: '',

@@ -3,13 +3,12 @@
   <ion-header [translucent]="true">
     <mat-toolbar color="primary" class="mat-elevation-z8">
       <mat-toolbar-row>
-        <button (click)="drawer.toggle()" mat-icon-button>
+        <button (click)="drawer.toggle()" mat-icon-button *ngIf="loggedInUser">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>School Management ERP</span>
+        <span>School Management ERP <span style="color: greenyellow">{{loggedInUser?.Name}}</span></span>
         <span class="example-spacer"></span>
-        <!-- <button (click)="onLogout()" style="color: red;" *ngIf="logedInStatus" color="success" mat-icon-button> | Logout</button> -->
-        <ion-button (click)="onLogout()" color="light" *ngIf="logedInStatus">
+        <ion-button (click)="onLogout()" color="light" *ngIf="loggedInUser">
           <span class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">Logout</span>
           <ion-icon name="log-out-outline" *ngIf="logedInStatus" size="large"></ion-icon>
         </ion-button>
@@ -26,7 +25,7 @@
     <mat-drawer-container style="height: 92.4vh">
       <!-- <mat-drawer #drawer opened="false" mode="over" position="start"> -->
       <mat-drawer #drawer opened="false" mode="side" position="start">
-        <mat-nav-list>
+        <mat-nav-list *ngIf="loggedInUser">
           <mat-list-item routerLink="/">
             <button mat-button>
               <mat-icon>dashboard</mat-icon> Dashboard

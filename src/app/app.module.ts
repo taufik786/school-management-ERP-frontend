@@ -7,23 +7,33 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material-module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonServices } from './services/common.service';
 import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AuthModule, AppRoutingModule,
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AuthModule,
+    AppRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), CommonServices],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideAnimationsAsync(),
+    CommonServices,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

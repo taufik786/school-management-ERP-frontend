@@ -8,7 +8,6 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-
   panelOpenState = false;
   isLoader = false;
   isToaster = false;
@@ -20,13 +19,21 @@ export class SidebarComponent implements OnInit {
     },
   ];
   logedInStatus = false;
-  constructor(private commonService: CommonServices, private authService: AuthService) {
-  }
+  loggedInUser: any;
+
+  constructor(
+    private commonService: CommonServices,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.logedInStatus = this.authService.getIsAuth();
     this.initializeLoader();
     this.initializeToaster();
+
+    this.authService.loggedInUser.subscribe((res) => {
+      this.loggedInUser = res;
+    });
   }
 
   initializeLoader(): void {
@@ -50,11 +57,10 @@ export class SidebarComponent implements OnInit {
   }
 
   onLogout(): void {
-    this.commonService.updateLoader(true);
-    setTimeout(() => {
-      this.commonService.updateLoader(false);
+    // this.commonService.updateLoader(true);
+    // setTimeout(() => {
+      // this.commonService.updateLoader(false);
       this.authService.logout();
-    }, 3000);
+    // }, 500);
   }
-
 }
