@@ -8,7 +8,6 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  panelOpenState = false;
   isLoader = false;
   isToaster = false;
   toastMessage: any;
