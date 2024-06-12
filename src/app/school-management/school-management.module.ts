@@ -9,7 +9,7 @@ import { MaterialModule } from '../material-module';
 import { IonicModule } from '@ionic/angular';
 import { SchoolManagementFormComponent } from './school-management-form/school-management-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../pipes/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -21,7 +21,6 @@ import { SharedModule } from '../pipes/shared.module';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
     SharedModule,
     IonicModule.forRoot()
   ],

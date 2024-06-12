@@ -14,9 +14,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonServices } from './services/common.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { TableComponent } from './common-component/table/table.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent],
+  declarations: [AppComponent, SidebarComponent, TableComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -25,6 +27,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
     HttpClientModule,
     MaterialModule,
   ],

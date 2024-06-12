@@ -7,18 +7,35 @@
             <ion-icon name="add" size="large"></ion-icon> <span>Add School</span>
           </ion-button>
         </ion-col>
-        <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
+        <!-- <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
           <ion-item>
             <ion-input (keyup)="applyFilter($event)" label="Search record" labelPlacement="floating"
               type="text"></ion-input>
           </ion-item>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
   </ion-card-content>
 
-  <ion-card-content style="overflow: auto;">
-    <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" class="mat-elevation-z8">
+  <ion-card style="overflow: auto;">
+    <div>
+      <ion-grid>
+        <ion-row class="ion-justify-content-end">
+          <!-- <ion-col size-xs="12" size-sm="12" size-md="10" align-self-stretch>
+            <ion-button (click)="openForm(true)" size="round">
+              <ion-icon name="add" size="large"></ion-icon> <span>Add School</span>
+            </ion-button>
+          </ion-col> -->
+          <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
+            <ion-item>
+              <ion-input (keyup)="applyFilter($event)" label="Search record" labelPlacement="floating"
+                type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc"  class="example-container mat-elevation-z0" >
       <!-- Define columns -->
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
@@ -31,6 +48,7 @@
           <span *ngIf="column === 'Action'" style="display: flex;">
             <ion-icon class="edit" name="create-outline" size="large" (click)="editRecord(element)"></ion-icon>
             <ion-icon class="delete" name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
+            <ion-icon name="eye-outline" size="large" color=" warning" (click)="generatePdf(element)"></ion-icon>
           </span>
 
           <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'Established'">
@@ -49,7 +67,7 @@
         </div>
       </div>
     </table>
-  </ion-card-content>
+  </ion-card>
   <mat-paginator style="border-top:1px solid #80808045;" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
     aria-label="Select page of periodic elements">
   </mat-paginator>
