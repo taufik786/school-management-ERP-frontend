@@ -55,23 +55,89 @@
             </button>
           </mat-list-item> -->
           <mat-accordion>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">computer</mat-icon>Front Desk</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="admission-management/student">
+                <button mat-button>
+                  <mat-icon>help</mat-icon>Visitor Register
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>help</mat-icon>Admission Enquiry
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title><mat-icon class="title-icon">group</mat-icon> Admission Management </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list-item routerLink="admission-management/student">
                 <button mat-button>
-                  <mat-icon>person_add</mat-icon>Student
+                  <mat-icon>person_add</mat-icon>Students
                 </button>
               </mat-list-item>
-              <!-- <mat-list-item routerLink="admission-management/students-details">
-                <button mat-button>
-                  <mat-icon>group</mat-icon> Students Details
-                </button>
-              </mat-list-item> -->
               <mat-list-item routerLink="admission-management/admission-forms">
                 <button mat-button>
                   <mat-icon>picture_as_pdf</mat-icon> Admission Forms
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>person_remove</mat-icon> Withdrawal Students
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon> Student Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Classes</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Class
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Class Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">person_apron</mat-icon>Staff Management</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="admission-management/student">
+                <button mat-button>
+                  <mat-icon>supervisor_account</mat-icon>Staff
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>payments</mat-icon>Salary Allowance
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>credit_card_off</mat-icon>Salary Deduction
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Staff Reports
                 </button>
               </mat-list-item>
             </mat-expansion-panel>
