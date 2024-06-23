@@ -14,11 +14,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonServices } from './services/common.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
-import { TableComponent } from './common-component/table/table.component';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent, TableComponent],
+  declarations: [AppComponent, SidebarComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
