@@ -6,12 +6,30 @@
         <button (click)="drawer.toggle()" mat-icon-button *ngIf="loggedInUser">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>School Management ERP <span style="color: greenyellow">{{loggedInUser?.Name}}</span></span>
+        <span class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">School Management ERP <span
+            style="color: greenyellow">{{loggedInUser?.Name}}</span></span>
         <span class="example-spacer"></span>
         <ion-button (click)="onLogout()" color="light" *ngIf="loggedInUser">
           <span class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">Logout</span>
           <ion-icon name="log-out-outline" *ngIf="logedInStatus" size="large"></ion-icon>
         </ion-button>
+        <!-- <ion-chip id="click-trigger" *ngIf="loggedInUser" style="background: inherit;">
+          <ion-icon name="person-circle-sharp" size="large"></ion-icon>
+          <ion-label class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">{{loggedInUser?.Name}}</ion-label>
+        </ion-chip> -->
+        <!-- <ion-popover trigger="click-trigger" triggerAction="click" size="cover">
+          <ng-template>
+            <div>
+              {{loggedInUser?.Name}}
+            </div>
+            <div>
+              <ion-button (click)="onLogout()" color="light" *ngIf="loggedInUser" size="small">
+                Logout
+                <ion-icon name="log-out-outline" *ngIf="logedInStatus"></ion-icon>
+              </ion-button>
+            </div>
+          </ng-template>
+        </ion-popover> -->
       </mat-toolbar-row>
     </mat-toolbar>
   </ion-header>

@@ -14,6 +14,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonServices } from './services/common.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent],
@@ -25,6 +26,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
     HttpClientModule,
     MaterialModule,
   ],

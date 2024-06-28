@@ -1,21 +1,32 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { SchoolServices } from '../services/school.service';
-import { Subscription } from 'rxjs';
-import { CommonServices } from '../services/common.service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Subscription } from 'rxjs';
+import { CommonServices } from 'src/app/services/common.service';
+import { SchoolServices } from 'src/app/services/school.service';
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-school-management',
-  templateUrl: './school-management.component.html',
-  styleUrls: ['./school-management.component.scss'],
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
 })
-export class SchoolManagementComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) sort: MatSort | undefined;
+  
+  @Input() displayedColumns: string[] = [];
+  @Input() dataSource: any = new MatTableDataSource([]);
+  @Output() formOpenEvent = new EventEmitter<boolean>(false);
+  @Output() editOpenEvent = new EventEmitter<any>();
+  @Output() deleteOpenEvent = new EventEmitter<any>();
+  @Output() deleteRecordEvent = new EventEmitter<any>();
 
   length = 50;
   pageSize = 10;
@@ -38,26 +49,8 @@ export class SchoolManagementComponent implements OnInit {
   toastObj: any;
   alertHeader: string = '';
 
-  displayedColumns: string[] = [
-    'Action',
-    'SchoolName',
-    'PhoneNumber',
-    'Email',
-    'Address',
-    'SchoolType',
-    'DirectorName',
-    'Established',
-    'createdAt',
-    'updatedAt'
-  ];
-  dataSource: any = new MatTableDataSource([]);
-
   formOpen = false;
   alertButtons: any = [];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort | undefined;
-  changeWidth: boolean = false;
 
   constructor(
     private schoolServices: SchoolServices, private commonServices: CommonServices) {
@@ -78,7 +71,13 @@ export class SchoolManagementComponent implements OnInit {
       },
     ];
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes: ', changes);
+    // this.dataSource.data = changes?.dataSource.currentValue.data;
+    if (changes['dataSource']?.currentValue?.data) {
+      this.dataSource.data = changes['dataSource'].currentValue.data;
+    }
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -93,6 +92,7 @@ export class SchoolManagementComponent implements OnInit {
       formData: null,
       formAction: 'Add'
     };
+    this.formOpenEvent.emit(true);
   }
   async schoolList(): Promise<void> {
     try {
@@ -133,6 +133,7 @@ export class SchoolManagementComponent implements OnInit {
       formData: rowData,
       formAction: 'Update'
     };
+    this.editOpenEvent.emit(rowData);
   }
 
   openDeleteDialog(rowData: any) {
@@ -143,41 +144,42 @@ export class SchoolManagementComponent implements OnInit {
     this.selectedDeletedRecord = rowData;
     this.alertHeader = `Delete ${rowData.SchoolName} Data`;
     this.message = 'Are you sure to delete record?';
+    this.deleteOpenEvent.emit(rowData);
   }
 
   deleteRecord(buttonEvent: any) {
-    this.changeWidth = false;
     this.toastObj = {
       isOpen: false,
       message: "",
       color: 'primary'
     };
-    if (buttonEvent.detail.role === 'confirm') {
-      this.commonServices.updateLoader(true);
-      this.deleteSchoolSubscription = this.schoolServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
-        this.isDeleteOpen = false;
-        let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
-        this.dataSource.data = newData;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    this.deleteRecordEvent.emit(buttonEvent);
+    // if (buttonEvent.detail.role === 'confirm') {
+    //   this.commonServices.updateLoader(true);
+    //   this.deleteSchoolSubscription = this.schoolServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
+    //     this.isDeleteOpen = false;
+    //     let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
+    //     this.dataSource.data = newData;
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
 
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'success';
-        this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
-      }, err => {
-        this.isDeleteOpen = false;
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'danger';
-        this.toastObj.message = ' unable to delete record.';
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
-      });
-    } else {
-      this.isDeleteOpen = false;
-      this.commonServices.updateLoader(false);
-    }
+    //     this.toastObj.isOpen = true;
+    //     this.toastObj.color = 'success';
+    //     this.toastObj.message = res.message;
+    //     this.commonServices.updateToastMessage(this.toastObj);
+    //     this.commonServices.updateLoader(false);
+    //   }, err => {
+    //     this.isDeleteOpen = false;
+    //     this.toastObj.isOpen = true;
+    //     this.toastObj.color = 'danger';
+    //     this.toastObj.message = ' unable to delete record.';
+    //     this.commonServices.updateToastMessage(this.toastObj);
+    //     this.commonServices.updateLoader(false);
+    //   });
+    // } else {
+    //   this.isDeleteOpen = false;
+    //   this.commonServices.updateLoader(false);
+    // }
   }
 
   private updateDataSource(data: any) {
@@ -192,7 +194,6 @@ export class SchoolManagementComponent implements OnInit {
     if (data === null) {
       this.commonServices.updateLoader(false);
       this.formOpen = false;
-      this.changeWidth = false;
       return;
     }
 
@@ -258,15 +259,6 @@ export class SchoolManagementComponent implements OnInit {
     } catch (error) {
       console.error('Error exporting to Excel:', error);
     }
-  }
-  fabButtonEvent() {
-    // console.log('fabButtonEvent: ', this.fab?.activated);
-    // if (!this.fab?.activated) {
-    //   this.changeWidth = true;
-    // } else { 
-    //   this.changeWidth = false;
-    // }
-    this.changeWidth = !this.changeWidth;
   }
   async generatePdf(element: any) {
     let tableBody: any[][] = [];

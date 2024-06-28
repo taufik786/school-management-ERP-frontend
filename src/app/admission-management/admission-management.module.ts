@@ -10,7 +10,7 @@ import { IonicModule } from '@ionic/angular';
 import { MaterialModule } from '../material-module';
 import { StudentFormComponent } from './student-form/student-form.component';
 import { StudentServices } from '../services/student.service';
-import { SharedModule } from '../pipes/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
