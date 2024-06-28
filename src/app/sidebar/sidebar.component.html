@@ -28,7 +28,7 @@
         <mat-nav-list *ngIf="loggedInUser">
           <mat-list-item routerLink="/">
             <button mat-button>
-              <mat-icon>dashboard</mat-icon> Dashboard
+              <mat-icon>home</mat-icon>Dashboard
             </button>
           </mat-list-item>
           <!-- <mat-list-item>
@@ -49,6 +49,26 @@
               <mat-list-item routerLink="admission-management/admission-forms">
                 <button mat-button>
                   <mat-icon>help</mat-icon>Admission Enquiry
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>help</mat-icon>Complain Register
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>help</mat-icon>Familly Information
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>help</mat-icon>Student Information
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="admission-management/admission-forms">
+                <button mat-button>
+                  <mat-icon>help</mat-icon>Instant SMS
                 </button>
               </mat-list-item>
             </mat-expansion-panel>
@@ -83,23 +103,6 @@
           <mat-accordion>
             <mat-expansion-panel>
               <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Classes</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Class
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Class Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
                 <mat-panel-title><mat-icon class="title-icon">person_apron</mat-icon>Staff Management</mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list-item routerLink="admission-management/student">
@@ -124,33 +127,266 @@
               </mat-list-item>
             </mat-expansion-panel>
           </mat-accordion>
-          <mat-list-item routerLink="school-management">
-            <button mat-button>
-              <mat-icon>school</mat-icon> School Management
-            </button>
-          </mat-list-item>
-
-          <!-- <mat-accordion>
-            <mat-expansion-panel
-              (opened)="panelOpenState = true"
-              (closed)="panelOpenState = false"
-            >
+          <mat-accordion>
+            <mat-expansion-panel>
               <mat-expansion-panel-header>
-                <mat-panel-title> School Management </mat-panel-title>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Attendance</mat-panel-title>
               </mat-expansion-panel-header>
-              <mat-list-item>
-                <button routerLink="card" mat-button routerLink="/">
-                  <mat-icon>dashboard</mat-icon> Dashboard
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Staff Attendance
                 </button>
               </mat-list-item>
-              <mat-list-item>
-                <button routerLink="card" mat-button routerLink="/">
-                  <mat-icon>dashboard</mat-icon> Dashboard
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Student Attendance
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Leave Requests
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Attendance Reports
                 </button>
               </mat-list-item>
             </mat-expansion-panel>
-          </mat-accordion> -->
-
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Classes</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Classes
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Class Timetable
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Class Sections
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Class Diary
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Class Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Fee</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Fee Collection
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Print Fee Slips
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Advance Fee
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Fee Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Payroll</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Salary Slips
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Salary Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Finance</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Class
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Class Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Examination</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Datesheet
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Assessments
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Monthly Tests
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Final Results
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Exam Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Curriculum</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Class
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Class Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Transport</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Passengers
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Vehicles
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>apartment</mat-icon>Vehicles Routes
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Reports
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Settings</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>groups</mat-icon>Users Accounts
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Session Promotion
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Campus Settings
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Role
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>trending_up</mat-icon>Auto SMS Alerts
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Setup For Super Admin</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list-item routerLink="classes/class">
+                <button mat-button>
+                  <mat-icon>school</mat-icon> School Management
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>group</mat-icon>Users
+                </button>
+              </mat-list-item>
+              <mat-list-item routerLink="classes/class-reports">
+                <button mat-button>
+                  <mat-icon>group</mat-icon>Role Permission
+                </button>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <!-- <mat-list-item routerLink="school-management">
+            <button mat-button>
+              <mat-icon>school</mat-icon> School Management
+            </button>
+          </mat-list-item> -->
+          <mat-list-item routerLink="school-management">
+            <button mat-button>
+              <mat-icon>Help</mat-icon>Help
+            </button>
+          </mat-list-item>
         </mat-nav-list>
       </mat-drawer>
       <mat-drawer-content>
