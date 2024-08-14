@@ -1,4 +1,4 @@
-<!-- <div>
+<div>
 
   <ion-card style="overflow: auto;">
     <div>
@@ -51,18 +51,10 @@
             {{
             element[column] }} </span>
 
-          <span *ngIf="column === 'Action'" style="display: flex;">
-            <ion-accordion-group>
-              <ion-accordion value="first" toggleIcon="caret-down-sharp" toggleIconSlot="start">
-                <ion-item slot="header" color="light">
-                </ion-item>
-                <div class="ion-padding" slot="content">
+          <span *ngIf="column === 'Action'">
                   <ion-icon class="edit" name="create-outline" size="large" (click)="editRecord(element)"></ion-icon>
                   <ion-icon class="delete" name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
                   <ion-icon name="eye" size="large" color="primary" (click)="generatePdf(element)"></ion-icon>
-                </div>
-              </ion-accordion>
-            </ion-accordion-group>
           </span>
 
           <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'Established'">
@@ -90,13 +82,13 @@
     (didDismiss)="deleteRecord($event)">
   </ion-alert>
 
-</div> -->
-<app-table [dataSource]="dataSource"
+</div>
+<!-- <app-table [dataSource]="dataSource"
  [displayedColumns]="displayedColumns" 
  (formOpenEvent)="openForm($event)" 
  (editOpenEvent)="editRecord($event)"
  (deleteOpenEvent)="openDeleteDialog($event)"
  (deleteRecordEvent)="deleteRecord($event)">
-</app-table>
+</app-table> -->
 <app-school-management-form *ngIf="formOpen" (dataEvent)="receiveData($event)" [formData]="selectedRecord"
   [isOpen]="formOpen"></app-school-management-form>

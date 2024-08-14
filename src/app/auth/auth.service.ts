@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, catchError, filter, take, tap, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { AuthData } from './auth-data.model';
 
@@ -15,19 +15,12 @@ export class AuthService {
   private tokenTimer: any;
   public loggedInUser = new BehaviorSubject<any>(null);
 
-  private refreshingInProgress = false;
-  private accessTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-
   constructor(private http: HttpClient, private router: Router) {
     this.loggedInUser.asObservable();
   }
 
   getAccessToken() {
     return this.accessToken;
-  }
-  getRefreshToken() {
-    return this.refreshToken;
   }
 
   getIsAuth() {
@@ -36,19 +29,23 @@ export class AuthService {
 
   login(authData: AuthData) {
     this.http.post<AuthData>(apiUrl, authData).subscribe({
-      next: (response: any) => {
-        console.log(response,"resss")
-        const accessToken = response.accessToken;
-        this.accessToken = accessToken;
-        const refreshToken = response.refreshToken;
-        this.refreshToken = refreshToken;
-        // this.setAuthTimer(3600);
+      next: (res: any) => {
+        console.log(res, 'resss');
+        this.accessToken = res.accessToken;
+        this.refreshToken = res.refreshToken;
         this.isAuthenticated = true;
-        this.loggedInUser.next(response.data);
-        const now = new Date();
-        const expirationDate = new Date(now.getTime() + 3600 * 1000);
-        console.log(expirationDate);
-        this.saveAuthData(accessToken,refreshToken, expirationDate, response.data);
+        this.loggedInUser.next(res.data);
+        const tokenExpirationDate = new Date(
+          new Date().getTime() + res.tokenExpiresIn
+        );
+        this.tokenTimer = tokenExpirationDate;
+        this.saveAuthData(
+          res.accessToken,
+          res.refreshToken,
+          tokenExpirationDate,
+          res.data
+        );
+        this.autoRenewAccessToken();
         this.router.navigate(['/']);
       },
       error: (e) => {
@@ -64,100 +61,94 @@ export class AuthService {
     if (!authInformation) {
       return;
     }
-    const now = new Date();
-    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-    if (expiresIn > 0) {
-      this.accessToken = authInformation.accessToken;
-      this.refreshToken = authInformation.refreshToken;
-      this.isAuthenticated = true;
-      this.setAuthTimer(expiresIn / 1000);
-      this.loggedInUser.next(authInformation.userData);
-    }
+    this.accessToken = authInformation.accessToken;
+    this.refreshToken = authInformation.refreshToken;
+    this.tokenTimer = authInformation.tokenExpirationDate;
+    this.isAuthenticated = true;
+    this.loggedInUser.next(authInformation.userData);
+    this.autoRenewAccessToken();
   }
 
   logout() {
     this.accessToken = null;
     this.refreshToken = null;
+    this.tokenTimer = null;
     this.isAuthenticated = false;
     this.loggedInUser.next(null);
-    clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/login']);
   }
 
-  private setAuthTimer(duration: number) {
-    console.log('Setting timer: ' + duration);
-    this.tokenTimer = setTimeout(() => {
-      this.logout();
-    }, duration * 1000);
-  }
-
-  private saveAuthData(accessToken: string, refreshToken:string, expirationDate: Date, userData: any) {
+  private saveAuthData(
+    accessToken: string,
+    refreshToken: string,
+    tokenExpirationDate: Date,
+    userData: any
+  ) {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('expiration', expirationDate.toISOString());
+    localStorage.setItem(
+      'tokenExpirationDate',
+      tokenExpirationDate.toISOString()
+    );
     localStorage.setItem('userData', JSON.stringify(userData));
   }
 
   private clearAuthData() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    localStorage.removeItem('expiration');
     localStorage.removeItem('userData');
+    localStorage.removeItem('tokenExpirationDate');
   }
 
   private getAuthData() {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-    const expirationDate = localStorage.getItem('expiration');
+    const tokenExpirationDate = localStorage.getItem('tokenExpirationDate');
     const userData = JSON.parse(localStorage.getItem('userData') as string);
-    if (!accessToken || !refreshToken || !expirationDate || !userData) {
+    if (!accessToken || !refreshToken || !tokenExpirationDate || !userData) {
       return;
     }
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
-      expirationDate: new Date(expirationDate),
+      tokenExpirationDate: new Date(tokenExpirationDate),
       userData: userData,
     };
   }
-  refreshAccessToken(): Observable<any> {
-    // if (this.refreshingInProgress) {
-    //   return this.accessTokenSubject.pipe(
-    //     filter(token => token !== null),
-    //     take(1)
-    //   );
-    // } else {
-    //   this.refreshingInProgress = true;
-    return this.http.post<any>("http://127.0.0.1:5000/api/v1/refreshToken", { refreshToken: this.refreshToken })
-      .pipe(
-        tap(response => {
-          this.accessToken = response.accessToken;
-        }),
-        // catchError(this.handleError)
-        catchError(error => {
-          this.refreshingInProgress = false;
-            return throwError(() => new Error('Failed to refresh access token'));
+
+  autoRenewAccessToken() {
+    const tokenTime = new Date(this.tokenTimer).getTime();
+    const currentTime = new Date().getTime();
+    const delay = tokenTime - currentTime;
+
+    setTimeout(() => {
+      this.http
+        .post<any>('http://127.0.0.1:5000/api/v1/refreshToken', {
+          refreshToken: this.refreshToken,
         })
-      );
-    // }
-  }
-
-  // Error handling method
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('An error occurred:', error);
-    return throwError(() => new Error('Something bad happened; please try again later.'));
-  }
-
-  autoRenewAccessToken(){
-    // console.log(localStorage.getItem("tokenExpiresIn"),"this.tokenExpiresIn")
-    setInterval(() => {
-      this.http.post<any>("http://127.0.0.1:5000/api/v1/refreshToken", { refreshToken: this.refreshToken }).subscribe({
-        next: (response: any) => {
-          this.accessToken = response.accessToken;
-          console.log(response,"ressssssss333")
-        }
-      })
-    }, 10000);
+        .subscribe({
+          next: (res: any) => {
+            this.accessToken = res.accessToken;
+            this.refreshToken = res.refreshToken;
+            this.isAuthenticated = true;
+            this.loggedInUser.next(res.data);
+            const tokenExpirationDate = new Date(
+              new Date().getTime() + res.tokenExpiresIn
+            );
+            this.tokenTimer = tokenExpirationDate;
+            this.saveAuthData(
+              res.accessToken,
+              res.refreshToken,
+              tokenExpirationDate,
+              res.data
+            );
+            this.autoAuthUser();
+          },
+          error: (err:any)=>{
+            this.logout()
+          }
+        });
+    }, delay);
   }
 }

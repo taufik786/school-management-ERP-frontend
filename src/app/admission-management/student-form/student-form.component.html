@@ -15,7 +15,8 @@
           </div>
         </ion-row>
       </ion-header>
-      <ion-content class="ion-padding" [formGroup]="studentForm">
+      <ion-content class="ion-padding" [formGroup]="studentForm" >
+        <div class="container">
         <ion-card class="card-color">
           <ion-card-header class="ion-padding" color="primary">
             <!-- <ion-row class="ion-justify-content-center">
@@ -433,6 +434,7 @@
           </ion-grid>
 
         </ion-card>
+      </div>
       </ion-content>
       <ion-alert [isOpen]="isDeleteOpen" [header]="'Close Form'" [message]="'Are you sure, you want close this form ?'"
         [buttons]="alertButtons" (didDismiss)="closeForm($event)">

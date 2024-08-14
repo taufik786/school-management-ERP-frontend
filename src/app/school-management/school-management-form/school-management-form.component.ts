@@ -59,9 +59,7 @@ export class SchoolManagementFormComponent implements OnInit {
         Validators.maxLength(250),
         Validators.email
       ]),
-      Remarks: new FormControl(this.setFormData('Remarks'), [
-        Validators.maxLength(12),
-      ]),
+      Remarks: new FormControl(this.setFormData('Remarks'), []),
       Established: new FormControl(new Date(this.setFormData('Established')), [
         Validators.required,
       ]),

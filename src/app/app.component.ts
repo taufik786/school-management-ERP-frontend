@@ -1,5 +1,17 @@
-import { Component, EnvironmentInjector, OnInit, Optional, inject } from '@angular/core';
-import { AlertController, IonRouterOutlet, IonicModule, Platform, ToastController } from '@ionic/angular';
+import {
+  Component,
+  EnvironmentInjector,
+  OnInit,
+  Optional,
+  inject,
+} from '@angular/core';
+import {
+  AlertController,
+  IonRouterOutlet,
+  IonicModule,
+  Platform,
+  ToastController,
+} from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { AuthService } from './auth/auth.service';
@@ -9,7 +21,7 @@ import { AuthService } from './auth/auth.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   tap = 0;
 
   constructor(
@@ -17,7 +29,7 @@ export class AppComponent implements OnInit{
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private AuthServices: AuthService,
-    @Optional() private routerOutlet?: IonRouterOutlet,
+    @Optional() private routerOutlet?: IonRouterOutlet
   ) {
     this.platform.ready().then(() => {
       // this.exitAppOnDoubleTap();
@@ -26,12 +38,11 @@ export class AppComponent implements OnInit{
   }
   ngOnInit(): void {
     this.AuthServices.autoAuthUser();
-    this.AuthServices.autoRenewAccessToken();
   }
 
   exitAppOnAlert() {
-    if(Capacitor.getPlatform() == 'android') {
-      this.platform.backButton.subscribeWithPriority(10, async() => {
+    if (Capacitor.getPlatform() == 'android') {
+      this.platform.backButton.subscribeWithPriority(10, async () => {
         if (!this.routerOutlet?.canGoBack()) {
           this.alertExit();
         }
@@ -40,32 +51,31 @@ export class AppComponent implements OnInit{
   }
 
   exitAppOnDoubleTap() {
-    if(Capacitor.getPlatform() == 'android') {
-      this.platform.backButton.subscribeWithPriority(10, async() => {
+    if (Capacitor.getPlatform() == 'android') {
+      this.platform.backButton.subscribeWithPriority(10, async () => {
         if (!this.routerOutlet?.canGoBack()) {
-            // double tap exit
-            this.tap++;
-            if(this.tap == 2) App.exitApp();
-            else {
-              this.doubleTapExitToast();
-            }
+          // double tap exit
+          this.tap++;
+          if (this.tap == 2) App.exitApp();
+          else {
+            this.doubleTapExitToast();
+          }
         }
       });
     }
   }
 
-
   async doubleTapExitToast() {
     console.log('doubletapexit was called!');
     let toast = await this.toastCtrl.create({
-      message: 'Tap back button again to exit the App before I\'m gone',
+      message: "Tap back button again to exit the App before I'm gone",
       duration: 3000,
       position: 'bottom',
-      color: 'primary'
+      color: 'primary',
     });
     toast.present();
     const dismiss = await toast.onDidDismiss();
-    if(dismiss) {
+    if (dismiss) {
       console.log('dismiss: ', dismiss);
       this.tap = 0;
     }
@@ -80,13 +90,15 @@ export class AppComponent implements OnInit{
       buttons: [
         {
           text: 'NO',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'YES',
           role: 'confirm',
-          handler: () => { App.exitApp(); }
-        }
+          handler: () => {
+            App.exitApp();
+          },
+        },
       ],
     });
     alert.present();

@@ -5,10 +5,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SchoolServices } from '../services/school.service';
 import { Subscription } from 'rxjs';
 import { CommonServices } from '../services/common.service';
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-school-management',
@@ -246,18 +242,7 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    if (!this.dataSource || !this.dataSource.data) {
-      console.error('No data to export');
-      return;
-    }
-    try {
-      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource.data);
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-      XLSX.writeFile(wb, 'MatTableData.xlsx');
-    } catch (error) {
-      console.error('Error exporting to Excel:', error);
-    }
+
   }
   fabButtonEvent() {
     // console.log('fabButtonEvent: ', this.fab?.activated);
@@ -269,71 +254,6 @@ export class SchoolManagementComponent implements OnInit {
     this.changeWidth = !this.changeWidth;
   }
   async generatePdf(element: any) {
-    let tableBody: any[][] = [];
-    await Object.keys(element).forEach((key) => {
-      if (!(key === '__v' || key === '_id' || key === 'Deleted')) {
-        const keyName = key.replace(/([A-Z])/g, " $1");
-        const finalKey = key.replace(/([A-Z])/g, " $1").charAt(0).toUpperCase() + keyName.slice(1);
-        tableBody.push([finalKey, element[key] === '' ? 'NIL' : element[key]]);
-      }
-    });
-    const documentDefinition: any = {
-      content: [
-        {
-          columns: [
-            {
-              image: await this.commonServices.convertToBase64('assets/ERP.png'),
-              width: 100,
-              height: 100
-            },
-            {
-              text: 'School Management ERP',
-              style: 'header',
-              alignment: 'center',
-              margin: [0, 35, 0, 0]  // Adjust the margin to align with the images
-            },
-            {
-              image: await this.commonServices.convertToBase64('assets/photo.png'),
-              width: 100,
-              height: 100
-            }
-          ]
-        },
-        {
-          style: 'tableExample',
-          table: {
-            heights: 25,
-            widths: [150, 350],
-            alignment: 'center',
-            body: tableBody
-          }
-        },
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 0, 0, 10]
-        },
-        subheader: {
-          fontSize: 16,
-          bold: true,
-          margin: [0, 10, 0, 5]
-        },
-        tableExample: {
-          margin: [0, 5, 0, 15]
-        },
-        tableHeader: {
-          bold: true,
-          fontSize: 13,
-          color: 'black'
-        }
-      },
-      defaultStyle: {
-        alignment: 'justify'
-      }
-    };
-    pdfMake.createPdf(documentDefinition).open();
-    // pdfMake.createPdf(documentDefinition).download();
+    console.log(element,"lllllllllll")
   }
 }
