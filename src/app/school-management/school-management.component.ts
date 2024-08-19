@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -11,40 +17,30 @@ import { CommonServices } from '../services/common.service';
   templateUrl: './school-management.component.html',
   styleUrls: ['./school-management.component.scss'],
 })
-export class SchoolManagementComponent implements OnInit {
-
-  length = 50;
-  pageSize = 10;
-  pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
-
-  hidePageSize = false;
-  showPageSizeOptions = true;
+export class SchoolManagementComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   showFirstLastButtons = true;
-  disabled = false;
-
-  pageEvent: any = PageEvent;
   schoolListSubscription: Subscription | any;
-  deleteSchoolSubscription: Subscription | any;
-  selectedRecord: any;
-  selectedDeletedRecord: any;
-  isDeleteOpen: boolean = false;
-  message: string = '';
+  selectedRecord: any = {};
   formAction = 'Add';
-  toastObj: any;
-  alertHeader: string = '';
+  alertObj = {
+    formOpen: false,
+    message: '',
+    alertType: '',
+  };
 
   displayedColumns: string[] = [
     'Action',
     'SchoolName',
     'PhoneNumber',
     'Email',
+    'Established',
     'Address',
     'SchoolType',
     'DirectorName',
-    'Established',
     'createdAt',
-    'updatedAt'
+    'updatedAt',
   ];
   dataSource: any = new MatTableDataSource([]);
 
@@ -56,9 +52,9 @@ export class SchoolManagementComponent implements OnInit {
   changeWidth: boolean = false;
 
   constructor(
-    private schoolServices: SchoolServices, private commonServices: CommonServices) {
-
-  }
+    private schoolServices: SchoolServices,
+    private commonServices: CommonServices
+  ) {}
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource([]);
@@ -66,11 +62,11 @@ export class SchoolManagementComponent implements OnInit {
     this.alertButtons = [
       {
         text: 'Cancel',
-        role: 'cancel'
+        role: 'cancel',
       },
       {
         text: 'OK',
-        role: 'confirm'
+        role: 'confirm',
       },
     ];
   }
@@ -78,7 +74,6 @@ export class SchoolManagementComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.commonServices.updateLoader(false);
   }
 
   openForm(formStatus: any) {
@@ -87,38 +82,37 @@ export class SchoolManagementComponent implements OnInit {
     this.selectedRecord = {
       formOpen: formStatus,
       formData: null,
-      formAction: 'Add'
+      formAction: 'Add',
     };
+    this.commonServices.alertMessage(
+      ((this.alertObj.formOpen = false), this.alertObj)
+    );
   }
-  async schoolList(): Promise<void> {
-    try {
-      this.toastObj = {
-        isOpen: false,
-        message: '',
-        color: 'primary',
-      };
-      await this.commonServices.updateLoader(true);
+  schoolList() {
+    this.schoolListSubscription = this.commonServices.updateLoader(true);
 
-      const res: any = await this.schoolServices.allSchoolLists().toPromise();
-      this.dataSource.data = [...res.data].reverse();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.toastObj = {
-        isOpen: true,
-        message: res.message,
-        color: 'success',
-      };
-    } catch {
-      this.dataSource.data = [];
-      this.toastObj = {
-        isOpen: true,
-        message: 'Unable to process at this moment try after sometime.',
-        color: 'danger',
-      };
-    } finally {
-      this.commonServices.updateLoader(false);
-      this.commonServices.updateToastMessage(this.toastObj);
-    }
+    this.schoolServices.allSchoolLists().subscribe({
+      next: (res: any) => {
+        this.dataSource.data = res.data;
+        this.alertObj = {
+          formOpen: true,
+          message: res.message,
+          alertType: 'success',
+        };
+        this.commonServices.alertMessage(this.alertObj);
+        this.commonServices.updateLoader(false);
+      },
+      error: (err) => {
+        this.dataSource.data = [];
+        this.alertObj = {
+          formOpen: true,
+          message: err.error.message,
+          alertType: 'danger',
+        };
+        this.commonServices.alertMessage(this.alertObj);
+        this.commonServices.updateLoader(false);
+      },
+    });
   }
 
   editRecord(rowData: any) {
@@ -127,77 +121,78 @@ export class SchoolManagementComponent implements OnInit {
     this.selectedRecord = {
       formOpen: true,
       formData: rowData,
-      formAction: 'Update'
+      formAction: 'Update',
     };
   }
 
   openDeleteDialog(rowData: any) {
-    if (!rowData?.SchoolName) {
-      throw new Error('Invalid row data or school name');
-    }
-    this.isDeleteOpen = true;
-    this.selectedDeletedRecord = rowData;
-    this.alertHeader = `Delete ${rowData.SchoolName} Data`;
-    this.message = 'Are you sure to delete record?';
+    rowData.isDeleteOpen = true;
+    this.selectedRecord = rowData;
   }
 
   deleteRecord(buttonEvent: any) {
-    this.changeWidth = false;
-    this.toastObj = {
-      isOpen: false,
-      message: "",
-      color: 'primary'
-    };
     if (buttonEvent.detail.role === 'confirm') {
       this.commonServices.updateLoader(true);
-      this.deleteSchoolSubscription = this.schoolServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
-        this.isDeleteOpen = false;
-        let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
-        this.dataSource.data = newData;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      this.schoolServices.deleteSchool(this.selectedRecord._id).subscribe({
+        next: (res: any) => {
+          this.selectedRecord.isDeleteOpen = false;
+          let newData = this.dataSource.data.filter(
+            (scl: any) => scl._id !== res.data._id
+          );
+          this.dataSource.data = newData;
 
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'success';
-        this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
-      }, err => {
-        this.isDeleteOpen = false;
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'danger';
-        this.toastObj.message = ' unable to delete record.';
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+          this.alertObj = {
+            formOpen: true,
+            alertType: 'success',
+            message: res.message,
+          };
+          this.commonServices.alertMessage(this.alertObj);
+          this.commonServices.updateLoader(false);
+        },
+        error: (err) => {
+          this.selectedRecord.isDeleteOpen = false;
+          this.alertObj = {
+            formOpen: true,
+            alertType: 'danger',
+            message: err.error.message,
+          };
+          this.commonServices.alertMessage(this.alertObj);
+          this.commonServices.updateLoader(false);
+        },
       });
     } else {
-      this.isDeleteOpen = false;
+      this.selectedRecord.isDeleteOpen = false;
       this.commonServices.updateLoader(false);
     }
   }
 
   private updateDataSource(data: any) {
-    this.dataSource.data = [data.formData, ...this.dataSource.data.filter((item: { _id: any; }) => item._id !== data.formData._id)];
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.data = [
+      data.formData,
+      ...this.dataSource.data.filter(
+        (item: { _id: any }) => item._id !== data.formData._id
+      ),
+    ];
     this.formOpen = false;
     this.commonServices.updateLoader(false);
   }
 
-  receiveData(data: any) {
+  formOpenStatus(data: any) {
+    this.formOpen = false;
     if (data === null) {
       this.commonServices.updateLoader(false);
-      this.formOpen = false;
       this.changeWidth = false;
       return;
     }
 
     this.commonServices.updateLoader(true);
-    this.formAction === 'Add' ? this.updateDataSource(data) : this.updateDataSourceAfterEdit(data);
+    this.formAction === 'Add'
+      ? this.updateDataSource(data)
+      : this.updateDataSourceAfterEdit(data);
   }
 
   private updateDataSourceAfterEdit(data: any) {
-    this.dataSource.data = this.dataSource.data.map((element: { _id: any; }) => {
+    this.dataSource.data = this.dataSource.data.map((element: { _id: any }) => {
       return element._id === data.formData._id ? data.formData : element;
     });
     this.commonServices.updateLoader(false);
@@ -214,7 +209,9 @@ export class SchoolManagementComponent implements OnInit {
     if (key === '__v' || key === '_id' || key === 'Deleted') {
       return key;
     }
-    return key.replace(/([A-Z])/g, " $1").replace(/^[a-z]/, (match) => match.toUpperCase());
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^[a-z]/, (match) => match.toUpperCase());
   }
 
   /**
@@ -232,28 +229,22 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.schoolListSubscription) {
-      this.schoolListSubscription.unsubscribe();
-    }
-    if (this.deleteSchoolSubscription) {
-      this.deleteSchoolSubscription.unsubscribe();
-    }
-    this.commonServices.updateLoader(false);
+    // if (this.schoolListSubscription) {
+    this.schoolListSubscription.unsubscribe();
+    // }
   }
 
-  exportToExcel(): void {
-
-  }
+  exportToExcel(): void {}
   fabButtonEvent() {
     // console.log('fabButtonEvent: ', this.fab?.activated);
     // if (!this.fab?.activated) {
     //   this.changeWidth = true;
-    // } else { 
+    // } else {
     //   this.changeWidth = false;
     // }
     this.changeWidth = !this.changeWidth;
   }
   async generatePdf(element: any) {
-    console.log(element,"lllllllllll")
+    console.log(element, 'lllllllllll');
   }
 }

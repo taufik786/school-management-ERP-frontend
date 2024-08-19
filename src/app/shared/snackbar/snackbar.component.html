@@ -1,0 +1,6 @@
+<div>
+    <div class="snackbar {{alert.alertType}}" [ngClass]="{'show': alert.formOpen}" (mouseover)="pauseTimer()" (mouseout)="resumeTimer()">
+        <span clas>{{ alert.message }}</span>
+        <mat-icon (click)="closeSnackbar()">close</mat-icon>
+    </div>
+</div>

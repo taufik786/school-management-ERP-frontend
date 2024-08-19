@@ -1,4 +1,15 @@
-.example-spacer {
-    flex: 1 1 auto;
+
+.label {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    margin-right: 5px;
   }
-  
+}
+ion-list .label {
+  padding-left: 16px;
+}
+ion-item:hover {
+  --background: gainsboro;
+  cursor: pointer;
+}

@@ -117,7 +117,7 @@ export class TableComponent implements OnInit, OnChanges {
       };
     } finally {
       this.commonServices.updateLoader(false);
-      this.commonServices.updateToastMessage(this.toastObj);
+      this.commonServices.alertMessage(this.toastObj);
     }
   }
 
@@ -162,14 +162,14 @@ export class TableComponent implements OnInit, OnChanges {
     //     this.toastObj.isOpen = true;
     //     this.toastObj.color = 'success';
     //     this.toastObj.message = res.message;
-    //     this.commonServices.updateToastMessage(this.toastObj);
+    //     this.commonServices.alertMessage(this.toastObj);
     //     this.commonServices.updateLoader(false);
     //   }, err => {
     //     this.isDeleteOpen = false;
     //     this.toastObj.isOpen = true;
     //     this.toastObj.color = 'danger';
     //     this.toastObj.message = ' unable to delete record.';
-    //     this.commonServices.updateToastMessage(this.toastObj);
+    //     this.commonServices.alertMessage(this.toastObj);
     //     this.commonServices.updateLoader(false);
     //   });
     // } else {

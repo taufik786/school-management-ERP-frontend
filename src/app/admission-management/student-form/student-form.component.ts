@@ -194,7 +194,7 @@ export class StudentFormComponent implements OnInit {
       this.toastObj.isOpen = true;
       this.toastObj.color = 'danger';
       this.toastObj.message = "Please fix higlighted issue.";
-      this.commonServices.updateToastMessage(this.toastObj);
+      this.commonServices.alertMessage(this.toastObj);
       this.commonServices.updateLoader(false);
       this.markFormTouched(this.studentForm);
       return;
@@ -211,14 +211,14 @@ export class StudentFormComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       });
     } else {
@@ -229,14 +229,14 @@ export class StudentFormComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       });
     }

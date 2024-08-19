@@ -1,94 +1,122 @@
-<div>
+<ion-content>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="12" size-md="10" align-self-stretch>
+          <ion-button (click)="openForm(true)" size="round">
+            <ion-icon name="add" size="large"></ion-icon>
+            <span>Add School</span>
+          </ion-button>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
+          <ion-item>
+            <ion-input
+              (keyup)="applyFilter($event)"
+              label="Search record"
+              labelPlacement="floating"
+              type="text"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
 
-  <ion-card style="overflow: auto;">
-    <div>
-      <ion-grid>
-        <ion-row>
-          <ion-col size-xs="12" size-sm="12" size-md="10" align-self-stretch>
-            <ion-button (click)="openForm(true)" size="round">
-              <ion-icon name="add" size="large"></ion-icon> <span>Add School</span>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-grid>
-        <ion-row class="ion-justify-content-end">
-          <ion-col size-lg="1" size-xl="1" size-sm="2" size-xs="2">
-            <ion-fab>
-              <ion-fab-button color="light">
-                <ion-icon name="chevron-back-circle-outline" size="large"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-list side="start">
-                <ion-fab-button color="light" (click)="schoolList()">
-                  <ion-icon name="refresh-outline"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button color="light" (click)="exportToExcel()">
-                  <ion-icon name="arrow-down-circle-outline"></ion-icon>
-                </ion-fab-button>
-              </ion-fab-list>
-            </ion-fab>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-input style="width: 50%" (keyup)="applyFilter($event)" label="Search record" fill="outline"
-              labelPlacement="floating" type="text">
-            </ion-input>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc"
-      class="example-container mat-elevation-z0">
-      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          {{ capitalize(column) }}</th>
-        <td mat-cell *matCellDef="let element;">
+  <ion-card-content style="overflow: auto">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortDirection="desc"
+      class="mat-elevation-z8"
+    >
+      <!-- Define columns -->
+      <ng-container
+        *ngFor="let column of displayedColumns"
+        [matColumnDef]="column"
+      >
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by number"
+        >
+          {{ column }}
+        </th>
+        <td mat-cell *matCellDef="let element">
           <span
-            *ngIf="!(column === 'Action' || column === 'createdAt' || column === 'updatedAt' || column === 'Established')">
-            {{
-            element[column] }} </span>
-
-          <span *ngIf="column === 'Action'">
-                  <ion-icon class="edit" name="create-outline" size="large" (click)="editRecord(element)"></ion-icon>
-                  <ion-icon class="delete" name="trash" size="large" (click)="openDeleteDialog(element)"></ion-icon>
-                  <ion-icon name="eye" size="large" color="primary" (click)="generatePdf(element)"></ion-icon>
+            *ngIf="
+              !(
+                column === 'Action' ||
+                column === 'createdAt' ||
+                column === 'updatedAt' ||
+                column === 'Established'
+              )
+            "
+            >{{ element[column] }}
           </span>
 
-          <span *ngIf="column === 'createdAt' || column === 'updatedAt' || column === 'Established'">
-            {{ element[column] | localDateTime:"dateTime" }}
+          <span *ngIf="column === 'Action'" style="display: flex">
+            <ion-icon
+              class="edit"
+              name="create-outline"
+              size="large"
+              (click)="editRecord(element)"
+            ></ion-icon>
+            <ion-icon
+              class="delete"
+              name="trash"
+              size="large"
+              (click)="openDeleteDialog(element)"
+            ></ion-icon>
           </span>
 
+          <span
+            *ngIf="
+              column === 'createdAt' ||
+              column === 'updatedAt' ||
+              column === 'Established'
+            "
+          >
+            {{ element[column] | localDateTime : "dateTime" }}
+          </span>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-cell" colspan="4">No data found</td>
       </tr>
-      <div class="mat-row" *matNoDataRow>
-        <div class="mat-cell ion-padding">
-          <h3>No data Found</h3>
-        </div>
-      </div>
     </table>
-  </ion-card>
-  <mat-paginator style="border-top:1px solid #80808045;" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-    aria-label="Select page of periodic elements">
+  </ion-card-content>
+  <mat-paginator
+    style="border-top: 1px solid #80808045"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
   </mat-paginator>
 
-  <ion-alert [isOpen]="isDeleteOpen" [header]="alertHeader" [message]="message" [buttons]="alertButtons"
-    (didDismiss)="deleteRecord($event)">
+  <ion-alert
+    [isOpen]="selectedRecord.isDeleteOpen"
+    [header]="['Delete - '+selectedRecord.SchoolName]"
+    [message]="'Are you sure to delete record?'"
+    [buttons]="alertButtons"
+    (didDismiss)="deleteRecord($event)"
+  >
   </ion-alert>
 
-</div>
-<!-- <app-table [dataSource]="dataSource"
+  <!-- <app-table [dataSource]="dataSource"
  [displayedColumns]="displayedColumns" 
  (formOpenEvent)="openForm($event)" 
  (editOpenEvent)="editRecord($event)"
  (deleteOpenEvent)="openDeleteDialog($event)"
  (deleteRecordEvent)="deleteRecord($event)">
 </app-table> -->
-<app-school-management-form *ngIf="formOpen" (dataEvent)="receiveData($event)" [formData]="selectedRecord"
-  [isOpen]="formOpen"></app-school-management-form>
+  <app-school-management-form
+    *ngIf="formOpen"
+    (formOpenStatus)="formOpenStatus($event)"
+    [formData]="selectedRecord"
+  ></app-school-management-form>
+</ion-content>

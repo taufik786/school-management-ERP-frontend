@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { IonDatetime, IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SchoolServices } from '../../services/school.service';
-import { Subscription } from 'rxjs';
 import { CommonServices } from 'src/app/services/common.service';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-school-management-form',
@@ -13,21 +15,38 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./school-management-form.component.scss'],
 })
 export class SchoolManagementFormComponent implements OnInit {
-
-  @ViewChild(IonModal) modal: IonModal | any;
   schoolForm: FormGroup | any;
-  addSchoolSubscription: Subscription | any;
-  @Output() dataEvent = new EventEmitter<any>();
+  @Output() formOpenStatus = new EventEmitter<any>();
   @Input() formData: any;
-  @Input() isOpen: any = false;
 
-  toastObj: any;
+  alertObj: any = {
+    formOpen: false,
+    message: '',
+    alertType: '',
+  };
 
-  constructor(private schoolServices: SchoolServices, private commonServices: CommonServices) {
-  }
+  public alertButtons = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        // console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'Yes',
+      role: 'confirm',
+      handler: () => {
+        // console.log('Alert confirmed');
+      },
+    },
+  ];
+  constructor(
+    private schoolServices: SchoolServices,
+    private commonServices: CommonServices
+  ) {}
 
   ngOnInit() {
-    this.isOpen = this.formData.formOpen;
     this.schoolForm = new FormGroup({
       SchoolName: new FormControl(this.setFormData('SchoolName'), [
         Validators.required,
@@ -36,28 +55,28 @@ export class SchoolManagementFormComponent implements OnInit {
       ]),
       DirectorName: new FormControl(this.setFormData('DirectorName'), [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(2),
         Validators.maxLength(250),
       ]),
       SchoolType: new FormControl(this.setFormData('SchoolType'), [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(2),
         Validators.maxLength(250),
       ]),
       Address: new FormControl(this.setFormData('Address'), [
-        Validators.required
+        Validators.required,
       ]),
       PhoneNumber: new FormControl(this.setFormData('PhoneNumber'), [
         Validators.required,
         Validators.pattern(/^\+?[1-9]\d{1,14}$/),
         Validators.minLength(10),
-        Validators.maxLength(12)
+        Validators.maxLength(12),
       ]),
       Email: new FormControl(this.setFormData('Email'), [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
-        Validators.email
+        Validators.email,
       ]),
       Remarks: new FormControl(this.setFormData('Remarks'), []),
       Established: new FormControl(new Date(this.setFormData('Established')), [
@@ -68,34 +87,31 @@ export class SchoolManagementFormComponent implements OnInit {
   }
 
   setFormData(controlName: string) {
-    if (!(this.formData.formData === undefined || this.formData.formData === null)) {
+    if (
+      !(this.formData.formData === undefined || this.formData.formData === null)
+    ) {
       return this.formData.formData[controlName];
     } else {
       return '';
     }
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-    this.dataEvent.emit(null);
-  }
-
   isErrorMessage(control: string): boolean {
-    return this.schoolForm.controls[control].invalid && (this.schoolForm.controls[control].dirty || this.schoolForm.controls[control].touched)
+    return (
+      this.schoolForm.controls[control].invalid &&
+      (this.schoolForm.controls[control].dirty ||
+        this.schoolForm.controls[control].touched)
+    );
   }
 
-  async save() {
-    this.toastObj = {
-      isOpen: false,
-      message: "",
-      color: 'primary'
-    };
+  save() {
+    console.log(this.formData.formData, 'this.formData.formData');
     this.commonServices.updateLoader(true);
     if (this.schoolForm.invalid) {
-      this.toastObj.isOpen = true;
-      this.toastObj.color = 'danger';
-      this.toastObj.message = "Please fix higlighted issue.";
-      this.commonServices.updateToastMessage(this.toastObj);
+      this.alertObj.formOpen = true;
+      this.alertObj.alertType = 'danger';
+      this.alertObj.message = 'Please fix the higlighted issue.';
+      this.commonServices.alertMessage(this.alertObj);
       this.commonServices.updateLoader(false);
       this.markFormTouched(this.schoolForm);
       return;
@@ -104,41 +120,47 @@ export class SchoolManagementFormComponent implements OnInit {
     if (this.formData.formAction === 'Add') {
       let addData = this.schoolForm.value;
       delete addData._id;
-      this.addSchoolSubscription = await this.schoolServices.addSchool(addData).subscribe((res: any) => {
-        this.formData.formData = res.data;
-        this.dataEvent.emit(this.formData);
-        this.commonServices.updateLoader(false);
-
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'success';
-        this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
-        this.modal.dismiss(this.formData, 'save');
-      }, (err: any) => {
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'danger';
-        this.toastObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+      this.schoolServices.addSchool(addData).subscribe({
+        next: (res: any) => {
+          this.alertObj.formOpen = true;
+          this.alertObj.alertType = 'success';
+          this.alertObj.message = res.message;
+          this.commonServices.alertMessage(this.alertObj);
+          this.commonServices.updateLoader(false);
+          this.formData.formData = res.data;
+          this.formOpenStatus.emit(
+            ((this.formData.formData = res.data), this.formData)
+          );
+        },
+        error: (err) => {
+          this.alertObj.formOpen = true;
+          this.alertObj.alertType = 'danger';
+          this.alertObj.message = err.error.message;
+          this.commonServices.alertMessage(this.alertObj);
+          this.commonServices.updateLoader(false);
+        },
+        complete: () => {},
       });
     } else {
-      this.addSchoolSubscription = await this.schoolServices.editSchool(this.schoolForm.value).subscribe((res: any) => {
-        this.formData.formData = res.data;
-        this.dataEvent.emit(this.formData);
+      this.schoolServices.editSchool(this.schoolForm.value).subscribe({
+        next: (res: any) => {
+          this.formData.formData = res.data;
 
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'success';
-        this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
-        this.modal.dismiss(this.formData, 'save');
-      }, (err: any) => {
-        this.toastObj.isOpen = true;
-        this.toastObj.color = 'danger';
-        this.toastObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.updateToastMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+          this.alertObj.formOpen = true;
+          this.alertObj.alertType = 'success';
+          this.alertObj.message = res.message;
+          this.commonServices.alertMessage(this.alertObj);
+          this.commonServices.updateLoader(false);
+          this.formOpenStatus.emit(this.formData);
+        },
+        error: (err) => {
+          this.alertObj.formOpen = true;
+          this.alertObj.alertType = 'danger';
+          this.alertObj.message = err.error.message;
+          this.commonServices.alertMessage(this.alertObj);
+          this.commonServices.updateLoader(false);
+        },
+        complete: () => {},
       });
     }
   }
@@ -155,18 +177,12 @@ export class SchoolManagementFormComponent implements OnInit {
     });
   }
 
-  onWillDismiss(event: Event) {
-    this.modal.dismiss(null, 'cancel');
-    this.dataEvent.emit(null);
-  }
-
-  ngOnDestroy(): void {
-    if (this.addSchoolSubscription) {
-      this.addSchoolSubscription.unsubscribe();
+  closeForm(ev: any) {
+    // console.log(`Dismissed with role: ${ev.detail.role}`);
+    if (ev.detail.role === 'confirm') {
+      this.formOpenStatus.emit(null);
+      this.alertObj.formOpen = false;
+      this.commonServices.alertMessage(this.alertObj);
     }
-    this.modal.dismiss(null, 'cancel');
-    this.dataEvent.emit(null);
-    this.commonServices.updateLoader(false);
   }
-
 }

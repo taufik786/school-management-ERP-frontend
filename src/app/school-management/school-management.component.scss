@@ -1,66 +1,25 @@
-// .formOverlay{
-//     background-color: #00000078;
-//     /* position: absolute; */
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     overflow: auto;
-//   }
-//   .navbar{
-//     background-color: #778899 !important;
-//     color: white;
-//   }
-  
-//   .left-info{
-//     display: flex;
-//     align-items: center;
-//     span{
-//       color: white;
-//       font-size: 24px
-//     };
-//     p{
-//       margin: 0;
-//       font-size: 20px;
-//     }
-//   }
-//   .form-fields{
-//     position: absolute;
-//     left: 0;
-//     right: 0;
-//     top: 55px;
-//     bottom: 0;
-//   }
-  // table{
-  //   min-height: 350px;
-  //   td{
-  //     min-width: 100px !important;
-  //   }
-  // }
-  
-  
-  // .edit, .delete{
-  //   cursor: pointer;
-  // }
-  // .delete{
-  //   color: red;
-  //   margin-left: 8px;
-  // }
-  // .edit{
-  //   color: green;
-  // }
-  // .example-container {
-  //   height: 400px;
-  //   overflow: auto;
-  // }
-  
-  // table {
-  //   width: 100%;
-  // }
-  
-  // th,
-  // td {
-  //   padding-right: 10px !important;
-  // }
-  
+table {
+  min-height: 350px;
+  td {
+    min-width: 100px !important;
+  }
+}
+
+.edit,
+.delete {
+  cursor: pointer;
+}
+.delete {
+  color: red;
+  margin-left: 8px;
+}
+.edit {
+  color: green;
+}
+
+.no-data-cell {
+  text-align: end;
+  font-weight: bold;
+  color: #757575;
+  width: 100%;
+}

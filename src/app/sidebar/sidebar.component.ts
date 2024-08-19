@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServices } from '../services/common.service';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { MenuController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,9 +10,8 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  isLoader = false;
   isToaster = false;
-  toastMessage: any;
+  alertInfo: any;
   toastColor: string = 'primary';
   dismiss = [
     {
@@ -22,44 +23,26 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private commonService: CommonServices,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private menuCntrl: MenuController,
+    private navCntrl: NavController
   ) {}
 
   ngOnInit(): void {
     this.logedInStatus = this.authService.getIsAuth();
-    this.initializeLoader();
-    this.initializeToaster();
-
     this.authService.loggedInUser.subscribe((res) => {
       this.loggedInUser = res;
     });
   }
 
-  initializeLoader(): void {
-    this.commonService.isloader.subscribe((flag: boolean) => {
-      this.isLoader = flag;
-    });
-  }
-
-  async initializeToaster(): Promise<void> {
-    this.commonService.toastMessage.subscribe(async (obj: any) => {
-      this.isToaster = obj.isOpen;
-      this.toastColor = obj.color;
-      this.toastMessage = obj.message;
-
-      await setTimeout(async () => {
-        this.isToaster = false;
-        this.toastColor = 'primary';
-        this.toastMessage = '';
-      }, 5000);
-    });
+  openItems(path: string) {
+    this.navCntrl.setDirection('root');
+    this.router.navigateByUrl(path);
+    this.menuCntrl.toggle();
   }
 
   onLogout(): void {
-    // this.commonService.updateLoader(true);
-    // setTimeout(() => {
-      // this.commonService.updateLoader(false);
-      this.authService.logout();
-    // }, 500);
+    this.authService.logout();
   }
 }

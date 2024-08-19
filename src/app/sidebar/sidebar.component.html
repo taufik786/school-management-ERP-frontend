@@ -1,415 +1,287 @@
 <ion-app>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-menu-toggle>
+          <ion-button color="danger"><mat-icon>close</mat-icon></ion-button>
+        </ion-menu-toggle>
+      </ion-toolbar>
+    </ion-header>
+    <!-- <ion-content class="ion-padding">This is the menu content.</ion-content> -->
+    <ion-content>
+      <!-- <ion-accordion-group [multiple]="true" [value]="['first', 'third']"> -->
+      <ion-accordion-group [multiple]="true">
+        <ion-item (click)="openItems('/')">
+          <ion-label class="label"><mat-icon>home</mat-icon>Dashboard</ion-label>
+        </ion-item>
+        <ion-accordion value="Front Desk">
+          <ion-item slot="header" color="light">
+            <ion-label class="label" class="label"><mat-icon>computer</mat-icon>Front Desk</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label">Visitor Register</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label">Admission Enquiry</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label">Complain Register</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label">Familly Information</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label">Student Information</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label">Instant SMS</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Admission Management">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>group</mat-icon>Admission Management</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>person_add</mat-icon>Students</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>picture_as_pdf</mat-icon>Admission Forms</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>person_remove</mat-icon>Withdrawal Students</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Student Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Staff Management">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>person_apron</mat-icon>Staff Management</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>supervisor_account</mat-icon>Staff</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>payments</mat-icon>Salary Allowance</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>credit_card_off</mat-icon>Salary Deduction</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Staff Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Attendance">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Attendance</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Staff Attendance</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Student Attendance</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Leave Requests</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Attendance Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Classes">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Classes</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Classes</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Class Timetable</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Class Sections</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Class Diary</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Class Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Fee">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Fee</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Fee Collection</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Print Fee Slips</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Advance Fee</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Fee Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Payroll">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Payroll</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Salary Slips</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Salary Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Finance">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Finance</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Class</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Class Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Examination">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Examination</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Datesheet</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Assessments</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Monthly Tests</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Final Results</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Exam Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Curriculum">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Curriculum</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Class</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Class Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Transport">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Transport</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Passengers</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Vehicles</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Vehicles Routes</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Reports</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Settings">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Settings</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Users Accounts</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Session Promotion</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Campus Settings</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Role</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Auto SMS Alerts</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-accordion value="Setup For Super Admin">
+          <ion-item slot="header" color="light">
+            <ion-label class="label"><mat-icon>groups</mat-icon>Setup For Super Admin</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item (click)="openItems('/school-management')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>School Management</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Users</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Role Permission</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/admission-management/student')">
+              <ion-label class="label"><mat-icon>apartment</mat-icon>Role</ion-label>
+            </ion-item>
+            <ion-item (click)="openItems('/')">
+              <ion-label class="label"><mat-icon>trending_up</mat-icon>Auto SMS Alerts</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+        <ion-item (click)="openItems('/')">
+          <ion-label class="label"><mat-icon>help</mat-icon>Help</ion-label>
+        </ion-item>
+      </ion-accordion-group>
+    </ion-content>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    
+    <app-spinner></app-spinner>
+    <app-snackbar></app-snackbar>
 
-  <ion-header [translucent]="true">
-    <mat-toolbar color="primary" class="mat-elevation-z8">
-      <mat-toolbar-row>
-        <button (click)="drawer.toggle()" mat-icon-button *ngIf="loggedInUser">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">School Management ERP <span
-            style="color: greenyellow">{{loggedInUser?.Name}}</span></span>
-        <span class="example-spacer"></span>
-        <ion-button (click)="onLogout()" color="light" *ngIf="loggedInUser">
-          <span class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">Logout</span>
-          <ion-icon name="log-out-outline" *ngIf="logedInStatus" size="large"></ion-icon>
-        </ion-button>
-        <!-- <ion-chip id="click-trigger" *ngIf="loggedInUser" style="background: inherit;">
-          <ion-icon name="person-circle-sharp" size="large"></ion-icon>
-          <ion-label class="ion-hide-sm-down ion-hide-xs-down ion-hide-md-down">{{loggedInUser?.Name}}</ion-label>
-        </ion-chip> -->
-        <!-- <ion-popover trigger="click-trigger" triggerAction="click" size="cover">
-          <ng-template>
-            <div>
-              {{loggedInUser?.Name}}
-            </div>
-            <div>
-              <ion-button (click)="onLogout()" color="light" *ngIf="loggedInUser" size="small">
-                Logout
-                <ion-icon name="log-out-outline" *ngIf="logedInStatus"></ion-icon>
-              </ion-button>
-            </div>
-          </ng-template>
-        </ion-popover> -->
-      </mat-toolbar-row>
-    </mat-toolbar>
-  </ion-header>
-
-  <ion-loading [isOpen]="isLoader"></ion-loading>
-  <ion-toast [isOpen]="isToaster" [message]="toastMessage" [color]="toastColor" cssClass="custom-toast"
-    [buttons]="dismiss" [position]="'bottom'" duration="5000"></ion-toast>
-
-  <ion-content [fullscreen]="false">
-    <!-- <mat-drawer-container autosize> -->
-    <mat-drawer-container style="height: 92.4vh">
-      <!-- <mat-drawer #drawer opened="false" mode="over" position="start"> -->
-      <mat-drawer #drawer opened="false" mode="side" position="start">
-        <mat-nav-list *ngIf="loggedInUser">
-          <mat-list-item routerLink="/">
-            <button mat-button>
-              <mat-icon>home</mat-icon>Dashboard
-            </button>
-          </mat-list-item>
-          <!-- <mat-list-item>
-            <button routerLink="card" mat-button>
-              <mat-icon>Admission Managemet</mat-icon> Admission Management
-            </button>
-          </mat-list-item> -->
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">computer</mat-icon>Front Desk</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="admission-management/student">
-                <button mat-button>
-                  <mat-icon>help</mat-icon>Visitor Register
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>help</mat-icon>Admission Enquiry
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>help</mat-icon>Complain Register
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>help</mat-icon>Familly Information
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>help</mat-icon>Student Information
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>help</mat-icon>Instant SMS
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">group</mat-icon> Admission Management </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="admission-management/student">
-                <button mat-button>
-                  <mat-icon>person_add</mat-icon>Students
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>picture_as_pdf</mat-icon> Admission Forms
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>person_remove</mat-icon> Withdrawal Students
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon> Student Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">person_apron</mat-icon>Staff Management</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="admission-management/student">
-                <button mat-button>
-                  <mat-icon>supervisor_account</mat-icon>Staff
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>payments</mat-icon>Salary Allowance
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>credit_card_off</mat-icon>Salary Deduction
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="admission-management/admission-forms">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Staff Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Attendance</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Staff Attendance
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Student Attendance
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Leave Requests
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Attendance Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Classes</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Classes
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Class Timetable
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Class Sections
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Class Diary
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Class Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Fee</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Fee Collection
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Print Fee Slips
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Advance Fee
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Fee Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Payroll</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Salary Slips
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Salary Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Finance</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Class
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Class Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Examination</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Datesheet
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Assessments
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Monthly Tests
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Final Results
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Exam Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Curriculum</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Class
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Class Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Transport</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Passengers
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Vehicles
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>apartment</mat-icon>Vehicles Routes
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Reports
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Settings</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="classes/class">
-                <button mat-button>
-                  <mat-icon>groups</mat-icon>Users Accounts
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Session Promotion
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Campus Settings
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Role
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>trending_up</mat-icon>Auto SMS Alerts
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><mat-icon class="title-icon">groups</mat-icon>Setup For Super Admin</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-list-item routerLink="school-management">
-                <button mat-button>
-                  <mat-icon>school</mat-icon> School Management
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>group</mat-icon>Users
-                </button>
-              </mat-list-item>
-              <mat-list-item routerLink="classes/class-reports">
-                <button mat-button>
-                  <mat-icon>group</mat-icon>Role Permission
-                </button>
-              </mat-list-item>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <!-- <mat-list-item routerLink="school-management">
-            <button mat-button>
-              <mat-icon>school</mat-icon> School Management
-            </button>
-          </mat-list-item> -->
-          <mat-list-item routerLink="school-management">
-            <button mat-button>
-              <mat-icon>Help</mat-icon>Help
-            </button>
-          </mat-list-item>
-        </mat-nav-list>
-      </mat-drawer>
-      <mat-drawer-content>
-        <router-outlet></router-outlet>
-      </mat-drawer-content>
-    </mat-drawer-container>
-  </ion-content>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title routerLink="/">School Management ERP</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-router-outlet></ion-router-outlet>
+    </ion-content>
+  </div>
 </ion-app>

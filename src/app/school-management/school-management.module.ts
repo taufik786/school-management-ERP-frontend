@@ -11,6 +11,9 @@ import { SchoolManagementFormComponent } from './school-management-form/school-m
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { TableComponent } from '../common-component/table/table.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -23,7 +26,8 @@ import { TableComponent } from '../common-component/table/table.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    IonicModule.forRoot()
+    IonicModule.forRoot(),
+    MatFormFieldModule, MatSelectModule, MatButtonModule
   ],
   providers: [SchoolServices],
   // exports: [ CommonPipe, FormValidationPipe]

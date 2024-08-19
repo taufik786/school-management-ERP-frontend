@@ -1,0 +1,37 @@
+.snackbar {
+  visibility: hidden;
+  min-width: 350px;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 16px;
+  position: fixed;
+  z-index: 99;
+  right: 30px;
+  bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: visibility 0s, opacity 0.5s linear;
+  opacity: 0;
+}
+.danger {
+  background-color: red;
+}
+.success {
+  background-color: green;
+}
+.warning {
+  background-color: orange;
+  span {
+    color: black;
+  }
+}
+.snackbar.show {
+  visibility: visible;
+  opacity: 1;
+}
+mat-icon{
+    cursor: pointer;
+}

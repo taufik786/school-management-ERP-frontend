@@ -30,10 +30,10 @@ export class FormValidationPipe implements PipeTransform {
           errorMessages.push('Please provide valid email.');
           break;
         case 'minlength':
-          errorMessages.push(`Minimum length is ${errors['minlength'].requiredLength}.`);
+          errorMessages.push(`Minimum length should be ${errors['minlength'].requiredLength}.`);
           break;
         case 'maxlength':
-          errorMessages.push(`Maximum length  is ${errors['maxlength'].requiredLength}.`);
+          errorMessages.push(`Maximum length should be ${errors['maxlength'].requiredLength}.`);
           break;
         case 'pattern':
           // errorMessages.push(`Invalid ${controlName}.`);

@@ -141,7 +141,7 @@ export class AdmissionManagementComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        await this.commonServices.updateToastMessage(this.toastObj);
+        await this.commonServices.alertMessage(this.toastObj);
         await this.commonServices.updateLoader(false);
       }, err => {
         this.dataSource.data = [];
@@ -151,7 +151,7 @@ export class AdmissionManagementComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = 'Unable to process at this moment try after sometime.';
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       });
     }
@@ -192,14 +192,14 @@ export class AdmissionManagementComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       }, err => {
         this.isDeleteOpen = false;
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = ' unable to delete record.';
-        this.commonServices.updateToastMessage(this.toastObj);
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       });
     } else {
