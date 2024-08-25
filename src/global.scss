@@ -36,7 +36,22 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-.alert-color{
-    background: red !important;
-    color: white;
+.alert-color {
+  background: red !important;
+  color: white;
+}
+.edit,
+.delete {
+  cursor: pointer;
+}
+.delete {
+  color: red;
+  margin-left: 8px;
+}
+.edit {
+  color: green;
+}
+.form-header{
+  background-color: #e6e5bde3;
+  color: black;
 }

@@ -1,7 +1,49 @@
 <ion-content>
+<button (click)="openform()">Open modal</button>
+  <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)" keyboardClose="true" backdropDismiss="true"
+  class="form-modal">
+  <ng-template>
+    <ion-header class="ion-padding form-header">
+      <ion-row class="ion-justify-content-between">
+        <ion-row class="ion-align-items-center">
+          <ion-icon name="close" size="large" id="present-alert" title="Close Form" (click)="openAlertModal()"></ion-icon>
+          <ion-title size="large">Add Form</ion-title>
+        </ion-row>
+        <div>
+          <ion-button slot="end" color="medium"  color="success">Save</ion-button>
+        </div>
+      </ion-row>
+    </ion-header>
+    <ion-content class="ion-padding" >
+      <div class="container">
+        <ion-card class="card-color">
+          <ion-card-header class="ion-padding" color="primary">
+            <!-- <ion-row class="ion-justify-content-center">
+            <div style="margin-top: 10px;"> -->
+            <ion-card-title size="large">Personal Detail</ion-card-title>
+            <!-- </div>
+          </ion-row> -->
+          </ion-card-header>
+          <ion-grid>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                <ion-item>
+                  <ion-input label="Remarks" labelPlacement="floating" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-card>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<ion-alert [isOpen]="isDeleteOpen" [header]="'Close Form'" [message]="'Are you sure, you want close this form ?'"
+        [buttons]="alertButtons" (didDismiss)="closeForm($event)">
+      </ion-alert>
+
   <ion-grid>
-    <app-snackbar></app-snackbar>
-    
     <mat-toolbar color="warn">
       <mat-toolbar-row>
         <span>Custom Toolbar</span>

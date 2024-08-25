@@ -1,444 +1,442 @@
 <ion-content class="ion-padding">
-  <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)" keyboardClose="true" backdropDismiss="true"
-    class="form-modal">
-    <ng-template>
-      <ion-header class="ion-padding" style="background-color: lightgray;">
-        <ion-row class="ion-justify-content-between">
-          <div style="margin-top: 6px;">
-            <ion-icon name="close" size="large" (click)="openAlertModal()"></ion-icon>
-          </div>
-          <div style="margin-top: 10px;">
-            <ion-title size="large">{{formData.formAction === 'Add' ? 'Add' : 'Edit'}} School Form</ion-title>
-          </div>
-          <div>
-            <ion-button slot="end" color="success" (click)="save()">Save</ion-button>
-          </div>
-        </ion-row>
-      </ion-header>
-      <ion-content class="ion-padding" [formGroup]="studentForm" >
-        <div class="container">
-        <ion-card class="card-color">
-          <ion-card-header class="ion-padding" color="primary">
-            <!-- <ion-row class="ion-justify-content-center">
-              <div style="margin-top: 10px;"> -->
-                <ion-card-title size="large">Personal Detail</ion-card-title>
-              <!-- </div>
-            </ion-row> -->
-          </ion-card-header>
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="First Name *" labelPlacement="floating" type="text" formControlName="FirstName"
-                    required="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FirstName')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['FirstName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Middle Name" labelPlacement="floating" type="text"
-                    formControlName="MiddleName"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MiddleName')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['MiddleName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Last Name *" labelPlacement="floating" type="text"
-                    formControlName="LastName"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('LastName')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['LastName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Religion *" labelPlacement="floating" type="text" formControlName="Religion"
-                    required="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Religion')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Religion'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Caste *" labelPlacement="floating" type="text" formControlName="Caste"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Caste')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Caste'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Category *" labelPlacement="floating" type="text"
-                    formControlName="Category"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Category')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Category'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-row>
-                  <ion-col size-xs="12" size-sm="12" size-md="4">
-                    <div class="ion-padding">
-                      <ion-label>Gender *</ion-label>
+    <ion-modal [isOpen]="this.formData.formOpen" keyboardClose="true" backdropDismiss="true"
+        class="form-modal">
+        <ng-template>
+            <ion-header class="ion-padding form-header">
+                <ion-row class="ion-justify-content-between">
+                    <ion-row class="ion-align-items-center">
+                        <ion-icon name="close" size="large" (click)="openAlertModal(true)" title="Close Form"
+                            ></ion-icon>
+                        <ion-title size="large">{{ formData.formAction === "Add" ? "Add" : "Edit" }} Student Form</ion-title>
+                    </ion-row>
+                    <div>
+                        <ion-button slot="end" color="medium" (click)="save()" color="success">Save</ion-button>
                     </div>
-                  </ion-col>
-                  <ion-col size-xs="12" size-sm="12" size-md="8">
-                    <ion-list class="ion-padding-vertical">
-                      <ion-radio-group formControlName="Gender">
-                        <ion-radio value="Male"><span class="ion-padding-horizontal">Male</span></ion-radio>
-                        <ion-radio value="Female"><span class="ion-padding-horizontal">Female</span></ion-radio>
-                        <ion-radio value="Others"><span class="ion-padding-horizontal">Others</span></ion-radio>
-                      </ion-radio-group>
-                    </ion-list>
-
-                    <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Gender')">
-                      <mat-error
-                        *ngFor="let message of studentForm.controls['Gender'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                    </div>
-                  </ion-col>
                 </ion-row>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-select label="Blood Group *" label-placement="floating" formControlName="BloodGroup">
-                    <ion-select-option value="">Select</ion-select-option>
-                    <ion-select-option value="A+">A+</ion-select-option>
-                    <ion-select-option value="A-">A-</ion-select-option>
-                    <ion-select-option value="B+">B+</ion-select-option>
-                    <ion-select-option value="B-">B-</ion-select-option>
-                    <ion-select-option value="AB+">AB+</ion-select-option>
-                    <ion-select-option value="AB-">AB-</ion-select-option>
-                    <ion-select-option value="O+">O+</ion-select-option>
-                    <ion-select-option value="O-">O-</ion-select-option>
-                  </ion-select>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('BloodGroup')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['BloodGroup'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+            </ion-header>
+            <ion-content class="ion-padding" [formGroup]="studentForm">
+                <div class="container">
+                  <ion-card class="card-color">
+                    <ion-card-header class="ion-padding" color="primary">
+                      <!-- <ion-row class="ion-justify-content-center">
+                      <div style="margin-top: 10px;"> -->
+                      <ion-card-title size="large">Personal Detail</ion-card-title>
+                      <!-- </div>
+                    </ion-row> -->
+                    </ion-card-header>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="First Name *" labelPlacement="floating" type="text" formControlName="FirstName"
+                              required="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FirstName')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['FirstName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Middle Name" labelPlacement="floating" type="text"
+                              formControlName="MiddleName"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MiddleName')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['MiddleName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Last Name *" labelPlacement="floating" type="text"
+                              formControlName="LastName"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('LastName')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['LastName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Religion *" labelPlacement="floating" type="text" formControlName="Religion"
+                              required="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Religion')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Religion'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Caste *" labelPlacement="floating" type="text"
+                              formControlName="Caste"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Caste')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Caste'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Category *" labelPlacement="floating" type="text"
+                              formControlName="Category"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Category')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Category'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-row>
+                            <ion-col size-xs="12" size-sm="12" size-md="4">
+                              <div class="ion-padding">
+                                <ion-label>Gender *</ion-label>
+                              </div>
+                            </ion-col>
+                            <ion-col size-xs="12" size-sm="12" size-md="8">
+                              <ion-list class="ion-padding-vertical">
+                                <ion-radio-group formControlName="Gender">
+                                  <ion-radio value="Male"><span class="ion-padding-horizontal">Male</span></ion-radio>
+                                  <ion-radio value="Female"><span class="ion-padding-horizontal">Female</span></ion-radio>
+                                  <ion-radio value="Others"><span class="ion-padding-horizontal">Others</span></ion-radio>
+                                </ion-radio-group>
+                              </ion-list>
+        
+                              <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Gender')">
+                                <mat-error
+                                  *ngFor="let message of studentForm.controls['Gender'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                              </div>
+                            </ion-col>
+                          </ion-row>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-select label="Blood Group *" label-placement="floating" formControlName="BloodGroup">
+                              <ion-select-option value="">Select</ion-select-option>
+                              <ion-select-option value="A+">A+</ion-select-option>
+                              <ion-select-option value="A-">A-</ion-select-option>
+                              <ion-select-option value="B+">B+</ion-select-option>
+                              <ion-select-option value="B-">B-</ion-select-option>
+                              <ion-select-option value="AB+">AB+</ion-select-option>
+                              <ion-select-option value="AB-">AB-</ion-select-option>
+                              <ion-select-option value="O+">O+</ion-select-option>
+                              <ion-select-option value="O-">O-</ion-select-option>
+                            </ion-select>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('BloodGroup')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['BloodGroup'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Email *" labelPlacement="floating" type="text"
+                              formControlName="Email"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Email')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Email'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Phone Number *" labelPlacement="floating" type="text"
+                              formControlName="PhoneNumber"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PhoneNumber')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['PhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-textarea label="Current Address *" labelPlacement="floating" type="text"
+                              formControlName="CurrentAddress"></ion-textarea>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('CurrentAddress')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['CurrentAddress'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-textarea label="Permanent Address *" labelPlacement="floating" type="text"
+                              formControlName="PermanentAddress"></ion-textarea>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PermanentAddress')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['PermanentAddress'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+        
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <div style="margin-left:15px">
+                            <mat-form-field outline="none" style="width: 100%;">
+                              <mat-label style="font-weight: 500;">Date of Birth </mat-label>
+                              <input matInput [matDatepicker]="dob" formControlName="Date_of_birth">
+                              <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                              <mat-datepicker #dob></mat-datepicker>
+                              <mat-error *ngIf="isErrorMessage('Date_of_birth')" style="margin-left: -15px;">
+                                <mat-error
+                                  *ngFor="let message of studentForm.controls['Date_of_birth'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                  </ion-card>
+        
+                  <ion-card class="card-color">
+                    <ion-card-header class="ion-padding" color="primary">
+                      <!-- <ion-row class="ion-justify-content-center">
+                      <div style="margin-top: 10px;"> -->
+                      <ion-card-title size="large">Parent Detail</ion-card-title>
+                      <!-- </div>
+                    </ion-row> -->
+                    </ion-card-header>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Father Name *" labelPlacement="floating" type="text" formControlName="FatherName"
+                              required="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FatherName')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['FatherName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Father Occupation *" labelPlacement="floating" type="text"
+                              formControlName="FatherOccupation"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FatherOccupation')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['FatherOccupation'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Mother Name *" labelPlacement="floating" type="text" formControlName="MotherName"
+                              required="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MotherName')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['MotherName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Mother Occupation *" labelPlacement="floating" type="text"
+                              formControlName="MotherOccupation"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MotherOccupation')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['MotherOccupation'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Father Phone Number *" labelPlacement="floating" type="text"
+                              formControlName="FatherPhoneNumber"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FatherPhoneNumber')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['FatherPhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Mother Phone Number *" labelPlacement="floating" type="text"
+                              formControlName="MotherPhoneNumber"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MotherPhoneNumber')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['MotherPhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                  </ion-card>
+        
+                  <ion-card class="card-color">
+                    <ion-card-header class="ion-padding" color="primary">
+                      <!-- <ion-row class="ion-justify-content-center">
+                      <div style="margin-top: 10px;"> -->
+                      <ion-card-title size="large">Admission Detail</ion-card-title>
+                      <!-- </div>
+                    </ion-row> -->
+                    </ion-card-header>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="User name *" labelPlacement="floating" type="text" formControlName="Username"
+                              readonly="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Username')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Username'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Class *" labelPlacement="floating" type="text" formControlName="Class"
+                              required="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Class')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Class'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Section *" labelPlacement="floating" type="text"
+                              formControlName="Section"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Section')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Section'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Admission Number *" labelPlacement="floating" type="text"
+                              formControlName="AdmissionNumber"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('AdmissionNumber')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['AdmissionNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="RollNumber *" labelPlacement="floating" type="text" formControlName="RollNumber"
+                              required="true"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('RollNumber')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['RollNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <div style="margin-left:15px">
+                            <mat-form-field outline="none" style="width: 100%;">
+                              <mat-label style="font-weight: 500;">Admission Date </mat-label>
+                              <input matInput [matDatepicker]="AdmissionDate" formControlName="AdmissionDate" readonly="true">
+                              <mat-datepicker-toggle matSuffix [for]="AdmissionDate"></mat-datepicker-toggle>
+                              <mat-datepicker #AdmissionDate></mat-datepicker>
+                              <mat-error *ngIf="isErrorMessage('AdmissionDate')" style="margin-left: -15px;">
+                                <mat-error
+                                  *ngFor="let message of studentForm.controls['AdmissionDate'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </ion-col><ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <div style="margin-left:15px">
+                            <mat-form-field outline="none" style="width: 100%;">
+                              <mat-label style="font-weight: 500;">Session </mat-label>
+                              <input matInput [matDatepicker]="Session" formControlName="Session" readonly="true">
+                              <mat-datepicker-toggle matSuffix [for]="Session" readonly="true"></mat-datepicker-toggle>
+                              <mat-datepicker #Session></mat-datepicker>
+                              <!-- <mat-error *ngIf="isErrorMessage('Session')" style="margin-left: -15px;">
+                              <mat-error
+                                *ngFor="let message of studentForm.controls['Session'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                            </mat-error> -->
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Previous School" labelPlacement="floating" type="text"
+                              formControlName="PreviousSchool"></ion-input>
+                          </ion-item>
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PreviousSchool')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['PreviousSchool'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input #Image label="Photo " labelPlacement="floating" type="file" accept="image/*"
+                              (change)="handleFileInput($event)"></ion-input>
+                            <!-- <ion-input #Image type="file" (change)="handleFileInput($event.target.files)" /> -->
+                          </ion-item>
+        
+                          <img width="100%" *ngIf="imageUrl" [src]="imageUrl" class="image">
+                          <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Photo')">
+                            <mat-error
+                              *ngFor="let message of studentForm.controls['Photo'].errors | formValidation"><sub>{{message}}</sub></mat-error>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
+                          <ion-item>
+                            <ion-input label="Remarks" labelPlacement="floating" type="text"
+                              formControlName="Remarks"></ion-input>
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+        
+                  </ion-card>
                 </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
+              </ion-content>
 
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Email *" labelPlacement="floating" type="text" formControlName="Email"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Email')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Email'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Phone Number *" labelPlacement="floating" type="text"
-                    formControlName="PhoneNumber"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PhoneNumber')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['PhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-textarea label="Current Address *" labelPlacement="floating" type="text"
-                    formControlName="CurrentAddress"></ion-textarea>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('CurrentAddress')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['CurrentAddress'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-textarea label="Permanent Address *" labelPlacement="floating" type="text"
-                    formControlName="PermanentAddress"></ion-textarea>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PermanentAddress')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['PermanentAddress'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <div style="margin-left:15px">
-                  <mat-form-field outline="none" style="width: 100%;">
-                    <mat-label style="font-weight: 500;">Date of Birth </mat-label>
-                    <input matInput [matDatepicker]="dob" formControlName="Date_of_birth">
-                    <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-                    <mat-datepicker #dob></mat-datepicker>
-                    <mat-error *ngIf="isErrorMessage('Date_of_birth')" style="margin-left: -15px;">
-                      <mat-error
-                        *ngFor="let message of studentForm.controls['Date_of_birth'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-        </ion-card>
-
-        <ion-card class="card-color">
-          <ion-card-header class="ion-padding" color="primary">
-            <!-- <ion-row class="ion-justify-content-center">
-              <div style="margin-top: 10px;"> -->
-                <ion-card-title size="large">Parent Detail</ion-card-title>
-              <!-- </div>
-            </ion-row> -->
-          </ion-card-header>
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Father Name *" labelPlacement="floating" type="text" formControlName="FatherName"
-                    required="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FatherName')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['FatherName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Father Occupation *" labelPlacement="floating" type="text"
-                    formControlName="FatherOccupation"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FatherOccupation')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['FatherOccupation'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Mother Name *" labelPlacement="floating" type="text" formControlName="MotherName"
-                    required="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MotherName')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['MotherName'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Mother Occupation *" labelPlacement="floating" type="text"
-                    formControlName="MotherOccupation"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MotherOccupation')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['MotherOccupation'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Father Phone Number *" labelPlacement="floating" type="text"
-                    formControlName="FatherPhoneNumber"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('FatherPhoneNumber')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['FatherPhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="6" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Mother Phone Number *" labelPlacement="floating" type="text"
-                    formControlName="MotherPhoneNumber"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('MotherPhoneNumber')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['MotherPhoneNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-        </ion-card>
-
-        <ion-card class="card-color">
-          <ion-card-header class="ion-padding" color="primary">
-            <!-- <ion-row class="ion-justify-content-center">
-              <div style="margin-top: 10px;"> -->
-                <ion-card-title size="large">Admission Detail</ion-card-title>
-              <!-- </div>
-            </ion-row> -->
-          </ion-card-header>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="User name *" labelPlacement="floating" type="text" formControlName="Username"
-                    readonly="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Username')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Username'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Class *" labelPlacement="floating" type="text" formControlName="Class"
-                    required="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Class')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Class'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Section *" labelPlacement="floating" type="text"
-                    formControlName="Section"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Section')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Section'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Admission Number *" labelPlacement="floating" type="text"
-                    formControlName="AdmissionNumber"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('AdmissionNumber')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['AdmissionNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="RollNumber *" labelPlacement="floating" type="text" formControlName="RollNumber"
-                    required="true"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('RollNumber')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['RollNumber'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <div style="margin-left:15px">
-                  <mat-form-field outline="none" style="width: 100%;">
-                    <mat-label style="font-weight: 500;">Admission Date </mat-label>
-                    <input matInput [matDatepicker]="AdmissionDate" formControlName="AdmissionDate" readonly="true">
-                    <mat-datepicker-toggle matSuffix [for]="AdmissionDate"></mat-datepicker-toggle>
-                    <mat-datepicker #AdmissionDate></mat-datepicker>
-                    <mat-error *ngIf="isErrorMessage('AdmissionDate')" style="margin-left: -15px;">
-                      <mat-error
-                        *ngFor="let message of studentForm.controls['AdmissionDate'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </ion-col><ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <div style="margin-left:15px">
-                  <mat-form-field outline="none" style="width: 100%;">
-                    <mat-label style="font-weight: 500;">Session </mat-label>
-                    <input matInput [matDatepicker]="Session" formControlName="Session" readonly="true">
-                    <mat-datepicker-toggle matSuffix [for]="Session"
-                      readonly="true"></mat-datepicker-toggle>
-                    <mat-datepicker #Session></mat-datepicker>
-                    <!-- <mat-error *ngIf="isErrorMessage('Session')" style="margin-left: -15px;">
-                      <mat-error
-                        *ngFor="let message of studentForm.controls['Session'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                    </mat-error> -->
-                  </mat-form-field>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Previous School" labelPlacement="floating" type="text"
-                    formControlName="PreviousSchool"></ion-input>
-                </ion-item>
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('PreviousSchool')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['PreviousSchool'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input #Image label="Photo " labelPlacement="floating" type="file" accept="image/*"
-                    (change)="handleFileInput($event)"></ion-input>
-                  <!-- <ion-input #Image type="file" (change)="handleFileInput($event.target.files)" /> -->
-                </ion-item>
-
-                <img width="100%" *ngIf="imageUrl" [src]="imageUrl" class="image">
-                <div class="ion-padding-horizontal" *ngIf="isErrorMessage('Photo')">
-                  <mat-error
-                    *ngFor="let message of studentForm.controls['Photo'].errors | formValidation"><sub>{{message}}</sub></mat-error>
-                </div>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="4" align-self-stretch>
-                <ion-item>
-                  <ion-input label="Remarks" labelPlacement="floating" type="text"
-                    formControlName="Remarks"></ion-input>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-        </ion-card>
-      </div>
-      </ion-content>
-      <ion-alert [isOpen]="isDeleteOpen" [header]="'Close Form'" [message]="'Are you sure, you want close this form ?'"
-        [buttons]="alertButtons" (didDismiss)="closeForm($event)">
-      </ion-alert>
-    </ng-template>
-  </ion-modal>
+        </ng-template>
+    </ion-modal>
 </ion-content>

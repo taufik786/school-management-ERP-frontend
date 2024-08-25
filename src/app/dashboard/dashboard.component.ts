@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,11 +17,25 @@ export class DashboardComponent  implements OnInit {
   filteredItems: { name: string; selected: boolean }[] = [];
   searchTerm: string = '';
   selectAll: boolean = false;
+  @ViewChild(IonModal) modal: IonModal | any;
+  isOpen: any = false;
+  isDeleteOpen: any = false;
+  alertButtons :any= [];
 
   constructor() { }
 
   ngOnInit() {
     this.filteredItems = [...this.items];
+    this.alertButtons = [
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      },
+      {
+        text: 'OK',
+        role: 'confirm'
+      },
+    ];
   }
 
   filterItems() {
@@ -36,6 +51,32 @@ export class DashboardComponent  implements OnInit {
     const selectedItems = this.items.filter(item => item.selected);
     console.log('Selected Items:', selectedItems);
     // Do something with the selected items
+  }
+
+  openform(){
+    this.isOpen = true
+  }
+  onWillDismiss(event: Event) {
+    this.modal.dismiss(null, 'cancel');
+    // this.dataEvent.emit(null);
+  }
+
+  closeForm(buttonEvent: any) {
+    if (buttonEvent.detail.role === 'confirm') {
+      this.cancel();
+      this.isDeleteOpen = false;
+    } else {
+      this.isDeleteOpen = false;
+    }
+  }
+  openAlertModal() {
+    this.isDeleteOpen = true;
+    this.isOpen = true;
+    console.log('5454')
+  }
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+    // this.dataEvent.emit(null);
   }
 
 }

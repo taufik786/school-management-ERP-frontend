@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StudentServices } from '../../services/student.service';
@@ -18,31 +11,26 @@ import { CommonServices } from 'src/app/services/common.service';
   styleUrls: ['./student-form.component.scss'],
 })
 export class StudentFormComponent implements OnInit {
-  @Input() formData: any;
+
   @ViewChild(IonModal) modal: IonModal | any;
   studentForm: FormGroup | any;
-  // alertObj:any= {
-  //   isOpen: false,
-  //     message: "",
-  //     color: ''
-  // };
-  alertObj: any = {
-    formOpen: false,
-    message: '',
-    alertType: '',
-  };
   addSchoolSubscription: Subscription | any;
+  @Output() dataEvent = new EventEmitter<any>();
+  @Input() formData: any;
+  @Input() isOpen: any = false;
+
+  toastObj: any;
+
   fileToUpload: any;
   imageUrl: any;
   alertButtons: any = [];
   isDeleteOpen: boolean = false;
 
+  constructor(private studentServices: StudentServices, private commonServices: CommonServices) {
+  }
 
-  constructor(private commonServices: CommonServices, private studentServices: StudentServices) {}
-
-  ngOnInit(): void {
-    console.log(this.formData, 'ddd');
-
+  ngOnInit() {
+    this.isOpen = this.formData.formOpen;
     this.studentForm = new FormGroup({
       // personal Details
       FirstName: new FormControl(this.setFormData('FirstName'), [
@@ -153,32 +141,17 @@ export class StudentFormComponent implements OnInit {
       ]),
       _id: new FormControl(this.setFormData('_id')),
     });
-
-
-    this.commonServices.isAlertOpen.subscribe((res: any) => {
-      if (!res) {
-        this.formData.formOpen = false;
-        this.modal.dismiss(null, 'cancel');
-      }
-    });
-  }
-
-
-
-  openAlertModal(flag: boolean) {
-    this.commonServices.alertOpen(flag);
-  }
-
-  setFormData(controlName: string) {
-    if (!(this.formData.formData === undefined || this.formData.formData === null)) {
-      return this.formData.formData[controlName];
-    } else {
-      return '';
-    }
-  }
-
-  isErrorMessage(control: string): boolean {
-    return this.studentForm.controls[control].invalid && (this.studentForm.controls[control].dirty || this.studentForm.controls[control].touched)
+    
+    this.alertButtons = [
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      },
+      {
+        text: 'OK',
+        role: 'confirm'
+      },
+    ];
   }
 
   handleFileInput(file: any) {
@@ -193,15 +166,35 @@ export class StudentFormComponent implements OnInit {
     }
     reader.readAsDataURL(this.fileToUpload);
   }
+  setFormData(controlName: string) {
+    if (!(this.formData.formData === undefined || this.formData.formData === null)) {
+      return this.formData.formData[controlName];
+    } else {
+      return '';
+    }
+  }
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+    this.dataEvent.emit(null);
+  }
+
+  isErrorMessage(control: string): boolean {
+    return this.studentForm.controls[control].invalid && (this.studentForm.controls[control].dirty || this.studentForm.controls[control].touched)
+  }
+
   async save() {
+    this.toastObj = {
+      isOpen: false,
+      message: "",
+      color: 'primary'
+    };
     this.commonServices.updateLoader(true);
     if (this.studentForm.invalid) {
-      this.alertObj = {
-        formOpen: true,
-      message : "Please fix higlighted issue.",
-      alertType : 'danger'
-    }
-      this.commonServices.alertMessage(this.alertObj);
+      this.toastObj.isOpen = true;
+      this.toastObj.color = 'danger';
+      this.toastObj.message = "Please fix higlighted issue.";
+      this.commonServices.alertMessage(this.toastObj);
       this.commonServices.updateLoader(false);
       this.markFormTouched(this.studentForm);
       return;
@@ -212,38 +205,38 @@ export class StudentFormComponent implements OnInit {
       delete addData._id;
       this.addSchoolSubscription = await this.studentServices.addStudent(addData).subscribe((res: any) => {
         this.formData.formData = res.data;
-        // this.dataEvent.emit(this.formData);
+        this.dataEvent.emit(this.formData);
         this.commonServices.updateLoader(false);
 
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'success';
-        this.alertObj.message = res.message;
-        this.commonServices.alertMessage(this.alertObj);
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'success';
+        this.toastObj.message = res.message;
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'danger';
-        this.alertObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.alertMessage(this.alertObj);
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'danger';
+        this.toastObj.message = 'unable to save at this moment try after sometimes.';
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       });
     } else {
       this.addSchoolSubscription = await this.studentServices.editStudent(this.studentForm.value).subscribe((res: any) => {
         this.formData.formData = res.data;
-        // this.dataEvent.emit(this.formData);
+        this.dataEvent.emit(this.formData);
 
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'success';
-        this.alertObj.message = res.message;
-        this.commonServices.alertMessage(this.alertObj);
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'success';
+        this.toastObj.message = res.message;
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'danger';
-        this.alertObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.alertMessage(this.alertObj);
+        this.toastObj.isOpen = true;
+        this.toastObj.color = 'danger';
+        this.toastObj.message = 'unable to save at this moment try after sometimes.';
+        this.commonServices.alertMessage(this.toastObj);
         this.commonServices.updateLoader(false);
       });
     }
@@ -260,4 +253,32 @@ export class StudentFormComponent implements OnInit {
       }
     });
   }
+
+  onWillDismiss(event: Event) {
+    this.modal.dismiss(null, 'cancel');
+    this.dataEvent.emit(null);
+  }
+
+  closeForm(buttonEvent: any) {
+    if (buttonEvent.detail.role === 'confirm') {
+      this.cancel();
+      this.isDeleteOpen = false;
+    } else {
+      this.isDeleteOpen = false;
+    }
+  }
+  openAlertModal() {
+    this.isDeleteOpen = true;
+    console.log('5454')
+  }
+
+  ngOnDestroy(): void {
+    if (this.addSchoolSubscription) {
+      this.addSchoolSubscription.unsubscribe();
+    }
+    this.modal.dismiss(null, 'cancel');
+    this.dataEvent.emit(null);
+    this.commonServices.updateLoader(false);
+  }
+
 }

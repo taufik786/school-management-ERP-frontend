@@ -5,18 +5,6 @@ table {
   }
 }
 
-.edit,
-.delete {
-  cursor: pointer;
-}
-.delete {
-  color: red;
-  margin-left: 8px;
-}
-.edit {
-  color: green;
-}
-
 .no-data-cell {
   text-align: end;
   font-weight: bold;

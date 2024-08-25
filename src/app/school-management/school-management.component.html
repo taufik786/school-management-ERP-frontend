@@ -2,20 +2,21 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size-xs="12" size-sm="12" size-md="10" align-self-stretch>
+        <ion-col size-xs="12" size-sm="12" size-md="9" align-self-stretch>
           <ion-button (click)="openForm(true)" size="round">
             <ion-icon name="add" size="large"></ion-icon>
             <span>Add School</span>
           </ion-button>
         </ion-col>
-        <ion-col size-xs="12" size-sm="12" size-md="2" align-self-stretch>
+        <ion-col size-xs="12" size-sm="12" size-md="3" align-self-stretch>
           <ion-item>
-            <ion-input
+            <!-- <ion-input
               (keyup)="applyFilter($event)"
               label="Search record"
               labelPlacement="floating"
               type="text"
-            ></ion-input>
+            ></ion-input> -->
+            <ion-searchbar (keyup)="applyFilter($event)"></ion-searchbar>
           </ion-item>
         </ion-col>
       </ion-row>
