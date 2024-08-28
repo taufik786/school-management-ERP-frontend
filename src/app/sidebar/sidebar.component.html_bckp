@@ -35,7 +35,7 @@
   </ion-header>
 
   <ion-loading [isOpen]="isLoader"></ion-loading>
-  <ion-toast [isOpen]="isToaster" [message]="alertInfo" [color]="toastColor" cssClass="custom-toast"
+  <ion-toast [isOpen]="isToaster" [message]="snackbarInfo" [color]="toastColor" cssClass="custom-toast"
     [buttons]="dismiss" [position]="'bottom'" duration="5000"></ion-toast>
 
   <ion-content [fullscreen]="false">

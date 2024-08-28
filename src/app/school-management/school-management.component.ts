@@ -24,7 +24,7 @@ export class SchoolManagementComponent
   schoolListSubscription: Subscription | any;
   selectedRecord: any = {};
   formAction = 'Add';
-  alertObj = {
+  snackObj = {
     formOpen: false,
     message: '',
     alertType: '',
@@ -84,33 +84,33 @@ export class SchoolManagementComponent
       formData: null,
       formAction: 'Add',
     };
-    this.commonServices.alertMessage(
-      ((this.alertObj.formOpen = false), this.alertObj)
+    this.commonServices.snackbarAlert(
+      ((this.snackObj.formOpen = false), this.snackObj)
     );
   }
   schoolList() {
-    this.schoolListSubscription = this.commonServices.updateLoader(true);
+    this.commonServices.preloaderOpen(true);
 
-    this.schoolServices.allSchoolLists().subscribe({
+    this.schoolListSubscription = this.schoolServices.allSchoolLists().subscribe({
       next: (res: any) => {
         this.dataSource.data = res.data;
-        this.alertObj = {
+        this.snackObj = {
           formOpen: true,
           message: res.message,
           alertType: 'success',
         };
-        this.commonServices.alertMessage(this.alertObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.snackObj);
+        this.commonServices.preloaderOpen(false);
       },
       error: (err) => {
         this.dataSource.data = [];
-        this.alertObj = {
+        this.snackObj = {
           formOpen: true,
           message: err.error.message,
           alertType: 'danger',
         };
-        this.commonServices.alertMessage(this.alertObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.snackObj);
+        this.commonServices.preloaderOpen(false);
       },
     });
   }
@@ -132,7 +132,7 @@ export class SchoolManagementComponent
 
   deleteRecord(buttonEvent: any) {
     if (buttonEvent.detail.role === 'confirm') {
-      this.commonServices.updateLoader(true);
+      this.commonServices.preloaderOpen(true);
       this.schoolServices.deleteSchool(this.selectedRecord._id).subscribe({
         next: (res: any) => {
           this.selectedRecord.isDeleteOpen = false;
@@ -141,28 +141,28 @@ export class SchoolManagementComponent
           );
           this.dataSource.data = newData;
 
-          this.alertObj = {
+          this.snackObj = {
             formOpen: true,
             alertType: 'success',
             message: res.message,
           };
-          this.commonServices.alertMessage(this.alertObj);
-          this.commonServices.updateLoader(false);
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
         },
         error: (err) => {
           this.selectedRecord.isDeleteOpen = false;
-          this.alertObj = {
+          this.snackObj = {
             formOpen: true,
             alertType: 'danger',
             message: err.error.message,
           };
-          this.commonServices.alertMessage(this.alertObj);
-          this.commonServices.updateLoader(false);
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
         },
       });
     } else {
       this.selectedRecord.isDeleteOpen = false;
-      this.commonServices.updateLoader(false);
+      this.commonServices.preloaderOpen(false);
     }
   }
 
@@ -174,18 +174,18 @@ export class SchoolManagementComponent
       ),
     ];
     this.formOpen = false;
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   formOpenStatus(data: any) {
     this.formOpen = false;
     if (data === null) {
-      this.commonServices.updateLoader(false);
+      this.commonServices.preloaderOpen(false);
       this.changeWidth = false;
       return;
     }
 
-    this.commonServices.updateLoader(true);
+    this.commonServices.preloaderOpen(true);
     this.formAction === 'Add'
       ? this.updateDataSource(data)
       : this.updateDataSourceAfterEdit(data);
@@ -195,7 +195,7 @@ export class SchoolManagementComponent
     this.dataSource.data = this.dataSource.data.map((element: { _id: any }) => {
       return element._id === data.formData._id ? data.formData : element;
     });
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   /**

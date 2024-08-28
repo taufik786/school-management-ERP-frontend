@@ -11,7 +11,7 @@ import { MenuController, NavController } from '@ionic/angular';
 })
 export class SidebarComponent implements OnInit {
   isToaster = false;
-  alertInfo: any;
+  snackbarInfo: any;
   toastColor: string = 'primary';
   dismiss = [
     {

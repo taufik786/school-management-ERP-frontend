@@ -19,7 +19,7 @@ export class SchoolManagementFormComponent implements OnInit {
   @Output() formOpenStatus = new EventEmitter<any>();
   @Input() formData: any;
 
-  alertObj: any = {
+  snackObj: any = {
     formOpen: false,
     message: '',
     alertType: '',
@@ -106,13 +106,13 @@ export class SchoolManagementFormComponent implements OnInit {
 
   save() {
     console.log(this.formData.formData, 'this.formData.formData');
-    this.commonServices.updateLoader(true);
+    this.commonServices.preloaderOpen(true);
     if (this.schoolForm.invalid) {
-      this.alertObj.formOpen = true;
-      this.alertObj.alertType = 'danger';
-      this.alertObj.message = 'Please fix the higlighted issue.';
-      this.commonServices.alertMessage(this.alertObj);
-      this.commonServices.updateLoader(false);
+      this.snackObj.formOpen = true;
+      this.snackObj.alertType = 'danger';
+      this.snackObj.message = 'Please fix the higlighted issue.';
+      this.commonServices.snackbarAlert(this.snackObj);
+      this.commonServices.preloaderOpen(false);
       this.markFormTouched(this.schoolForm);
       return;
     }
@@ -122,22 +122,22 @@ export class SchoolManagementFormComponent implements OnInit {
       delete addData._id;
       this.schoolServices.addSchool(addData).subscribe({
         next: (res: any) => {
-          this.alertObj.formOpen = true;
-          this.alertObj.alertType = 'success';
-          this.alertObj.message = res.message;
-          this.commonServices.alertMessage(this.alertObj);
-          this.commonServices.updateLoader(false);
+          this.snackObj.formOpen = true;
+          this.snackObj.alertType = 'success';
+          this.snackObj.message = res.message;
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
           this.formData.formData = res.data;
           this.formOpenStatus.emit(
             ((this.formData.formData = res.data), this.formData)
           );
         },
         error: (err) => {
-          this.alertObj.formOpen = true;
-          this.alertObj.alertType = 'danger';
-          this.alertObj.message = err.error.message;
-          this.commonServices.alertMessage(this.alertObj);
-          this.commonServices.updateLoader(false);
+          this.snackObj.formOpen = true;
+          this.snackObj.alertType = 'danger';
+          this.snackObj.message = err.error.message;
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
         },
         complete: () => {},
       });
@@ -146,19 +146,19 @@ export class SchoolManagementFormComponent implements OnInit {
         next: (res: any) => {
           this.formData.formData = res.data;
 
-          this.alertObj.formOpen = true;
-          this.alertObj.alertType = 'success';
-          this.alertObj.message = res.message;
-          this.commonServices.alertMessage(this.alertObj);
-          this.commonServices.updateLoader(false);
+          this.snackObj.formOpen = true;
+          this.snackObj.alertType = 'success';
+          this.snackObj.message = res.message;
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
           this.formOpenStatus.emit(this.formData);
         },
         error: (err) => {
-          this.alertObj.formOpen = true;
-          this.alertObj.alertType = 'danger';
-          this.alertObj.message = err.error.message;
-          this.commonServices.alertMessage(this.alertObj);
-          this.commonServices.updateLoader(false);
+          this.snackObj.formOpen = true;
+          this.snackObj.alertType = 'danger';
+          this.snackObj.message = err.error.message;
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
         },
         complete: () => {},
       });
@@ -181,8 +181,8 @@ export class SchoolManagementFormComponent implements OnInit {
     // console.log(`Dismissed with role: ${ev.detail.role}`);
     if (ev.detail.role === 'confirm') {
       this.formOpenStatus.emit(null);
-      this.alertObj.formOpen = false;
-      this.commonServices.alertMessage(this.alertObj);
+      this.snackObj.formOpen = false;
+      this.commonServices.snackbarAlert(this.snackObj);
     }
   }
 }

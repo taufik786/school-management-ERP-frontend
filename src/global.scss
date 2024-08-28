@@ -55,3 +55,16 @@
   background-color: #e6e5bde3;
   color: black;
 }
+table {
+  min-height: 350px;
+  td {
+    min-width: 100px !important;
+  }
+}
+
+.no-data-cell {
+  text-align: end;
+  font-weight: bold;
+  color: #757575;
+  width: 100%;
+}

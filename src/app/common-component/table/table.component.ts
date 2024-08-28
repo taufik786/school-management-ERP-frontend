@@ -77,7 +77,7 @@ export class TableComponent implements OnInit, OnChanges {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   openForm(formStatus: any) {
@@ -97,7 +97,7 @@ export class TableComponent implements OnInit, OnChanges {
         message: '',
         color: 'primary',
       };
-      await this.commonServices.updateLoader(true);
+      await this.commonServices.preloaderOpen(true);
 
       const res: any = await this.schoolServices.allSchoolLists().toPromise();
       this.dataSource.data = [...res.data].reverse();
@@ -116,8 +116,8 @@ export class TableComponent implements OnInit, OnChanges {
         color: 'danger',
       };
     } finally {
-      this.commonServices.updateLoader(false);
-      this.commonServices.alertMessage(this.toastObj);
+      this.commonServices.preloaderOpen(false);
+      this.commonServices.snackbarAlert(this.toastObj);
     }
   }
 
@@ -151,7 +151,7 @@ export class TableComponent implements OnInit, OnChanges {
     };
     this.deleteRecordEvent.emit(buttonEvent);
     // if (buttonEvent.detail.role === 'confirm') {
-    //   this.commonServices.updateLoader(true);
+    //   this.commonServices.preloaderOpen(true);
     //   this.deleteSchoolSubscription = this.schoolServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
     //     this.isDeleteOpen = false;
     //     let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
@@ -162,19 +162,19 @@ export class TableComponent implements OnInit, OnChanges {
     //     this.toastObj.isOpen = true;
     //     this.toastObj.color = 'success';
     //     this.toastObj.message = res.message;
-    //     this.commonServices.alertMessage(this.toastObj);
-    //     this.commonServices.updateLoader(false);
+    //     this.commonServices.snackbarAlert(this.toastObj);
+    //     this.commonServices.preloaderOpen(false);
     //   }, err => {
     //     this.isDeleteOpen = false;
     //     this.toastObj.isOpen = true;
     //     this.toastObj.color = 'danger';
     //     this.toastObj.message = ' unable to delete record.';
-    //     this.commonServices.alertMessage(this.toastObj);
-    //     this.commonServices.updateLoader(false);
+    //     this.commonServices.snackbarAlert(this.toastObj);
+    //     this.commonServices.preloaderOpen(false);
     //   });
     // } else {
     //   this.isDeleteOpen = false;
-    //   this.commonServices.updateLoader(false);
+    //   this.commonServices.preloaderOpen(false);
     // }
   }
 
@@ -183,17 +183,17 @@ export class TableComponent implements OnInit, OnChanges {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.formOpen = false;
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   receiveData(data: any) {
     if (data === null) {
-      this.commonServices.updateLoader(false);
+      this.commonServices.preloaderOpen(false);
       this.formOpen = false;
       return;
     }
 
-    this.commonServices.updateLoader(true);
+    this.commonServices.preloaderOpen(true);
     this.formAction === 'Add' ? this.updateDataSource(data) : this.updateDataSourceAfterEdit(data);
   }
 
@@ -201,7 +201,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.dataSource.data = this.dataSource.data.map((element: { _id: any; }) => {
       return element._id === data.formData._id ? data.formData : element;
     });
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   /**
@@ -239,7 +239,7 @@ export class TableComponent implements OnInit, OnChanges {
     if (this.deleteSchoolSubscription) {
       this.deleteSchoolSubscription.unsubscribe();
     }
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   exportToExcel(): void {

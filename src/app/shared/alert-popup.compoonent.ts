@@ -35,13 +35,13 @@ export class AlertPopUpComponent implements OnInit {
   constructor(private commonServices: CommonServices) {}
 
   ngOnInit(): void {
-    this.commonServices.isAlertOpen.subscribe((res: any) => {
+    this.commonServices._popupAlertOpen.subscribe((res: any) => {
       this.isOpen = res;
     });
   }
   closeForm(ev: any) {
     if (ev.detail.role === 'confirm') {
-      this.commonServices.alertOpen(false);
+      this.commonServices.popupAlert(false);
     } else {
       this.isOpen = false;
     }

@@ -21,27 +21,30 @@ export class StudentFormComponent implements OnInit {
   @Input() formData: any;
   @ViewChild(IonModal) modal: IonModal | any;
   studentForm: FormGroup | any;
-  // alertObj:any= {
+  // snackObj:any= {
   //   isOpen: false,
   //     message: "",
   //     color: ''
   // };
-  alertObj: any = {
+  snackObj: any = {
     formOpen: false,
     message: '',
     alertType: '',
   };
-  addSchoolSubscription: Subscription | any;
   fileToUpload: any;
   imageUrl: any;
   alertButtons: any = [];
   isDeleteOpen: boolean = false;
 
+  @Output() _savedData = new EventEmitter();
 
-  constructor(private commonServices: CommonServices, private studentServices: StudentServices) {}
+  constructor(
+    private commonServices: CommonServices,
+    private studentServices: StudentServices
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.formData, 'ddd');
+    console.log(this.formData, 'oninit');
 
     this.studentForm = new FormGroup({
       // personal Details
@@ -60,91 +63,98 @@ export class StudentFormComponent implements OnInit {
         Validators.maxLength(250),
       ]),
       Gender: new FormControl(this.setFormData('Gender'), [
-        Validators.required
+        Validators.required,
       ]),
       Religion: new FormControl(this.setFormData('Religion'), [
-        Validators.required
+        Validators.required,
       ]),
       Category: new FormControl(this.setFormData('Category'), [
-        Validators.required
+        Validators.required,
       ]),
-      Date_of_birth: new FormControl(this.setFormData('Date_of_birth') || new Date('2/1/2021'), [
-        Validators.required
-      ]),
-      Caste: new FormControl(this.setFormData('Caste'), [
-        Validators.required
-      ]),
+      Date_of_birth: new FormControl(
+        this.setFormData('Date_of_birth') || new Date('2/1/2021'),
+        [Validators.required]
+      ),
+      Caste: new FormControl(this.setFormData('Caste'), [Validators.required]),
       BloodGroup: new FormControl(this.setFormData('BloodGroup'), [
-        Validators.required
+        Validators.required,
       ]),
       CurrentAddress: new FormControl(this.setFormData('CurrentAddress'), [
-        Validators.required
+        Validators.required,
       ]),
       PermanentAddress: new FormControl(this.setFormData('PermanentAddress'), [
-        Validators.required
+        Validators.required,
       ]),
       Email: new FormControl(this.setFormData('Email'), [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(250),
-        Validators.email
+        Validators.email,
       ]),
       PhoneNumber: new FormControl(this.setFormData('PhoneNumber'), [
         Validators.required,
         Validators.pattern(/^\+?[1-9]\d{1,14}$/),
         Validators.minLength(10),
-        Validators.maxLength(12)
+        Validators.maxLength(12),
       ]),
       // Admission Details
-      Class: new FormControl(this.setFormData('Class'), [
-        Validators.required
-      ]),
+      Class: new FormControl(this.setFormData('Class'), [Validators.required]),
       Section: new FormControl(this.setFormData('Section'), [
-        Validators.required
+        Validators.required,
       ]),
       AdmissionNumber: new FormControl(this.setFormData('AdmissionNumber'), [
-        Validators.required
+        Validators.required,
       ]),
       RollNumber: new FormControl(this.setFormData('RollNumber'), [
-        Validators.required
+        Validators.required,
       ]),
       Photo: new FormControl(this.setFormData('Photo'), [
         // Validators.required
       ]),
-      AdmissionDate: new FormControl(new Date(this.setFormData('AdmissionDate')) || new Date('2/1/20224'), [
-        Validators.required,
-      ]),
-      Session: new FormControl(new Date(this.setFormData('Session')) || new Date(), [
-        // Validators.required,
-      ]),
+      AdmissionDate: new FormControl(
+        new Date(this.setFormData('AdmissionDate')) || new Date('2/1/20224'),
+        [Validators.required]
+      ),
+      Session: new FormControl(
+        new Date(this.setFormData('Session')) || new Date(),
+        [
+          // Validators.required,
+        ]
+      ),
       PreviousSchool: new FormControl(this.setFormData('PreviousSchool'), [
         // Validators.required
       ]),
       //Parent Details
       FatherName: new FormControl(this.setFormData('FatherName'), [
-        Validators.required
+        Validators.required,
       ]),
       FatherOccupation: new FormControl(this.setFormData('FatherOccupation'), [
         // Validators.required
       ]),
       MotherName: new FormControl(this.setFormData('MotherName'), [
-        Validators.required
+        Validators.required,
       ]),
       MotherOccupation: new FormControl(this.setFormData('MotherOccupation'), [
         // Validators.required
       ]),
-      FatherPhoneNumber: new FormControl(this.setFormData('FatherPhoneNumber'), [
-        Validators.required,
-        Validators.pattern(/^\+?[1-9]\d{1,14}$/),
-        Validators.minLength(10),
-        Validators.maxLength(12)
-      ]),
-      MotherPhoneNumber: new FormControl(this.setFormData('MotherPhoneNumber'), [
-        Validators.required,
-        Validators.pattern(/^\+?[1-9]\d{1,14}$/),
-        Validators.minLength(10),
-        Validators.maxLength(12)
-      ]),
+      FatherPhoneNumber: new FormControl(
+        this.setFormData('FatherPhoneNumber'),
+        [
+          Validators.required,
+          Validators.pattern(/^\+?[1-9]\d{1,14}$/),
+          Validators.minLength(10),
+          Validators.maxLength(12),
+        ]
+      ),
+      MotherPhoneNumber: new FormControl(
+        this.setFormData('MotherPhoneNumber'),
+        [
+          Validators.required,
+          Validators.pattern(/^\+?[1-9]\d{1,14}$/),
+          Validators.minLength(10),
+          Validators.maxLength(12),
+        ]
+      ),
       Remarks: new FormControl(this.setFormData('Remarks'), [
         // Validators.required
       ]),
@@ -154,23 +164,23 @@ export class StudentFormComponent implements OnInit {
       _id: new FormControl(this.setFormData('_id')),
     });
 
-
-    this.commonServices.isAlertOpen.subscribe((res: any) => {
+    this.commonServices._popupAlertOpen.subscribe((res: any) => {
       if (!res) {
         this.formData.formOpen = false;
         this.modal.dismiss(null, 'cancel');
+        this.commonServices.snackbarAlert({
+          ...this.snackObj,
+          formOpen: false,
+        });
+        this.studentForm.reset();
       }
     });
   }
 
-
-
-  openAlertModal(flag: boolean) {
-    this.commonServices.alertOpen(flag);
-  }
-
   setFormData(controlName: string) {
-    if (!(this.formData.formData === undefined || this.formData.formData === null)) {
+    if (
+      !(this.formData.formData === undefined || this.formData.formData === null)
+    ) {
       return this.formData.formData[controlName];
     } else {
       return '';
@@ -178,31 +188,42 @@ export class StudentFormComponent implements OnInit {
   }
 
   isErrorMessage(control: string): boolean {
-    return this.studentForm.controls[control].invalid && (this.studentForm.controls[control].dirty || this.studentForm.controls[control].touched)
+    return (
+      this.studentForm.controls[control].invalid &&
+      (this.studentForm.controls[control].dirty ||
+        this.studentForm.controls[control].touched)
+    );
   }
 
   handleFileInput(file: any) {
     console.log(file);
     this.fileToUpload = file.target.files.item(0);
-    this.studentForm.controls.Photo.setValue(file.target.files[0], { onlySelf: true});
+    this.studentForm.controls.Photo.setValue(file.target.files[0], {
+      onlySelf: true,
+    });
 
     //Show image preview
     let reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
-    }
+    };
     reader.readAsDataURL(this.fileToUpload);
   }
+
+  openAlertModal(flag: boolean) {
+    this.commonServices.popupAlert(flag);
+  }
+
   async save() {
-    this.commonServices.updateLoader(true);
+    this.commonServices.preloaderOpen(true);
     if (this.studentForm.invalid) {
-      this.alertObj = {
+      this.snackObj = {
         formOpen: true,
-      message : "Please fix higlighted issue.",
-      alertType : 'danger'
-    }
-      this.commonServices.alertMessage(this.alertObj);
-      this.commonServices.updateLoader(false);
+        message: 'Please fix higlighted issue.',
+        alertType: 'danger',
+      };
+      this.commonServices.snackbarAlert(this.snackObj);
+      this.commonServices.preloaderOpen(false);
       this.markFormTouched(this.studentForm);
       return;
     }
@@ -210,45 +231,65 @@ export class StudentFormComponent implements OnInit {
     if (this.formData.formAction === 'Add') {
       let addData = this.studentForm.value;
       delete addData._id;
-      this.addSchoolSubscription = await this.studentServices.addStudent(addData).subscribe((res: any) => {
-        this.formData.formData = res.data;
-        // this.dataEvent.emit(this.formData);
-        this.commonServices.updateLoader(false);
-
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'success';
-        this.alertObj.message = res.message;
-        this.commonServices.alertMessage(this.alertObj);
-        this.commonServices.updateLoader(false);
-        this.modal.dismiss(this.formData, 'save');
-      }, (err: any) => {
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'danger';
-        this.alertObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.alertMessage(this.alertObj);
-        this.commonServices.updateLoader(false);
+      this.studentServices.addStudent(addData).subscribe({
+        next: (res: any) => {
+          this.formData.formData = res.data;
+          this.sendSavedData(this.formData)
+          
+          this.snackObj = {
+            formOpen: true,
+            message: res.message,
+            alertType: 'success',
+          };
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
+          // this.studentForm.reset();
+          this.modal.dismiss();
+          this.formData.formOpen = false;
+        },
+        error: (err) => {
+          this.snackObj = {
+            formOpen: true,
+            message: err.error.message,
+            alertType: 'danger',
+          };
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
+          this.formData.formOpen = false;
+        },
       });
     } else {
-      this.addSchoolSubscription = await this.studentServices.editStudent(this.studentForm.value).subscribe((res: any) => {
-        this.formData.formData = res.data;
-        // this.dataEvent.emit(this.formData);
+      this.studentServices.editStudent(this.studentForm.value).subscribe({
+        next: (res: any) => {
+          this.formData.formData = res.data;
+          this.sendSavedData(this.formData)
 
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'success';
-        this.alertObj.message = res.message;
-        this.commonServices.alertMessage(this.alertObj);
-        this.commonServices.updateLoader(false);
-        this.modal.dismiss(this.formData, 'save');
-      }, (err: any) => {
-        this.alertObj.isOpen = true;
-        this.alertObj.color = 'danger';
-        this.alertObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.alertMessage(this.alertObj);
-        this.commonServices.updateLoader(false);
+          this.snackObj = {
+            formOpen: true,
+            message: res.message,
+            alertType: 'success',
+          };
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
+          this.modal.dismiss();
+          this.formData.formOpen = false;
+        },
+        error: (err: any) => {
+          this.snackObj = {
+            formOpen: true,
+            message: err.error.message,
+            alertType: 'danger',
+          };
+          this.commonServices.snackbarAlert(this.snackObj);
+          this.commonServices.preloaderOpen(false);
+        },
       });
     }
   }
 
+  sendSavedData(data:any){
+    this._savedData.emit(data)
+  }
   private markFormTouched(group: FormGroup) {
     Object.keys(group.controls).forEach((key: string) => {
       const control = group.controls[key];

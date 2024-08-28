@@ -189,13 +189,13 @@ export class StudentFormComponent implements OnInit {
       message: "",
       color: 'primary'
     };
-    this.commonServices.updateLoader(true);
+    this.commonServices.preloaderOpen(true);
     if (this.studentForm.invalid) {
       this.toastObj.isOpen = true;
       this.toastObj.color = 'danger';
       this.toastObj.message = "Please fix higlighted issue.";
-      this.commonServices.alertMessage(this.toastObj);
-      this.commonServices.updateLoader(false);
+      this.commonServices.snackbarAlert(this.toastObj);
+      this.commonServices.preloaderOpen(false);
       this.markFormTouched(this.studentForm);
       return;
     }
@@ -206,20 +206,20 @@ export class StudentFormComponent implements OnInit {
       this.addSchoolSubscription = await this.studentServices.addStudent(addData).subscribe((res: any) => {
         this.formData.formData = res.data;
         this.dataEvent.emit(this.formData);
-        this.commonServices.updateLoader(false);
+        this.commonServices.preloaderOpen(false);
 
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
       });
     } else {
       this.addSchoolSubscription = await this.studentServices.editStudent(this.studentForm.value).subscribe((res: any) => {
@@ -229,15 +229,15 @@ export class StudentFormComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
         this.modal.dismiss(this.formData, 'save');
       }, (err: any) => {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = 'unable to save at this moment try after sometimes.';
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
       });
     }
   }
@@ -278,7 +278,7 @@ export class StudentFormComponent implements OnInit {
     }
     this.modal.dismiss(null, 'cancel');
     this.dataEvent.emit(null);
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
 }

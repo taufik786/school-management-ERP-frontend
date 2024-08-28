@@ -4,18 +4,18 @@ import { BehaviorSubject, Subject } from 'rxjs';
 @Injectable()
 export class CommonServices {
   isloader = new Subject<Boolean>();
-  isAlertOpen = new Subject<Boolean>();
-  alertInfo = new BehaviorSubject<any>({});
+  _popupAlertOpen = new Subject<Boolean>();
+  snackbarInfo = new BehaviorSubject<any>({});
 
-  updateLoader(flag: boolean) {
+  preloaderOpen(flag: boolean) {
     this.isloader.next(flag);
   }
-  alertOpen(flag: boolean) {
-    this.isAlertOpen.next(flag);
+  popupAlert(flag: boolean) {
+    this._popupAlertOpen.next(flag);
   }
 
-  alertMessage(messageObj: any) {
-    this.alertInfo.next(messageObj);
+  snackbarAlert(snackObj: any) {
+    this.snackbarInfo.next(snackObj);
   }
 
   convertToBase64(url: string): Promise<string> {

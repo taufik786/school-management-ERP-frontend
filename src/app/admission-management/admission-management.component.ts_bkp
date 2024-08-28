@@ -113,7 +113,7 @@ export class AdmissionManagementComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 
   openForm(formStatus: any) {
@@ -141,8 +141,8 @@ export class AdmissionManagementComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        await this.commonServices.alertMessage(this.toastObj);
-        await this.commonServices.updateLoader(false);
+        await this.commonServices.snackbarAlert(this.toastObj);
+        await this.commonServices.preloaderOpen(false);
       }, err => {
         this.dataSource.data = [];
         this.dataSource.paginator = this.paginator;
@@ -151,8 +151,8 @@ export class AdmissionManagementComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = 'Unable to process at this moment try after sometime.';
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
       });
     }
   }
@@ -181,7 +181,7 @@ export class AdmissionManagementComponent implements OnInit {
       color: 'primary'
     };
     if (buttonEvent.detail.role === 'confirm') {
-      this.commonServices.updateLoader(true);
+      this.commonServices.preloaderOpen(true);
       this.deleteSchoolSubscription = this.studentServices.deleteSchool(this.selectedDeletedRecord._id).subscribe((res: any) => {
         this.isDeleteOpen = false;
         let newData = this.dataSource.data.filter((scl: any) => scl._id !== res.data._id);
@@ -192,25 +192,25 @@ export class AdmissionManagementComponent implements OnInit {
         this.toastObj.isOpen = true;
         this.toastObj.color = 'success';
         this.toastObj.message = res.message;
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
       }, err => {
         this.isDeleteOpen = false;
         this.toastObj.isOpen = true;
         this.toastObj.color = 'danger';
         this.toastObj.message = ' unable to delete record.';
-        this.commonServices.alertMessage(this.toastObj);
-        this.commonServices.updateLoader(false);
+        this.commonServices.snackbarAlert(this.toastObj);
+        this.commonServices.preloaderOpen(false);
       });
     } else {
       this.isDeleteOpen = false;
-      this.commonServices.updateLoader(false);
+      this.commonServices.preloaderOpen(false);
     }
   }
 
   receiveData(data: any) {
     if (data !== null) {
-      this.commonServices.updateLoader(true);
+      this.commonServices.preloaderOpen(true);
       if (this.formAction === 'Add') {
         // if (this.dataSource.data.length === 0) {
         //   Object.keys(data.formData).forEach((value: any) => {
@@ -223,7 +223,7 @@ export class AdmissionManagementComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.formOpen = false;
-        this.commonServices.updateLoader(false);
+        this.commonServices.preloaderOpen(false);
       } else {
         let newData = this.dataSource.data.map((element: any) => {
           if (element._id === data.formData._id) {
@@ -236,10 +236,10 @@ export class AdmissionManagementComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.formOpen = false;
-        this.commonServices.updateLoader(false);
+        this.commonServices.preloaderOpen(false);
       }
     } else {
-      this.commonServices.updateLoader(false);
+      this.commonServices.preloaderOpen(false);
       this.formOpen = false;
     }
   }
@@ -263,6 +263,6 @@ export class AdmissionManagementComponent implements OnInit {
     if (this.deleteSchoolSubscription) {
       this.deleteSchoolSubscription.unsubscribe();
     }
-    this.commonServices.updateLoader(false);
+    this.commonServices.preloaderOpen(false);
   }
 }

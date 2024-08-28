@@ -12,7 +12,7 @@ export class SnacbarComponent implements OnInit {
   constructor(private commonServices: CommonServices) {}
 
   ngOnInit(): void {
-    this.commonServices.alertInfo.subscribe((res: any) => {
+    this.commonServices.snackbarInfo.subscribe((res: any) => {
       if (Object.keys(res).length) {
         this.alert = { ...res };
         // console.log(res, 'alert info');
